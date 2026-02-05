@@ -11,6 +11,7 @@ Route::get('/result/{status}', [TicketController::class, 'result'])->name('resul
 
 // Admin Routes
 Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
     Route::resource('tickets', \App\Http\Controllers\Admin\TicketController::class);
     Route::get('tickets/{ticket}/export', [\App\Http\Controllers\Admin\TicketController::class, 'export'])->name('tickets.export');
 });
