@@ -50,7 +50,16 @@
                             </span>
                         </td>
                         <td class="px-6 py-5">
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium {{ $ticket->type === 'VIP' ? 'bg-amber-500/10 text-amber-500 border border-amber-500/20' : 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20' }}">
+                            @php
+                                $typeClasses = match($ticket->type) {
+                                    'VVIP' => 'bg-rose-500/10 text-rose-400 border-rose-500/20',
+                                    'VIP' => 'bg-amber-500/10 text-amber-500 border-amber-500/20',
+                                    'Festival' => 'bg-sky-500/10 text-sky-400 border-sky-500/20',
+                                    'General Admission' => 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+                                    default => 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20',
+                                };
+                            @endphp
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border {{ $typeClasses }}">
                                 {{ $ticket->type }}
                             </span>
                         </td>
@@ -65,7 +74,7 @@
                             @endif
                         </td>
                         <td class="px-6 py-5">
-                            <span class="text-slate-300 font-medium">${{ number_format($ticket->price, 2) }}</span>
+                            <span class="text-slate-300 font-medium">Rp {{ number_format($ticket->price, 0, ',', '.') }}</span>
                         </td>
                         <td class="px-6 py-5 text-right">
                             <div class="flex items-center justify-end gap-3">

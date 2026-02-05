@@ -76,27 +76,14 @@
         </div>
     @endif
 
-    <div class="pt-8 space-y-4">
-        <a href="{{ route('scan') }}" class="block w-full bg-white/10 hover:bg-white/20 text-white font-bold py-4 rounded-2xl transition-all border border-white/10">
-            Scan Next Ticket
+    <div class="pt-8">
+        <a href="{{ route('scan') }}" class="block w-full bg-white hover:bg-slate-200 text-slate-900 font-black py-4 rounded-2xl transition-all shadow-xl uppercase tracking-widest">
+            Scan
         </a>
-        <p class="text-xs text-slate-500">Redirecting in <span id="timer">3</span> seconds...</p>
     </div>
 </div>
 
 <script>
-    let timeLeft = 3;
-    const timerElement = document.getElementById('timer');
-    
-    const interval = setInterval(() => {
-        timeLeft--;
-        if (timerElement) timerElement.textContent = timeLeft;
-        if (timeLeft <= 0) {
-            clearInterval(interval);
-            window.location.href = "{{ route('scan') }}";
-        }
-    }, 1000);
-
     // Simulated Analytics
     console.log('📊 Analytics: [validation_result]', {
         status: "{{ $status }}",

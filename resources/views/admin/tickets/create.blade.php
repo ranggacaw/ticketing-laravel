@@ -81,8 +81,8 @@
                         <select name="type" id="type" required
                             class="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/10 rounded-2xl text-slate-200 appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all cursor-pointer">
                             <option value="General Admission" {{ old('type') == 'General Admission' ? 'selected' : '' }} class="bg-slate-900">General Admission</option>
-                            <option value="VIP" {{ old('type') == 'VIP' ? 'selected' : '' }} class="bg-slate-900">VIP / Premium</option>
-                            <option value="Staff" {{ old('type') == 'Staff' ? 'selected' : '' }} class="bg-slate-900">Staff Access</option>
+                            <option value="Festival" {{ old('type') == 'Festival' ? 'selected' : '' }} class="bg-slate-900">Festival</option>
+                            <option value="VIP" {{ old('type') == 'VIP' ? 'selected' : '' }} class="bg-slate-900">VIP</option>
                             <option value="VVIP" {{ old('type') == 'VVIP' ? 'selected' : '' }} class="bg-slate-900">VVIP</option>
                         </select>
                         <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-500">
@@ -98,25 +98,79 @@
                     <label for="price" class="block text-sm font-semibold text-slate-300 ml-1">Ticket Price</label>
                     <div class="relative group">
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-indigo-400 transition-colors">
-                            <span class="text-lg font-bold ml-1">$</span>
+                            <span class="text-lg font-bold ml-1">Rp</span>
                         </div>
-                        <input type="number" step="0.01" name="price" id="price" value="{{ old('price', 0) }}" required
+                        <input type="hidden" name="price" id="real_price" value="{{ old('price', 0) }}">
+                        <input type="text" id="display_price" value="{{ old('price', 0) }}" required
                             class="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/10 rounded-2xl text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all"
-                            placeholder="0.00">
+                            placeholder="50.000">
                     </div>
                 </div>
             </div>
 
-            <div class="pt-8 flex flex-col items-center gap-4">
-                <button type="submit" class="w-full group relative flex items-center justify-center gap-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-4 px-8 rounded-2xl transition-all duration-300 transform hover:scale-[1.01] active:scale-95 shadow-xl shadow-indigo-600/20">
-                    <svg class="h-6 w-6 transition-transform group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 110-4V7a2 2 0 00-2-2H5z" />
+            <div class="pt-8 flex items-center justify-end gap-4">
+                <a href="{{ route('admin.tickets.index') }}" class="px-8 py-4 rounded-2xl border border-white/10 text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-all font-bold cursor-pointer">
+                    Cancel
+                </a>
+                <button type="submit" class="flex-1 md:flex-none group relative flex items-center justify-center gap-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-4 px-10 rounded-2xl transition-all duration-300 shadow-xl shadow-indigo-600/20 cursor-pointer">
+                    <svg class="h-5 w-5 transition-transform group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
-                    <span>Generate Ticket & Create Barcode</span>
+                    <span>Generate Ticket</span>
                 </button>
-                <p class="text-xs text-slate-500 font-light italic">Unique barcode will be automatically generated upon saving.</p>
             </div>
         </form>
     </div>
 </div>
 @endsection
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const typeSelect = document.getElementById('type');
+        const displayPrice = document.getElementById('display_price');
+        const realPrice = document.getElementById('real_price');
+
+        // Define prices for each category
+        const prices = {
+            'VVIP': 850000,
+            'VIP': 500000,
+            'Festival': 200000,
+            'General Admission': 150000
+        };
+
+        // Format number with thousands separator (3000 -> 3.000)
+        function formatNumber(num) {
+            if (!num && num !== 0) return '';
+            return num.toString().replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        // Initialize display value
+        if (realPrice.value) {
+            displayPrice.value = formatNumber(realPrice.value);
+        }
+
+        // Handle Type Change
+        typeSelect.addEventListener('change', function() {
+            const selectedType = this.value;
+            if (prices.hasOwnProperty(selectedType)) {
+                const price = prices[selectedType];
+                realPrice.value = price;
+                displayPrice.value = formatNumber(price);
+            }
+        });
+
+        // Handle Manual Price Input
+        displayPrice.addEventListener('input', function(e) {
+            // Remove all dots to get raw number
+            let rawValue = this.value.replace(/\./g, '');
+            // Remove any non-digits that might have slipped in
+            rawValue = rawValue.replace(/\D/g, '');
+            
+            // Update the hidden input with integer value
+            realPrice.value = rawValue;
+
+            // Re-format the display value
+            this.value = formatNumber(rawValue);
+        });
+    });
+</script>

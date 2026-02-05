@@ -25,7 +25,7 @@ class TicketFactory extends Factory
             'user_name' => $this->faker->name(),
             'user_email' => $this->faker->unique()->safeEmail(),
             'seat_number' => strtoupper($this->faker->bothify('??-##')),
-            'price' => $this->faker->randomFloat(2, 50, 500),
+            'price' => $this->faker->numberBetween(50000, 1000000),
             'type' => $this->faker->randomElement(['VIP', 'General Admission', 'Backstage Pass']),
             'barcode_data' => strtoupper($this->faker->bothify('TICKET-####-####')),
             'scanned_at' => null,

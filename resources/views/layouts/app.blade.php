@@ -43,7 +43,7 @@
     </main>
 
     <footer class="mt-8 text-slate-500 text-sm font-light">
-        &copy; 2026 TicketScan Prototype
+        &copy; 2026 Cawticket Scanner
     </footer>
 </body>
 </html>

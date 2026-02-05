@@ -56,7 +56,16 @@
                         <div>
                             <dt class="text-xs text-slate-500 mb-1">Category</dt>
                             <dd class="text-sm">
-                                <span class="px-2 py-1 rounded-md bg-white/5 text-slate-200 border border-white/5 text-xs font-bold uppercase">{{ $ticket->type }}</span>
+                                @php
+                                    $typeClasses = match($ticket->type) {
+                                        'VVIP' => 'bg-rose-500/10 text-rose-400 border-rose-500/20',
+                                        'VIP' => 'bg-amber-500/10 text-amber-500 border-amber-500/20',
+                                        'Festival' => 'bg-sky-500/10 text-sky-400 border-sky-500/20',
+                                        'General Admission' => 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+                                        default => 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20',
+                                    };
+                                @endphp
+                                <span class="px-2.5 py-1 rounded-full border text-xs font-bold uppercase {{ $typeClasses }}">{{ $ticket->type }}</span>
                             </dd>
                         </div>
                     </div>
@@ -79,7 +88,7 @@
                         </div>
                         <div>
                             <dt class="text-xs text-slate-500 mb-1">Price Paid</dt>
-                            <dd class="text-2xl font-bold gradient-text">${{ number_format($ticket->price, 2) }}</dd>
+                            <dd class="text-2xl font-bold gradient-text">Rp {{ number_format($ticket->price, 0, ',', '.') }}</dd>
                         </div>
                     </div>
                 </dl>
