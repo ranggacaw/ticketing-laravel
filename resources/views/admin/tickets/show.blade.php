@@ -109,7 +109,7 @@
                     </button>
                 </div>
                 <!-- Success Toast Overlay -->
-                <div id="copy-toast" class="absolute inset-0 bg-indigo-600 backdrop-blur-sm flex items-center justify-center translate-y-full transition-transform duration-300 rounded-2xl z-10">
+                <div id="copy-toast" class="absolute inset-0 bg-indigo-600/50 backdrop-blur-sm flex items-center justify-center translate-y-full transition-transform duration-300 rounded-2xl z-10">
                     <p class="text-white font-bold text-xs flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />

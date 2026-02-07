@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Services\ActivityLogger;
 
 class TicketController extends Controller
 {
@@ -31,14 +32,30 @@ class TicketController extends Controller
 
         if ($ticket) {
             if ($ticket->scanned_at) {
+                ActivityLogger::log('SCAN', $ticket, [
+                    'status' => 'duplicate',
+                    'scanned_at' => $ticket->scanned_at,
+                    'input_code' => $code
+                ], 'Duplicate scan attempt for ticket');
+
                 return redirect()->route('result', ['status' => 'duplicate', 'code' => $code]);
             }
             
             // Mark as scanned
             $ticket->update(['scanned_at' => Carbon::now()]);
             
+            ActivityLogger::log('SCAN', $ticket, [
+                'status' => 'success',
+                'input_code' => $code
+            ], 'Ticket validated successfully');
+            
             return redirect()->route('result', ['status' => 'valid', 'code' => $code]);
         }
+
+        ActivityLogger::log('SCAN', null, [
+            'status' => 'invalid',
+            'input_code' => $code
+        ], 'Invalid ticket scan attempt');
 
         return redirect()->route('result', ['status' => 'invalid', 'code' => $code]);
     }
