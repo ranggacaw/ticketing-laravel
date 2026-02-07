@@ -42,6 +42,7 @@ Route::middleware(['auth'])->group(function () {
         // Volunteers are excluded here.
         Route::resource('tickets', \App\Http\Controllers\Admin\TicketController::class);
         Route::get('tickets/{ticket}/export', [\App\Http\Controllers\Admin\TicketController::class, 'export'])->name('tickets.export');
+        Route::get('tickets/{ticket}/preview', [\App\Http\Controllers\Admin\TicketController::class, 'preview'])->name('tickets.preview');
     });
 
     // Admin Only Area

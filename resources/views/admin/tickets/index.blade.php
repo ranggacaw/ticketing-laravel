@@ -78,10 +78,15 @@
                         </td>
                         <td class="px-6 py-5 text-right">
                             <div class="flex items-center justify-end gap-3">
-                                <a href="{{ route('admin.tickets.show', $ticket) }}" class="p-2 text-slate-400 hover:text-indigo-400 hover:bg-indigo-400/10 rounded-xl transition-all duration-200" title="View Details">
+                                <button onclick="previewTicket({{ $ticket->id }})" class="p-2 text-slate-400 hover:text-indigo-400 hover:bg-indigo-400/10 rounded-xl transition-all duration-200" title="Quick Preview">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                </button>
+                                <a href="{{ route('admin.tickets.show', $ticket) }}" class="p-2 text-slate-400 hover:text-sky-400 hover:bg-sky-400/10 rounded-xl transition-all duration-200" title="Full Details">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                 </a>
                                 <a href="{{ route('admin.tickets.export', $ticket) }}" class="p-2 text-slate-400 hover:text-emerald-400 hover:bg-emerald-400/10 rounded-xl transition-all duration-200" title="Export PDF">
@@ -130,4 +135,74 @@
     </div>
     @endif
 </div>
+
+<!-- Preview Modal -->
+<div id="preview-modal" class="fixed inset-0 z-[60] hidden">
+    <div class="absolute inset-0 bg-slate-950/60 backdrop-blur-sm transition-opacity duration-300"></div>
+    <div class="absolute inset-0 flex items-center justify-center p-4">
+        <div class="glass-card w-full max-w-2xl rounded-[2.5rem] shadow-2xl overflow-hidden transform transition-all duration-300 scale-95 opacity-0" id="modal-container">
+            <div class="p-8 border-b border-black/5 dark:border-white/5 flex items-center justify-between">
+                <h3 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Ticket <span class="gradient-text">Live Preview</span></h3>
+                <button onclick="closeModal()" class="p-2 rounded-xl text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div id="modal-content" class="max-h-[70vh] overflow-y-auto">
+                <!-- Data will be loaded here -->
+                <div class="flex flex-col items-center justify-center py-20 gap-4">
+                    <div class="w-12 h-12 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin"></div>
+                    <p class="text-slate-500 text-sm animate-pulse">Generating preview...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function previewTicket(id) {
+        const modal = document.getElementById('preview-modal');
+        const container = document.getElementById('modal-container');
+        const content = document.getElementById('modal-content');
+        
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            container.classList.remove('scale-95', 'opacity-0');
+            container.classList.add('scale-100', 'opacity-100');
+        }, 10);
+
+        fetch(`/admin/tickets/${id}/preview`)
+            .then(response => response.json())
+            .then(data => {
+                content.innerHTML = data.html;
+            })
+            .catch(error => {
+                content.innerHTML = `<div class="p-10 text-center text-rose-500">Error loading preview. Please try again.</div>`;
+            });
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('preview-modal');
+        const container = document.getElementById('modal-container');
+        
+        container.classList.remove('scale-100', 'opacity-100');
+        container.classList.add('scale-95', 'opacity-0');
+        
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            document.getElementById('modal-content').innerHTML = `
+                <div class="flex flex-col items-center justify-center py-20 gap-4">
+                    <div class="w-12 h-12 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin"></div>
+                    <p class="text-slate-500 text-sm animate-pulse">Generating preview...</p>
+                </div>
+            `;
+        }, 300);
+    }
+
+    // Close on escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+    });
+</script>
 @endsection

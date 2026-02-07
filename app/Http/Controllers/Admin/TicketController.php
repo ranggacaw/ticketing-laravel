@@ -64,6 +64,20 @@ class TicketController extends Controller
         return $pdf->download("ticket-{$ticket->uuid}.pdf");
     }
 
+    public function preview(Ticket $ticket)
+    {
+        $qrCode = $this->barcodeService->generateQrCode($ticket->barcode_data, 150);
+        $barcode128 = $this->barcodeService->generateCode128($ticket->barcode_data);
+
+        return response()->json([
+            'html' => view('admin.tickets._preview', [
+                'ticket' => $ticket,
+                'qrCode' => $qrCode,
+                'barcode128' => $barcode128
+            ])->render(),
+        ]);
+    }
+
     public function edit(Ticket $ticket)
     {
         if ($ticket->scanned_at) {

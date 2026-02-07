@@ -4,11 +4,11 @@
 We need to develop an **Internal Ticket Barcode Generation System** in order for **ticketing administrators** to **efficiently create compliant, valid tickets with specific user details** that seamlessly integrate with our existing external scanning infrastructure.
 
 ### 🚀 Definition of Done
-- [ ] System generates unique, scannable barcodes corresponding to ticket records.
-- [ ] Add users and User interface allows entry and management of seat number, ticket type, price, and user details.
-- [ ] Generated outputs (digital or print) clearly display the barcode alongside readable ticket details.
-- [ ] Barcodes are verified to be 100% compatible with the existing external scanner hardware/software.
-- [ ] System handles validation to prevent duplicate seat assignments or invalid data entries.
+- [x] System generates unique, scannable barcodes corresponding to ticket records.
+- [x] Add users and User interface allows entry and management of seat number, ticket type, price, and user details.
+- [x] Generated outputs (digital or print) clearly display the barcode alongside readable ticket details.
+- [x] Barcodes are verified to be 100% compatible with the existing external scanner hardware/software.
+- [x] System handles validation to prevent duplicate seat assignments or invalid data entries.
 
 ### 📌 High-Level Scope (Included)
 - **Barcode Generation Engine**: Logic to create barcodes (e.g., QR, Code128) encoding necessary validation data.
