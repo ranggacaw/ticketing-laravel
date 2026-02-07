@@ -66,11 +66,20 @@ class TicketController extends Controller
 
     public function edit(Ticket $ticket)
     {
+        if ($ticket->scanned_at) {
+            return redirect()->route('admin.tickets.index')
+                ->with('error', 'Validated tickets cannot be edited.');
+        }
         return view('admin.tickets.edit', compact('ticket'));
     }
 
     public function update(Request $request, Ticket $ticket)
     {
+        if ($ticket->scanned_at) {
+            return redirect()->route('admin.tickets.index')
+                ->with('error', 'Validated tickets cannot be edited.');
+        }
+
         $validated = $request->validate([
             'user_name' => 'required|string|max:255',
             'user_email' => 'required|email|max:255',

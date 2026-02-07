@@ -57,4 +57,10 @@ class TicketController extends Controller
 
         return view('result', compact('status', 'ticket', 'code'));
     }
+
+    public function validated()
+    {
+        $tickets = Ticket::whereNotNull('scanned_at')->latest('scanned_at')->paginate(20);
+        return view('tickets.validated', compact('tickets'));
+    }
 }
