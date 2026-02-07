@@ -4,8 +4,8 @@
 <div class="max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
     <div class="mb-8 flex items-center justify-between">
         <div>
-            <h2 class="text-3xl font-bold tracking-tight">Register <span class="gradient-text">New User</span></h2>
-            <p class="text-app-secondary mt-1 font-light text-sm">Create a new user account with specific access roles.</p>
+            <h2 class="text-3xl font-bold tracking-tight">Edit <span class="gradient-text">User</span></h2>
+            <p class="text-app-secondary mt-1 font-light text-sm">Update user account information and access roles.</p>
         </div>
         <a href="{{ route('admin.users.index') }}" class="flex items-center gap-2 text-app-secondary hover:text-indigo-400 transition-colors text-sm font-medium">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -16,8 +16,9 @@
     </div>
 
     <div class="glass-card rounded-3xl overflow-hidden">
-        <form action="{{ route('admin.users.store') }}" method="POST" class="p-8 md:p-12 space-y-10">
+        <form action="{{ route('admin.users.update', $user) }}" method="POST" class="p-8 md:p-12 space-y-10">
             @csrf
+            @method('PUT')
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Name -->
@@ -29,7 +30,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
                         </div>
-                        <input type="text" name="name" id="name" value="{{ old('name') }}" required autofocus
+                        <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}" required
                             class="w-full pl-12 pr-4 py-4 bg-white/5 dark:bg-black/20 border border-black/5 dark:border-white/5 rounded-2xl text-app-primary placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all @error('name') border-rose-500/50 @enderror"
                             placeholder="e.g. Jane Smith">
                     </div>
@@ -45,7 +46,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
                         </div>
-                        <input type="email" name="email" id="email" value="{{ old('email') }}" required
+                        <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" required
                             class="w-full pl-12 pr-4 py-4 bg-white/5 dark:bg-black/20 border border-black/5 dark:border-white/5 rounded-2xl text-app-primary placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all @error('email') border-rose-500/50 @enderror"
                             placeholder="jane@example.com">
                     </div>
@@ -63,9 +64,9 @@
                         </div>
                         <select name="role" id="role" required
                             class="w-full pl-12 pr-4 py-4 bg-white/5 dark:bg-black/20 border border-black/5 dark:border-white/5 rounded-2xl text-app-primary appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all cursor-pointer">
-                            <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }} class="bg-white dark:bg-slate-900">Admin (Full Access)</option>
-                            <option value="staff" {{ old('role') == 'staff' ? 'selected' : '' }} class="bg-white dark:bg-slate-900">Staff (Everything except creating users)</option>
-                            <option value="volunteer" {{ old('role') == 'volunteer' ? 'selected' : '' }} class="bg-white dark:bg-slate-900">Volunteer (Scan Only)</option>
+                            <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }} class="bg-white dark:bg-slate-900">Admin (Full Access)</option>
+                            <option value="staff" {{ old('role', $user->role) == 'staff' ? 'selected' : '' }} class="bg-white dark:bg-slate-900">Staff (Everything except creating users)</option>
+                            <option value="volunteer" {{ old('role', $user->role) == 'volunteer' ? 'selected' : '' }} class="bg-white dark:bg-slate-900">Volunteer (Scan Only)</option>
                         </select>
                         <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-500">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -77,32 +78,32 @@
 
                 <!-- Password -->
                 <div class="space-y-2">
-                    <label for="password" class="block text-sm font-semibold text-app-secondary ml-1">Password</label>
+                    <label for="password" class="block text-sm font-semibold text-app-secondary ml-1">New Password (Optional)</label>
                     <div class="relative group">
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-indigo-400 transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                             </svg>
                         </div>
-                        <input type="password" name="password" id="password" required
+                        <input type="password" name="password" id="password"
                             class="w-full pl-12 pr-4 py-4 bg-white/5 dark:bg-black/20 border border-black/5 dark:border-white/5 rounded-2xl text-app-primary placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all @error('password') border-rose-500/50 @enderror"
-                            placeholder="••••••••">
+                            placeholder="Leave blank to keep current">
                     </div>
                     @error('password') <p class="mt-1 text-xs text-rose-500">{{ $message }}</p> @enderror
                 </div>
 
                 <!-- Confirm Password -->
                 <div class="space-y-2">
-                    <label for="password_confirmation" class="block text-sm font-semibold text-app-secondary ml-1">Confirm Password</label>
+                    <label for="password_confirmation" class="block text-sm font-semibold text-app-secondary ml-1">Confirm New Password</label>
                     <div class="relative group">
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-indigo-400 transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                             </svg>
                         </div>
-                        <input type="password" name="password_confirmation" id="password_confirmation" required
+                        <input type="password" name="password_confirmation" id="password_confirmation"
                             class="w-full pl-12 pr-4 py-4 bg-white/5 dark:bg-black/20 border border-black/5 dark:border-white/5 rounded-2xl text-app-primary placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all"
-                            placeholder="••••••••">
+                            placeholder="Leave blank to keep current">
                     </div>
                 </div>
             </div>
@@ -113,9 +114,9 @@
                 </a>
                 <button type="submit" class="flex-1 md:flex-none group relative flex items-center justify-center gap-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-4 px-10 rounded-2xl transition-all duration-300 shadow-xl shadow-indigo-600/20 cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
-                    <span>Create User</span>
+                    <span>Update User</span>
                 </button>
             </div>
         </form>

@@ -47,9 +47,8 @@ Route::middleware(['auth'])->group(function () {
 
     // Admin Only Area
     Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
-        // User Registration
-        Route::get('users/create', [\App\Http\Controllers\Admin\UserController::class, 'create'])->name('users.create');
-        Route::post('users', [\App\Http\Controllers\Admin\UserController::class, 'store'])->name('users.store');
+        // User Management
+        Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->except(['show']);
     });
 
 });
