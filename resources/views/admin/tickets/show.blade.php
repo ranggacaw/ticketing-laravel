@@ -94,10 +94,28 @@
                 </dl>
             </div>
 
-            <div class="glass border-white/5 rounded-2xl p-6">
-                <h4 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3">Validation Hash</h4>
-                <div class="text-[10px] font-mono bg-black/40 p-3 rounded-lg border border-white/5 break-all text-slate-500">
-                    {{ $ticket->barcode_data }}
+            <div class="glass border-white/5 rounded-2xl p-6 relative overflow-hidden group">
+                <div class="flex items-center justify-between mb-3">
+                    <h4 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Validation Hash</h4>
+                </div>
+                <div class="flex gap-2">
+                    <div id="validation-hash-content" class="flex-1 text-[10px] font-mono bg-black/40 p-3 rounded-lg border border-white/5 break-all text-slate-500 select-all">
+                        {{ $ticket->barcode_data }}
+                    </div>
+                    <button onclick="copyValidationHash()" class="shrink-0 flex items-center justify-center w-10 bg-white/5 hover:bg-indigo-500/20 border border-white/5 hover:border-indigo-500/30 rounded-lg transition-all group/btn cursor-pointer" title="Copy Hash">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-400 group-hover/btn:text-indigo-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                    </button>
+                </div>
+                <!-- Success Toast Overlay -->
+                <div id="copy-toast" class="absolute inset-0 bg-indigo-600 backdrop-blur-sm flex items-center justify-center translate-y-full transition-transform duration-300 rounded-2xl z-10">
+                    <p class="text-white font-bold text-xs flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        Copied to Clipboard!
+                    </p>
                 </div>
             </div>
         </div>
@@ -153,4 +171,49 @@
         height: 60px !important;
     }
 </style>
+<script>
+    function copyValidationHash() {
+        const content = document.getElementById('validation-hash-content').innerText.trim();
+        
+        // Try modern API
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(content).then(() => {
+                showToast();
+            }).catch(err => {
+                console.error('Clipboard API failed', err);
+                fallbackCopy(content);
+            });
+        } else {
+            fallbackCopy(content);
+        }
+    }
+
+    function fallbackCopy(text) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.opacity = "0";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            showToast();
+        } catch (err) {
+            console.error('Fallback copy failed', err);
+            alert('Unable to copy automatically. Please copy manually: ' + text);
+        }
+        document.body.removeChild(textArea);
+    }
+
+    function showToast() {
+        const toast = document.getElementById('copy-toast');
+        if (toast) {
+            toast.classList.remove('translate-y-full');
+            setTimeout(() => {
+                toast.classList.add('translate-y-full');
+            }, 2000);
+        }
+    }
+</script>
 @endsection
