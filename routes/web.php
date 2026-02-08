@@ -10,22 +10,50 @@ use App\Http\Controllers\AuthController;
 // Route::get('/scan', ...); // Moved to auth
 
 // Auth Routes
-// Auth Routes
-Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('login', [AuthController::class, 'login']);
-Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+// Guest Routes
+Route::middleware('guest')->group(function () {
+    Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [AuthController::class, 'login']);
+
+    Route::get('register', [AuthController::class, 'showRegistrationForm'])->name('register');
+    Route::post('register', [AuthController::class, 'register']);
+
+    Route::get('forgot-password', [AuthController::class, 'showForgotPasswordForm'])->name('password.request');
+    Route::post('forgot-password', [AuthController::class, 'sendResetLink'])->name('password.email');
+    Route::get('reset-password/{token}', [AuthController::class, 'showResetPasswordForm'])->name('password.reset');
+    Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
+});
+
+Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 // Authenticated Routes
 Route::middleware(['auth'])->group(function () {
-    
-    Route::get('/', function() {
+
+    Route::get('/', function () {
         if (auth()->user()->role === 'volunteer') {
             return redirect()->route('scan');
+        } elseif (auth()->user()->role === 'user') {
+            return redirect()->route('user.dashboard');
         }
         return redirect()->route('admin.dashboard');
     })->name('home');
 
     Route::get('/my/history', [\App\Http\Controllers\MyHistoryController::class, 'index'])->name('my.history');
+
+    // User Portal
+    Route::middleware(['role:user'])->prefix('user')->name('user.')->group(function () {
+        Route::get('dashboard', [\App\Http\Controllers\User\DashboardController::class, 'index'])->name('dashboard');
+
+        Route::get('tickets', [\App\Http\Controllers\User\TicketController::class, 'index'])->name('tickets.index');
+        Route::get('tickets/{ticket}', [\App\Http\Controllers\User\TicketController::class, 'show'])->name('tickets.show');
+
+        Route::get('payments', [\App\Http\Controllers\User\PaymentController::class, 'index'])->name('payments.index');
+        Route::get('payments/{payment}', [\App\Http\Controllers\User\PaymentController::class, 'show'])->name('payments.show');
+
+        Route::get('profile', [\App\Http\Controllers\User\ProfileController::class, 'edit'])->name('profile.edit');
+        Route::put('profile', [\App\Http\Controllers\User\ProfileController::class, 'update'])->name('profile.update');
+        Route::put('profile/password', [\App\Http\Controllers\User\ProfileController::class, 'updatePassword'])->name('profile.password');
+    });
 
     // Scan & Validator Routes (Accessible by Admin, Staff, Volunteer)
     Route::middleware(['role:admin,staff,volunteer'])->group(function () {
@@ -38,7 +66,7 @@ Route::middleware(['auth'])->group(function () {
     // Admin & Staff Area
     Route::middleware(['role:admin,staff'])->prefix('admin')->name('admin.')->group(function () {
         Route::get('dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
-        
+
         // Ticket Management
         // Admin & Staff can create/edit.
         // Volunteers are excluded here.

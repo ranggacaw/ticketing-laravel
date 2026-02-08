@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
 use App\Traits\LogsActivity;
@@ -20,6 +22,8 @@ class Ticket extends Model
         'seat_number',
         'price',
         'type',
+        'payment_status',
+        'user_id',
         'barcode_data',
         'scanned_at',
     ];
@@ -41,5 +45,16 @@ class Ticket extends Model
                 $ticket->barcode_data = $ticket->uuid;
             }
         });
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function payments(): BelongsToMany
+    {
+        return $this->belongsToMany(Payment::class, 'payment_tickets')
+            ->withTimestamps();
     }
 }

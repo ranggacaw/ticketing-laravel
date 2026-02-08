@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Traits\LogsActivity;
 
 class User extends Authenticatable
@@ -23,12 +24,17 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+
         'role',
+        'phone',
+        'notification_preferences',
     ];
 
     public const ROLE_ADMIN = 'admin';
     public const ROLE_STAFF = 'staff';
+
     public const ROLE_VOLUNTEER = 'volunteer';
+    public const ROLE_USER = 'user';
 
     /**
      * Check if the user has a specific role.
@@ -65,7 +71,18 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+
             'password' => 'hashed',
+            'notification_preferences' => 'array',
         ];
+    }
+    public function tickets(): HasMany
+    {
+        return $this->hasMany(Ticket::class);
+    }
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
     }
 }
