@@ -1,79 +1,84 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="glass p-8 rounded-2xl shadow-2xl border border-white/10 relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-teal-600"></div>
+    <div class="card bg-base-100 shadow-xl border border-base-300">
+        <div class="card-body">
+            <div class="mb-8 text-center">
+                <h1
+                    class="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-2">
+                    Create Account</h1>
+                <p class="text-base-content/60">Join to manage your tickets and payments</p>
+            </div>
 
-        <div class="mb-8 text-center">
-            <h1 class="text-3xl font-bold gradient-text mb-2">Create Account</h1>
-            <p class="text-slate-400">Join to manage your tickets and payments</p>
+            <form method="POST" action="{{ route('register') }}" class="space-y-6">
+                @csrf
+
+                <div class="form-control">
+                    <label for="name" class="label">
+                        <span class="label-text">Full Name</span>
+                    </label>
+                    <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus
+                        class="input input-bordered w-full {{ $errors->has('name') ? 'input-error' : '' }}">
+                    @error('name')
+                        <p class="mt-1 text-sm text-error">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="form-control">
+                    <label for="email" class="label">
+                        <span class="label-text">Email Address</span>
+                    </label>
+                    <input id="email" type="email" name="email" value="{{ old('email') }}" required
+                        class="input input-bordered w-full {{ $errors->has('email') ? 'input-error' : '' }}">
+                    @error('email')
+                        <p class="mt-1 text-sm text-error">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="form-control">
+                    <label for="phone" class="label">
+                        <span class="label-text">Phone Number (Optional)</span>
+                    </label>
+                    <input id="phone" type="text" name="phone" value="{{ old('phone') }}"
+                        class="input input-bordered w-full {{ $errors->has('phone') ? 'input-error' : '' }}">
+                    @error('phone')
+                        <p class="mt-1 text-sm text-error">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="form-control">
+                    <label for="password" class="label">
+                        <span class="label-text">Password</span>
+                    </label>
+                    <input id="password" type="password" name="password" required
+                        class="input input-bordered w-full {{ $errors->has('password') ? 'input-error' : '' }}">
+                    @error('password')
+                        <p class="mt-1 text-sm text-error">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="form-control">
+                    <label for="password_confirmation" class="label">
+                        <span class="label-text">Confirm Password</span>
+                    </label>
+                    <input id="password_confirmation" type="password" name="password_confirmation" required
+                        class="input input-bordered w-full">
+                </div>
+
+                <div>
+                    <button type="submit" class="btn btn-primary w-full">
+                        Register
+                    </button>
+                </div>
+
+                <div class="text-center mt-4">
+                    <p class="text-sm text-base-content/60">
+                        Already have an account?
+                        <a href="{{ route('login') }}" class="link link-primary no-underline hover:underline">Sign
+                            in</a>
+                    </p>
+                </div>
+            </form>
         </div>
-
-        <form method="POST" action="{{ route('register') }}" class="space-y-6">
-            @csrf
-
-            <!-- Name -->
-            <div>
-                <label for="name" class="block text-sm font-medium text-slate-300 mb-1">Full Name</label>
-                <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus
-                    class="w-full px-4 py-3 rounded-lg bg-slate-800/50 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all">
-                @error('name')
-                    <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <!-- Email -->
-            <div>
-                <label for="email" class="block text-sm font-medium text-slate-300 mb-1">Email Address</label>
-                <input id="email" type="email" name="email" value="{{ old('email') }}" required
-                    class="w-full px-4 py-3 rounded-lg bg-slate-800/50 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all">
-                @error('email')
-                    <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <!-- Phone -->
-            <div>
-                <label for="phone" class="block text-sm font-medium text-slate-300 mb-1">Phone Number (Optional)</label>
-                <input id="phone" type="text" name="phone" value="{{ old('phone') }}"
-                    class="w-full px-4 py-3 rounded-lg bg-slate-800/50 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all">
-                @error('phone')
-                    <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <!-- Password -->
-            <div>
-                <label for="password" class="block text-sm font-medium text-slate-300 mb-1">Password</label>
-                <input id="password" type="password" name="password" required
-                    class="w-full px-4 py-3 rounded-lg bg-slate-800/50 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all">
-                @error('password')
-                    <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <!-- Confirm Password -->
-            <div>
-                <label for="password_confirmation" class="block text-sm font-medium text-slate-300 mb-1">Confirm
-                    Password</label>
-                <input id="password_confirmation" type="password" name="password_confirmation" required
-                    class="w-full px-4 py-3 rounded-lg bg-slate-800/50 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all">
-            </div>
-
-            <div>
-                <button type="submit"
-                    class="w-full py-3 px-4 rounded-lg bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-medium shadow-lg shadow-emerald-500/20 transform hover:-translate-y-0.5 transition-all duration-200">
-                    Register
-                </button>
-            </div>
-
-            <div class="text-center mt-4">
-                <p class="text-sm text-slate-400">
-                    Already have an account?
-                    <a href="{{ route('login') }}" class="text-emerald-400 hover:text-emerald-300 transition-colors">Sign
-                        in</a>
-                </p>
-            </div>
-        </form>
     </div>
 @endsection

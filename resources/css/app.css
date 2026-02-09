@@ -1,4 +1,7 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+@plugin "daisyui" {
+    themes: light --default, dark --prefersdark;
+}
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -6,6 +9,49 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans:
+        "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
+}
+
+@layer components {
+    .glass-card {
+        @apply backdrop-blur-xl bg-white/60 dark:bg-black/40 border border-white/20 shadow-lg;
+    }
+    
+    .gradient-text {
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500;
+    }
+
+    /* Shared Barcode/QR Styles */
+    .qr-container svg {
+        @apply !w-full !max-w-[140px] !h-auto;
+    }
+    
+    .barcode-svg-container svg, 
+    .barcode-svg-wrapper svg {
+        @apply !w-full !h-auto !min-h-[48px] !max-h-[80px];
+    }
+
+    /* Portal Specifics */
+    .nav-active {
+        @apply bg-indigo-500/10 text-indigo-400 border-r-2 border-indigo-500;
+    }
+
+    .mobile-nav-active {
+        @apply text-indigo-400;
+    }
+}
+
+@layer utilities {
+    @keyframes scan {
+        0% { top: 10%; }
+        50% { top: 90%; }
+        100% { top: 10%; }
+    }
+    
+    .animate-scan-line {
+        animation: scan 3s linear infinite;
+    }
 }

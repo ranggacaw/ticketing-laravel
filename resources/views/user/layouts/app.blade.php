@@ -12,30 +12,7 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <style>
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: #0f172a;
-            color: #f8fafc;
-        }
 
-        .glass {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .nav-active {
-            background: rgba(99, 102, 241, 0.1);
-            color: #818cf8;
-            border-right: 2px solid #6366f1;
-        }
-
-        /* Mobile Nav Active */
-        .mobile-nav-active {
-            color: #818cf8;
-        }
-    </style>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 
