@@ -1,134 +1,97 @@
-# Proposal: Implement User Ticket Portal (MVP 1)
+# Proposal: User Ticket Portal
 
 ## Summary
 
-Implement the core User Ticket Portal (MVP 1) as defined in the PRD, enabling ticket holders to register, login, view their tickets, access payment history, and manage their profile through a modern, responsive UI.
+Implement the **User Ticket Portal** (MVP 1) as defined in the PRD. This is a dedicated, self-service interface for event attendees to manage their accounts, view ticket history, and provide testimonials for past events.
 
 ## Status
 
-| Attribute            | Value                                    |
-| -------------------- | ---------------------------------------- |
-| **Proposal ID**      | implement-user-ticket-portal             |
-| **Status**           | Draft                                    |
-| **PRD Reference**    | `prompter/user-ticket-experience/prd.md` |
-| **Target MVP**       | MVP 1 - Core User Portal                 |
-| **Estimated Effort** | 4-6 weeks                                |
-| **Priority**         | P0 - Critical                            |
+| Attribute            | Value                                |
+| -------------------- | ------------------------------------ |
+| **Proposal ID**      | implement-user-ticket-portal         |
+| **Status**           | Draft                                |
+| **PRD Reference**    | `prompter/user-ticket-portal/prd.md` |
+| **Target MVP**       | MVP 1                                |
+| **Estimated Effort** | 4-6 weeks                            |
+| **Priority**         | High                                 |
 
 ## Background & Context
 
 ### Current State
 
-- **User Roles**: Only `admin`, `staff`, `volunteer` exist - no `user` (ticket holder) role
-- **Ticket-User Relationship**: Tickets have `user_email` but no `user_id` foreign key
-- **User Portal**: Does not exist - ticket holders have no online access
-- **Authentication**: Only internal staff/admin login exists
+- **User Management**: Heavily reliant on `admin.users.index`.
+- **User Role**: Only admin/staff roles are well-defined; attendees lack a dedicated portal.
+- **Engagement**: No mechanism for users to provide feedback/testimonials.
+- **Visibility**: Users cannot easily view their ticket history or manage profile details.
 
 ### Problem
 
-Ticket holders have no visibility into their ticket status, payment history, or a way to engage with the platform post-purchase. This leads to:
-
-- Increased support requests for ticket information
-- No mechanism for collecting customer feedback
-- Manual payment confirmation processes
-- Reduced customer engagement and satisfaction
+- **Friction**: Users cannot self-register easily.
+- **Low Engagement**: Testimonials are not collected systematically.
+- **Admin Burden**: Staff manually handle user data updates.
 
 ## Proposed Solution
 
-### New Capabilities
+### Capabilities
 
-| Capability                 | Description                                            |
-| -------------------------- | ------------------------------------------------------ |
-| **user-authentication**    | Registration, login, password reset for ticket holders |
-| **user-dashboard**         | Central hub showing tickets, payments, and activities  |
-| **ticket-details-view**    | Comprehensive ticket information with barcode display  |
-| **payment-history**        | List and detail views of user payment transactions     |
-| **user-profile**           | Profile viewing and editing functionality              |
-| **responsive-user-portal** | Modern, mobile-first UI for all user-facing pages      |
+| Capability              | Description                                       |
+| ----------------------- | ------------------------------------------------- |
+| **user-authentication** | Self-service registration, login, password reset  |
+| **user-profile**        | View and edit profile (Name, Email, Avatar)       |
+| **ticket-management**   | List "Upcoming" and "Past" tickets; detailed view |
+| **testimonial-system**  | Submit reviews/ratings for past events            |
+| **user-dashboard**      | Central hub for stats and quick actions           |
 
 ### Database Changes
 
 #### New Tables
 
-- `payments` - Store payment records with status tracking
-- `payment_tickets` - Many-to-many relationship between payments and tickets
+- `testimonials`: Store user reviews (linked to `user_id`, `event_id`, `ticket_id`).
+- `loyalty_points`: (If implementing full loyalty system now, otherwise prep schema).
 
 #### Schema Modifications
 
-- `users` table: Add `phone` column, `notification_preferences` JSON column
-- `tickets` table: Add `user_id` foreign key, `payment_status` enum column
-
-### Route Structure
-
-All user portal routes under `/user` prefix with `user` role middleware:
-
-- `GET /user/dashboard` - User dashboard
-- `GET /user/tickets` - My tickets list
-- `GET /user/tickets/{id}` - Ticket details
-- `GET /user/payments` - Payment history
-- `GET /user/payments/{id}` - Payment details
-- `GET /user/profile` - View/edit profile
+- `users`: Ensure distinction between `admin` and `attendee` (role column or separate table approach TBD).
+- `tickets`: Ensure linkage to `users` is robust.
 
 ### UI/UX Approach
 
-- Mobile-first responsive design
-- Glass card aesthetic (matching existing admin UI patterns)
-- Modern color palette from PRD (Indigo/Emerald/Amber)
-- Inter font family
-- Skeleton loading states
-- Toast notifications for feedback
+- **Aesthetic**: Glassmorphism, premium feel, vibrant colors (consistent with `user.tickets.index`).
+- **Responsive**: Mobile-first design.
+- **Framework**: Laravel Blade + Tailwind CSS (DaisyUI).
 
 ## Scope
 
-### In Scope (MVP 1)
+### MVP 1 (In Scope) ✅
 
-- ✅ User registration with email verification
-- ✅ User login with "Remember Me" functionality
-- ✅ Password reset flow
-- ✅ User dashboard with ticket/payment overview
-- ✅ My Tickets list with filtering (Upcoming, Past, Pending)
-- ✅ Ticket details page with barcode display
-- ✅ Payment history list with status filters
-- ✅ Payment details modal/page
-- ✅ Profile viewing and editing
-- ✅ Responsive design for mobile/tablet/desktop
-- ✅ Data migration script to link existing tickets to users
+- [x] **User Registration**: Public-facing sign-up.
+- [x] **User Login**: Secure authentication for attendees.
+- [x] **User Profile**: Edit Name, Email, Password, Avatar.
+- [x] **My Tickets**: List with "Upcoming" vs "Past" tabs.
+- [x] **Ticket Details**: Detailed view of a specific ticket.
+- [x] **Testimonials**: Write review for past tickets.
+- [x] **Dashboard**: specialized landing page for logged-in users.
+- [x] **Social Sharing**: Share functionality for testimonials.
+- [x] **Loyalty Program**: Basic points/rewards system.
 
-### Out of Scope (Deferred to MVP 2+)
+### Out of Scope ❌
 
-- ❌ WhatsApp payment confirmation
-- ❌ Notification system (in-app, email)
-- ❌ Review/testimonial system
-- ❌ Social login (Google/Facebook)
-- ❌ In-app ticket purchase
-- ❌ Multi-language support
+- Social Features (Friend requests).
+- Complex Gamification.
+- Ticket Resale Platform.
 
 ## Dependencies
 
-| Dependency             | Type    | Status        | Notes                     |
-| ---------------------- | ------- | ------------- | ------------------------- |
-| Laravel Breeze/Fortify | Package | To evaluate   | For auth scaffolding      |
-| Email verification     | Feature | Open question | OQ-01 pending decision    |
-| Existing ticket data   | Data    | Available     | Has `user_email` to match |
+- Existing `tickets` table structure.
+- `User` model refactoring (handling roles).
 
 ## Open Questions
 
-Inherited from PRD that affect this proposal:
+- Should user accounts be separate from admin accounts?
+- Email verification requirement?
+- Testimonial moderation workflow?
 
-- **OQ-01**: Should email verification be required for registration?
-- **OQ-04**: What is the maximum number of tickets per user?
+## Risks
 
-## Risks & Mitigations
-
-| Risk                                      | Impact | Mitigation                                   |
-| ----------------------------------------- | ------ | -------------------------------------------- |
-| Existing tickets not matching user emails | Medium | Create fallback for orphan tickets           |
-| Performance with many tickets per user    | Low    | Pagination, caching, lazy loading            |
-| Mobile UX complexity                      | Medium | Mobile-first design, progressive enhancement |
-
-## Related Changes
-
-- Builds upon: `add-user-history-tracking` (activity logging infrastructure)
-- Future: `implement-user-notifications` (MVP 2)
-- Future: `implement-user-reviews` (MVP 2)
-- Future: `implement-whatsapp-payment` (MVP 2)
+- **Data Migration**: Linking existing tickets to new user accounts if email matches.
+- **Security**: Ensuring users can ONLY see their own data.

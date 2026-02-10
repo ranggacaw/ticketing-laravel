@@ -26,6 +26,7 @@ class Ticket extends Model
         'user_id',
         'barcode_data',
         'scanned_at',
+        'event_id',
     ];
 
     protected $casts = [
@@ -56,5 +57,15 @@ class Ticket extends Model
     {
         return $this->belongsToMany(Payment::class, 'payment_tickets')
             ->withTimestamps();
+    }
+
+    public function event(): BelongsTo
+    {
+        return $this->belongsTo(Event::class);
+    }
+
+    public function testimonial(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Testimonial::class);
     }
 }

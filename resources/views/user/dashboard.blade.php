@@ -31,6 +31,18 @@
         <div class="text-3xl font-bold text-white mb-1">{{ $pendingPaymentsCount }}</div>
         <div class="text-sm text-slate-500">Action needed</div>
     </div>
+    <!-- Loyalty Points -->
+    <div class="bg-slate-800/50 backdrop-blur-md border border-white/5 rounded-2xl p-6 relative overflow-hidden group hover:border-purple-500/50 transition-all duration-300">
+        <div class="absolute -right-6 -top-6 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-500/20 transition-all"></div>
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-slate-400 font-medium">Loyalty Points</h3>
+            <div class="p-2 bg-purple-500/20 rounded-lg text-purple-400">
+                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path></svg>
+            </div>
+        </div>
+        <div class="text-3xl font-bold text-white mb-1">{{ number_format($loyaltyPoints) }}</div>
+        <div class="text-sm text-slate-500">Points earned</div>
+    </div>
 </div>
 
 <!-- Recent Tickets -->

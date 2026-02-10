@@ -11,7 +11,20 @@ class TicketController extends Controller
 {
     public function index()
     {
-        $tickets = Auth::user()->tickets()->latest()->paginate(12);
+        $tab = request('tab', 'upcoming');
+        $query = Auth::user()->tickets()->with('event');
+
+        if ($tab === 'upcoming') {
+            $query->whereHas('event', function ($q) {
+                $q->where('start_time', '>=', now());
+            });
+        } elseif ($tab === 'past') {
+            $query->whereHas('event', function ($q) {
+                $q->where('start_time', '<', now());
+            });
+        }
+
+        $tickets = $query->latest()->paginate(12)->withQueryString();
         return view('user.tickets.index', compact('tickets'));
     }
 

@@ -29,6 +29,13 @@ Users SHALL be able to update their profile information.
 - **THEN** name is updated
 - **AND** success notification shown: "Profile updated successfully"
 
+#### Scenario: Upload Avatar
+
+- **WHEN** user selects a valid image file (jpeg, png, max 2MB)
+- **AND** saves the profile
+- **THEN** the avatar is uploaded and displayed
+- **AND** old avatar (if any) is replaced
+
 #### Scenario: Update phone number
 
 - **WHEN** user adds or updates phone number and saves
@@ -43,7 +50,7 @@ Users SHALL be able to update their profile information.
 
 #### Scenario: Validation errors
 
-- **WHEN** user enters invalid data (e.g., invalid email format)
+- **WHEN** user enters invalid data (e.g., invalid email format, large image)
 - **THEN** inline validation errors are displayed
 
 ---

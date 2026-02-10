@@ -4,10 +4,14 @@
 @section('subheader', 'All your upcoming and past events')
 
 @section('content')
-    <div class="mb-6 flex space-x-2">
-        <button
-            class="px-4 py-2 bg-indigo-600/20 text-indigo-400 rounded-lg text-sm font-medium border border-indigo-600/50">All
-            Tickets</button>
+    <div class="tabs tabs-boxed bg-slate-800/50 mb-6 w-fit">
+        <a href="{{ route('user.tickets.index', ['tab' => 'upcoming']) }}"
+            class="tab {{ request('tab', 'upcoming') === 'upcoming' ? 'tab-active bg-indigo-600 text-white' : 'text-slate-400' }}">Upcoming</a>
+        <a href="{{ route('user.tickets.index', ['tab' => 'past']) }}"
+            class="tab {{ request('tab') === 'past' ? 'tab-active bg-indigo-600 text-white' : 'text-slate-400' }}">Past</a>
+        <a href="{{ route('user.tickets.index', ['tab' => 'all']) }}"
+            class="tab {{ request('tab') === 'all' ? 'tab-active bg-indigo-600 text-white' : 'text-slate-400' }}">All
+            Tickets</a>
     </div>
 
     @if($tickets->count() > 0)
@@ -22,6 +26,8 @@
                         </div>
                         <span
                             class="relative z-10 text-xs font-bold text-white uppercase tracking-wider bg-black/30 px-2 py-1 rounded w-max backdrop-blur-sm border border-white/10">{{ $ticket->type }}</span>
+                        <h4 class="relative z-10 text-white font-bold mt-2">{{ $ticket->event?->name }}</h4>
+                        <p class="relative z-10 text-indigo-200 text-xs">{{ $ticket->event?->start_time?->format('M d, Y') }}</p>
                     </div>
 
                     <div class="p-5">

@@ -53,6 +53,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('profile', [\App\Http\Controllers\User\ProfileController::class, 'edit'])->name('profile.edit');
         Route::put('profile', [\App\Http\Controllers\User\ProfileController::class, 'update'])->name('profile.update');
         Route::put('profile/password', [\App\Http\Controllers\User\ProfileController::class, 'updatePassword'])->name('profile.password');
+
+        Route::post('testimonials', [\App\Http\Controllers\User\TestimonialController::class, 'store'])->name('testimonials.store');
     });
 
     // Scan & Validator Routes (Accessible by Admin, Staff, Volunteer)

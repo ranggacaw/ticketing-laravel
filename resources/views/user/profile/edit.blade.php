@@ -15,9 +15,25 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('user.profile.update') }}" class="space-y-6">
+            <form method="POST" action="{{ route('user.profile.update') }}" enctype="multipart/form-data" class="space-y-6">
                 @csrf
                 @method('PUT')
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-1">Profile Picture</label>
+                    <div class="flex items-center space-x-4">
+                        @if ($user->avatar)
+                            <img src="{{ asset('storage/' . $user->avatar) }}" alt="Avatar"
+                                class="w-16 h-16 rounded-full object-cover border border-slate-700">
+                        @else
+                            <div class="w-16 h-16 rounded-full bg-slate-700 flex items-center justify-center text-slate-400">
+                                <span class="text-2xl">{{ strtoupper(substr($user->name, 0, 1)) }}</span>
+                            </div>
+                        @endif
+                        <input type="file" name="avatar" accept="image/*"
+                            class="file-input file-input-bordered file-input-sm w-full max-w-xs bg-slate-900 border-slate-700 text-slate-300">
+                    </div>
+                </div>
 
                 <div>
                     <label for="name" class="block text-sm font-medium text-slate-300 mb-1">Full Name</label>

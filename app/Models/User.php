@@ -28,6 +28,7 @@ class User extends Authenticatable
         'role',
         'phone',
         'notification_preferences',
+        'avatar',
     ];
 
     public const ROLE_ADMIN = 'admin';
@@ -84,5 +85,15 @@ class User extends Authenticatable
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class);
+    }
+
+    public function testimonials(): HasMany
+    {
+        return $this->hasMany(Testimonial::class);
+    }
+
+    public function loyaltyPoints(): HasMany
+    {
+        return $this->hasMany(LoyaltyPoint::class);
     }
 }

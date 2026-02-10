@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
 
 class ProfileController extends Controller
@@ -26,6 +27,20 @@ class ProfileController extends Controller
         ]);
 
         $user->fill($validated);
+
+        if ($request->hasFile('avatar')) {
+            $request->validate([
+                'avatar' => ['nullable', 'image', 'max:1024'], // 1MB Max
+            ]);
+
+            // Delete old avatar if exists
+            if ($user->avatar) {
+                Storage::disk('public')->delete($user->avatar);
+            }
+
+            $path = $request->file('avatar')->store('avatars', 'public');
+            $user->avatar = $path;
+        }
 
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;

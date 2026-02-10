@@ -26,6 +26,9 @@ class DashboardController extends Controller
         // Recent payments
         $recentPayments = $user->payments()->latest()->take(3)->get();
 
-        return view('user.dashboard', compact('activeTicketsCount', 'pendingPaymentsCount', 'recentTickets', 'recentPayments'));
+        // Loyalty Points
+        $loyaltyPoints = $user->loyaltyPoints()->sum('points');
+
+        return view('user.dashboard', compact('activeTicketsCount', 'pendingPaymentsCount', 'recentTickets', 'recentPayments', 'loyaltyPoints'));
     }
 }
