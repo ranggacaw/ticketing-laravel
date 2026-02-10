@@ -63,6 +63,17 @@
                             </a>
                         </li>
                         <li>
+                            <a href="{{ route('events.index') }}"
+                                class="{{ request()->routeIs('events.*') ? 'active' : '' }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                                <span>Browse Events</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="{{ route('admin.tickets.index') }}"
                                 class="{{ request()->routeIs('admin.tickets.*') ? 'active' : '' }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -101,8 +112,7 @@
                     @endif
 
                     <li class="mt-auto">
-                        <a href="{{ route('scan') }}"
-                            class="{{ request()->routeIs('scan') ? 'active' : '' }}">
+                        <a href="{{ route('scan') }}" class="{{ request()->routeIs('scan') ? 'active' : '' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -118,9 +128,9 @@
                         Signed in as</p>
                     <p class="text-sm font-bold text-base-content truncate">{{ auth()->user()->name }}
                     </p>
-                    <p
-                        class="text-[10px] text-primary font-bold uppercase tracking-widest mt-0.5">
-                        {{ auth()->user()->role }}</p>
+                    <p class="text-[10px] text-primary font-bold uppercase tracking-widest mt-0.5">
+                        {{ auth()->user()->role }}
+                    </p>
 
                     <a href="{{ route('my.history') }}"
                         class="flex items-center gap-2 mt-3 px-3 py-2 rounded-lg text-xs font-medium text-base-content/70 hover:bg-base-200 hover:text-primary transition-colors">
@@ -134,8 +144,7 @@
 
                     <form method="POST" action="{{ route('logout') }}" class="mt-2">
                         @csrf
-                        <button type="submit"
-                            class="w-full btn btn-sm btn-outline btn-error gap-2">
+                        <button type="submit" class="w-full btn btn-sm btn-outline btn-error gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -150,10 +159,10 @@
 
         <!-- Main Content -->
         <main class="flex-1 lg:ml-64 min-h-screen min-w-0">
-            <header class="navbar bg-base-100/80 backdrop-blur sticky top-0 z-40 border-b border-base-300 px-4 sm:px-8 h-16">
+            <header
+                class="navbar bg-base-100/80 backdrop-blur sticky top-0 z-40 border-b border-base-300 px-4 sm:px-8 h-16">
                 <div class="lg:hidden mr-2">
-                    <button id="sidebar-toggle"
-                        class="btn btn-square btn-ghost btn-sm">
+                    <button id="sidebar-toggle" class="btn btn-square btn-ghost btn-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -163,11 +172,9 @@
                 </div>
                 <div class="flex items-center gap-2 sm:gap-4 ml-auto">
                     <!-- Theme Switcher -->
-                    <div
-                        class="flex items-center gap-1 bg-base-200 rounded-full p-1 border border-base-300 shadow-sm">
+                    <div class="flex items-center gap-1 bg-base-200 rounded-full p-1 border border-base-300 shadow-sm">
                         <button onclick="setTheme('light')" id="theme-light"
-                            class="btn btn-circle btn-xs btn-ghost theme-btn"
-                            title="Light Theme">
+                            class="btn btn-circle btn-xs btn-ghost theme-btn" title="Light Theme">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -175,8 +182,7 @@
                             </svg>
                         </button>
                         <button onclick="setTheme('dark')" id="theme-dark"
-                            class="btn btn-circle btn-xs btn-ghost theme-btn"
-                            title="Dark Theme">
+                            class="btn btn-circle btn-xs btn-ghost theme-btn" title="Dark Theme">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -184,8 +190,7 @@
                             </svg>
                         </button>
                         <button onclick="setTheme('system')" id="theme-system"
-                            class="btn btn-circle btn-xs btn-ghost theme-btn"
-                            title="System Preference">
+                            class="btn btn-circle btn-xs btn-ghost theme-btn" title="System Preference">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

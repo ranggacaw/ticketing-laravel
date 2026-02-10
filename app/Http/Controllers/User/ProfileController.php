@@ -24,22 +24,29 @@ class ProfileController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
             'phone' => ['nullable', 'string', 'max:20'],
+            'avatar' => ['nullable', 'image', 'max:1024'], // 1MB Max
         ]);
 
-        $user->fill($validated);
+        $user->fill([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'],
+        ]);
 
         if ($request->hasFile('avatar')) {
-            $request->validate([
-                'avatar' => ['nullable', 'image', 'max:1024'], // 1MB Max
-            ]);
+            $avatar = $request->file('avatar');
 
-            // Delete old avatar if exists
-            if ($user->avatar) {
-                Storage::disk('public')->delete($user->avatar);
+            if ($avatar && $avatar->isValid()) {
+                // Delete old avatar if exists
+                if ($user->avatar) {
+                    Storage::disk('public')->delete($user->avatar);
+                }
+
+                $path = $avatar->store('avatars', 'public');
+                if ($path) {
+                    $user->avatar = $path;
+                }
             }
-
-            $path = $request->file('avatar')->store('avatars', 'public');
-            $user->avatar = $path;
         }
 
         if ($user->isDirty('email')) {

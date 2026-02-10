@@ -9,6 +9,17 @@ use App\Http\Controllers\AuthController;
 // Route::get('/', [TicketController::class, 'index'])->name('home'); // Moved to auth
 // Route::get('/scan', ...); // Moved to auth
 
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\CheckoutController;
+
+Route::get('/events', [EventController::class, 'index'])->name('events.index');
+Route::get('/events/{event:slug}', [EventController::class, 'show'])->name('events.show');
+
+Route::middleware('auth')->group(function () {
+    Route::post('/events/{event:slug}/checkout', [CheckoutController::class, 'store'])->name('events.checkout');
+    Route::get('/tickets/{ticket:uuid}/success', [CheckoutController::class, 'success'])->name('checkout.success');
+});
+
 // Auth Routes
 // Guest Routes
 Route::middleware('guest')->group(function () {
@@ -40,6 +51,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/my/history', [\App\Http\Controllers\MyHistoryController::class, 'index'])->name('my.history');
 
+    Route::get('profile', [\App\Http\Controllers\User\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('profile', [\App\Http\Controllers\User\ProfileController::class, 'update'])->name('profile.update');
+    Route::put('profile/password', [\App\Http\Controllers\User\ProfileController::class, 'updatePassword'])->name('profile.password');
+
     // User Portal
     Route::middleware(['role:user'])->prefix('user')->name('user.')->group(function () {
         Route::get('dashboard', [\App\Http\Controllers\User\DashboardController::class, 'index'])->name('dashboard');
@@ -49,10 +64,6 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('payments', [\App\Http\Controllers\User\PaymentController::class, 'index'])->name('payments.index');
         Route::get('payments/{payment}', [\App\Http\Controllers\User\PaymentController::class, 'show'])->name('payments.show');
-
-        Route::get('profile', [\App\Http\Controllers\User\ProfileController::class, 'edit'])->name('profile.edit');
-        Route::put('profile', [\App\Http\Controllers\User\ProfileController::class, 'update'])->name('profile.update');
-        Route::put('profile/password', [\App\Http\Controllers\User\ProfileController::class, 'updatePassword'])->name('profile.password');
 
         Route::post('testimonials', [\App\Http\Controllers\User\TestimonialController::class, 'store'])->name('testimonials.store');
     });

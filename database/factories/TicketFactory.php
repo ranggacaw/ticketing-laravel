@@ -22,12 +22,22 @@ class TicketFactory extends Factory
     {
         return [
             'uuid' => (string) Str::uuid(),
-            'user_name' => $this->faker->name(),
-            'user_email' => $this->faker->unique()->safeEmail(),
-            'seat_number' => strtoupper($this->faker->bothify('??-##')),
-            'price' => $this->faker->numberBetween(50000, 1000000),
-            'type' => $this->faker->randomElement(['VIP', 'General Admission', 'Backstage Pass']),
-            'barcode_data' => strtoupper($this->faker->bothify('TICKET-####-####')),
+            'secure_token' => (string) Str::random(64),
+            'ticket_type_id' => \App\Models\TicketType::factory(),
+            'event_id' => function (array $attributes) {
+                return \App\Models\TicketType::find($attributes['ticket_type_id'])->event_id;
+            },
+            'seat_id' => null,
+            'user_id' => \App\Models\User::factory(),
+            'status' => 'issued',
+
+            // Legacy fields populated for compatibility
+            'user_name' => fake()->name(),
+            'user_email' => fake()->unique()->safeEmail(),
+            'seat_number' => strtoupper(fake()->bothify('??-##')),
+            'price' => fake()->numberBetween(50000, 1000000),
+            'type' => fake()->randomElement(['VIP', 'General Admission']),
+            'barcode_data' => strtoupper(fake()->bothify('TICKET-####-####')),
             'scanned_at' => null,
         ];
     }

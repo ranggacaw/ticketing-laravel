@@ -37,6 +37,15 @@
                 Dashboard
             </a>
 
+            <a href="{{ route('events.index') }}"
+                class="flex items-center px-4 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors {{ request()->routeIs('events.*') ? 'nav-active' : '' }}">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                Browse Events
+            </a>
+
             <a href="{{ route('user.tickets.index') }}"
                 class="flex items-center px-4 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors {{ request()->routeIs('user.tickets.*') ? 'nav-active' : '' }}">
                 <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -57,8 +66,8 @@
                 Payments
             </a>
 
-            <a href="{{ route('user.profile.edit') }}"
-                class="flex items-center px-4 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors {{ request()->routeIs('user.profile.*') ? 'nav-active' : '' }}">
+            <a href="{{ route('profile.edit') }}"
+                class="flex items-center px-4 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors {{ request()->routeIs('profile.*') ? 'nav-active' : '' }}">
                 <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
@@ -89,7 +98,7 @@
             TicketScan
         </h1>
         <div class="flex items-center space-x-4">
-            <a href="{{ route('user.profile.edit') }}"
+            <a href="{{ route('profile.edit') }}"
                 class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-sm font-bold text-white">
                 {{ substr(auth()->user()->name, 0, 1) }}
             </a>
@@ -136,6 +145,14 @@
                 </path>
             </svg>
             <span class="text-xs">Home</span>
+        </a>
+        <a href="{{ route('events.index') }}"
+            class="flex flex-col items-center {{ request()->routeIs('events.*') ? 'mobile-nav-active' : 'text-slate-500' }}">
+            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <span class="text-xs">Events</span>
         </a>
         <a href="{{ route('user.tickets.index') }}"
             class="flex flex-col items-center {{ request()->routeIs('user.tickets.*') ? 'mobile-nav-active' : 'text-slate-500' }}">

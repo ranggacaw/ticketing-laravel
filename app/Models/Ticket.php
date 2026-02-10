@@ -27,6 +27,10 @@ class Ticket extends Model
         'barcode_data',
         'scanned_at',
         'event_id',
+        'ticket_type_id',
+        'seat_id',
+        'secure_token',
+        'status',
     ];
 
     protected $casts = [
@@ -40,6 +44,9 @@ class Ticket extends Model
         static::creating(function ($ticket) {
             if (empty($ticket->uuid)) {
                 $ticket->uuid = (string) Str::uuid();
+            }
+            if (empty($ticket->secure_token)) {
+                $ticket->secure_token = (string) Str::random(64);
             }
             if (empty($ticket->barcode_data)) {
                 // Initial barcode data could be the UUID or a more complex string
@@ -62,6 +69,16 @@ class Ticket extends Model
     public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class);
+    }
+
+    public function ticketType(): BelongsTo
+    {
+        return $this->belongsTo(TicketType::class);
+    }
+
+    public function seat(): BelongsTo
+    {
+        return $this->belongsTo(Seat::class);
     }
 
     public function testimonial(): \Illuminate\Database\Eloquent\Relations\HasOne

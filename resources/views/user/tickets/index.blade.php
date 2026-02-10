@@ -78,7 +78,11 @@
                 </svg>
             </div>
             <h3 class="text-lg font-medium text-white mb-2">No tickets found</h3>
-            <p class="text-slate-400">You haven't purchased any tickets yet.</p>
+            <p class="text-slate-400 mb-6">You haven't purchased any tickets yet.</p>
+            <a href="{{ route('events.index') }}"
+                class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                Browse Events
+            </a>
         </div>
     @endif
 @endsection

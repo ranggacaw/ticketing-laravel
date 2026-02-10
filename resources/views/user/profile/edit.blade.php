@@ -15,7 +15,7 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('user.profile.update') }}" enctype="multipart/form-data" class="space-y-6">
+            <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data" class="space-y-6">
                 @csrf
                 @method('PUT')
 
@@ -81,7 +81,7 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('user.profile.password') }}" class="space-y-6">
+            <form method="POST" action="{{ route('profile.password') }}" class="space-y-6">
                 @csrf
                 @method('PUT')
 
