@@ -24,17 +24,20 @@ class DashboardController extends Controller
         $festivalTickets = Ticket::where('type', 'Festival')->count();
         $gaTickets = Ticket::where('type', 'General Admission')->count();
         $totalSales = Ticket::sum('price');
-        
+
+        $recentActivities = \App\Models\ActivityLog::with('user')->latest()->take(5)->get();
+
         return view('admin.dashboard', compact(
-            'tickets', 
-            'totalTickets', 
-            'validatedTickets', 
-            'unvalidatedTickets', 
-            'vvipTickets', 
-            'vipTickets', 
-            'festivalTickets', 
-            'gaTickets', 
-            'totalSales'
+            'tickets',
+            'totalTickets',
+            'validatedTickets',
+            'unvalidatedTickets',
+            'vvipTickets',
+            'vipTickets',
+            'festivalTickets',
+            'gaTickets',
+            'totalSales',
+            'recentActivities'
         ));
     }
 }

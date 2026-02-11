@@ -1,162 +1,69 @@
-@extends('layouts.admin')
+@extends('layouts.app')
+
+@section('header')
+    <header class="bg-white dark:bg-slate-900 shadow">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <h2 class="font-semibold text-xl text-slate-800 dark:text-slate-200 leading-tight">
+                {{ __('My History') }}
+            </h2>
+        </div>
+    </header>
+@endsection
 
 @section('content')
-    <div class="space-y-8 animate-in fade-in duration-700">
-        <div>
-            <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">My <span class="gradient-text">Activity</span></h2>
-            <p class="text-slate-400 mt-1 font-light text-sm">A personal record of your actions within the system.</p>
-        </div>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-slate-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-slate-900 dark:text-slate-100">
+                    <h3 class="text-lg font-medium text-slate-900 dark:text-slate-200 mb-6">Activity Timeline</h3>
 
-        <!-- Filters -->
-        <form action="{{ route('my.history') }}" method="GET"
-            class="glass-card p-6 rounded-3xl border-black/5 dark:border-white/5">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Action Types -->
-                <div class="space-y-2">
-                    <label for="action"
-                        class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
-                        Action
-                    </label>
-
-                    <div class="relative">
-                        <select name="action" id="action" class="w-full rounded-xl bg-white dark:bg-slate-900
-                                    border border-slate-300 dark:border-slate-700
-                                    px-4 py-3 pr-10
-                                    text-slate-900 dark:text-slate-100
-                                    focus:outline-none focus:ring-2 focus:ring-indigo-500/60 focus:border-indigo-500
-                                    transition cursor-pointer appearance-none">
-                            <option value="" class="text-slate-400">
-                                All Actions
-                            </option>
-
-                            @foreach($actions as $act)
-                                <option value="{{ $act }}" {{ request('action') == $act ? 'selected' : '' }}>
-                                    {{ $act }}
-                                </option>
-                            @endforeach
-                        </select>
-
-                        <!-- Chevron Icon -->
-                        <svg class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </div>
-                </div>
-
-
-                <!-- Date Range -->
-                <div class="space-y-2 lg:col-span-2">
-                    <label class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Date Range</label>
-                    <div class="flex items-center gap-2">
-                        <input type="date" name="date_from" value="{{ request('date_from') }}"
-                            class="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl px-4 py-2.5 text-slate-900 dark:text-slate-200 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none transition-all">
-                        <span class="text-slate-400">-</span>
-                        <input type="date" name="date_to" value="{{ request('date_to') }}"
-                            class="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl px-4 py-2.5 text-slate-900 dark:text-slate-200 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none transition-all">
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex justify-end gap-3 pt-4 border-t border-black/5 dark:border-white/5 mt-6">
-                <a href="{{ route('my.history') }}"
-                    class="px-6 py-2.5 rounded-xl border border-black/10 dark:border-white/10 text-slate-600 dark:text-slate-300 font-medium hover:bg-black/5 dark:hover:bg-white/5 transition-all">
-                    Clear
-                </a>
-                <button type="submit"
-                    class="px-6 py-2.5 rounded-xl bg-indigo-600 text-white font-medium hover:bg-indigo-500 focus:ring-4 focus:ring-indigo-500/20 transition-all shadow-lg shadow-indigo-500/30">
-                    Update
-                </button>
-            </div>
-        </form>
-
-        <div class="glass-card rounded-3xl overflow-hidden border-black/5 dark:border-white/10 shadow-sm">
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="border-b border-black/5 dark:border-white/5 bg-black/5 dark:bg-white/5">
-                            <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-widest">Timestamp
-                            </th>
-                            <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-widest">Action</th>
-                            <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-widest">Description
-                            </th>
-                            <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-widest">Resource
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-black/5 dark:divide-white/5">
+                    <div
+                        class="relative space-y-8 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent dark:before:via-slate-700">
                         @forelse($activities as $activity)
-                            <tr class="hover:bg-black/5 dark:hover:bg-white/5 transition-colors duration-200 group">
-                                <td class="px-6 py-5 whitespace-nowrap">
-                                    <div class="flex flex-col">
-                                        <span
-                                            class="text-slate-900 dark:text-slate-200 font-medium text-sm">{{ $activity->created_at->format('M d, Y') }}</span>
-                                        <span class="text-xs text-slate-500">{{ $activity->created_at->format('H:i:s') }}</span>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-5">
+                            <div
+                                class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                                <!-- Icon -->
+                                <div
+                                    class="flex items-center justify-center w-10 h-10 rounded-full border border-white dark:border-slate-900 bg-slate-50 dark:bg-slate-800 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
                                     @php
-                                        $actionClasses = match ($activity->action) {
-                                            'CREATE' => 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
-                                            'UPDATE' => 'bg-amber-500/10 text-amber-500 border-amber-500/20',
-                                            'DELETE' => 'bg-rose-500/10 text-rose-500 border-rose-500/20',
-                                            'LOGIN' => 'bg-blue-500/10 text-blue-500 border-blue-500/20',
-                                            'LOGOUT' => 'bg-slate-500/10 text-slate-500 border-slate-500/20',
-                                            'SCAN' => 'bg-violet-500/10 text-violet-500 border-violet-500/20',
-                                            default => 'bg-slate-500/10 text-slate-500 border-slate-500/20',
+                                        $icon = match ($activity->action) {
+                                            'LOGIN', 'LOGOUT' => '<svg class="w-5 h-5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" /></svg>',
+                                            'PURCHASE' => '<svg class="w-5 h-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>',
+                                            'SCAN' => '<svg class="w-5 h-5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>',
+                                            default => '<svg class="w-5 h-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>',
                                         };
                                     @endphp
-                                    <span
-                                        class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border {{ $actionClasses }}">
-                                        {{ $activity->action }}
-                                    </span>
-                                </td>
-                                <td class="px-6 py-5">
-                                    <p class="text-slate-600 dark:text-slate-300 text-sm truncate max-w-md"
-                                        title="{{ $activity->description }}">
-                                        {{ $activity->description }}
-                                    </p>
-                                </td>
-                                <td class="px-6 py-5">
-                                    @if($activity->resource_type)
-                                        <span
-                                            class="px-2 py-1 rounded bg-black/5 dark:bg-white/5 text-xs font-mono text-slate-500 border border-black/5 dark:border-white/5">
-                                            {{ class_basename($activity->resource_type) }} #{{ $activity->resource_id }}
-                                        </span>
-                                    @else
-                                        <span class="text-slate-400 text-xs">-</span>
-                                    @endif
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="4" class="px-6 py-20 text-center">
-                                    <div class="flex flex-col items-center">
-                                        <div
-                                            class="w-16 h-16 bg-black/5 dark:bg-white/5 rounded-2xl flex items-center justify-center text-slate-500 mb-4 glass">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                        </div>
-                                        <h3 class="text-lg font-medium text-slate-900 dark:text-slate-300">No history found</h3>
-                                        <p class="text-slate-500 mt-1">Activities will appear here as you use the system.</p>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                                    {!! $icon !!}
+                                </div>
 
-        @if($activities->hasPages())
-            <div class="flex justify-center">
-                <div class="glass px-4 py-2 rounded-2xl border-white/5">
-                    {{ $activities->links() }}
+                                <!-- Card -->
+                                <div
+                                    class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm">
+                                    <div class="flex items-center justify-between space-x-2 mb-1">
+                                        <span
+                                            class="font-bold text-slate-900 dark:text-slate-100">{{ ucfirst(strtolower($activity->action)) }}</span>
+                                        <time
+                                            class="font-caveat font-medium text-indigo-500 text-sm">{{ $activity->created_at->format('M d, H:i') }}</time>
+                                    </div>
+                                    <div class="text-slate-500 dark:text-slate-400 text-sm">
+                                        {{ $activity->description }}
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="p-8 text-center text-slate-500">
+                                No history found. Start using the app to create memories!
+                            </div>
+                        @endforelse
+                    </div>
+
+                    @if($activities->hasPages())
+                        <div class="mt-8 flex justify-center">
+                            {{ $activities->links() }}
+                        </div>
+                    @endif
                 </div>
             </div>
-        @endif
+        </div>
     </div>
 @endsection

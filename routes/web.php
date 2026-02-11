@@ -96,7 +96,15 @@ Route::middleware(['auth'])->group(function () {
     // Admin Only Area
     Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
         // User Management
-        Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->except(['show']);
+        // User Management
+        Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
+
+        // Master Data Management
+        Route::resource('venues', \App\Http\Controllers\Admin\VenueController::class);
+        Route::resource('venues.seats', \App\Http\Controllers\Admin\SeatController::class);
+        Route::resource('organizers', \App\Http\Controllers\Admin\OrganizerController::class);
+        Route::resource('events', \App\Http\Controllers\Admin\EventController::class);
+        Route::resource('events.ticket-types', \App\Http\Controllers\Admin\TicketTypeController::class);
     });
 
 });

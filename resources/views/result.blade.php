@@ -1,105 +1,170 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
-<div class="flex justify-end mb-4">
-    <form method="POST" action="{{ route('logout') }}" class="inline">
-        @csrf
-        <button type="submit" class="p-2 text-slate-400 hover:text-rose-400 transition-colors" title="Sign Out">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-            </svg>
-        </button>
-    </form>
-</div>
-<div class="space-y-8 text-center animate-in zoom-in-95 duration-500">
-    @if($status === 'valid')
-        <!-- SUCCESS STATE -->
-        <div class="flex flex-col items-center">
-            <div class="w-24 h-24 bg-emerald-500 rounded-full flex items-center justify-center shadow-2xl shadow-emerald-500/40 mb-8">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
-                </svg>
-            </div>
-            
-            <h1 class="text-4xl font-black text-emerald-400">ENTRY GRANTED</h1>
-            <p class="text-slate-400 mt-2 font-medium">Ticket code: <span class="text-white">{{ $code }}</span></p>
-        </div>
+    <div class="min-h-[80vh] flex flex-col items-center justify-center animate-in fade-in duration-300">
+        <div class="w-full max-w-lg">
 
-        <div class="glass rounded-[2.5rem] p-8 space-y-8 text-left relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 -mr-12 -mt-12 rounded-full"></div>
-            
-            <div class="grid grid-cols-2 gap-8">
-                <div class="space-y-1">
-                    <p class="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-bold">Attendee Name</p>
-                    <p class="text-lg font-bold">{{ $ticket->user_name }}</p>
+            <!-- Status Card -->
+            <div class="glass-card rounded-3xl overflow-hidden shadow-2xl border-0 ring-1 ring-white/10 relative">
+                <div class="absolute inset-0 bg-gradient-to-br opacity-20 pointer-events-none"></div>
+
+                <div class="p-8 sm:p-12 text-center relative z-10 flex flex-col items-center">
+
+                    @if($status === 'valid' && $ticket)
+                        <!-- Success Icon -->
+                        <div
+                            class="w-32 h-32 rounded-full bg-emerald-500 flex items-center justify-center mb-6 shadow-lg shadow-emerald-500/30 animate-bounce-short">
+                            <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+
+                        <h1 class="text-4xl font-black text-emerald-500 tracking-tight mb-2 uppercase">Valid Ticket</h1>
+                        <p class="text-slate-500 dark:text-slate-400 font-medium mb-8">Access Granted</p>
+
+                        <div
+                            class="w-full bg-black/5 dark:bg-white/5 rounded-2xl p-6 mb-8 backdrop-blur-sm border border-black/5 dark:border-white/5">
+                            <div class="flex flex-col gap-1 mb-4">
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Guest Name</span>
+                                <span class="text-2xl font-bold text-slate-900 dark:text-white">{{ $ticket->user_name }}</span>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4 text-left">
+                                <div>
+                                    <span
+                                        class="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-1">Type</span>
+                                    <span class="text-lg font-semibold text-indigo-500">{{ $ticket->type }}</span>
+                                </div>
+                                <div>
+                                    <span
+                                        class="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-1">Seat</span>
+                                    <span
+                                        class="text-lg font-semibold text-slate-700 dark:text-slate-300">{{ $ticket->seat_number }}</span>
+                                </div>
+                            </div>
+
+                            <div
+                                class="mt-4 pt-4 border-t border-black/5 dark:border-white/5 flex justify-between items-center">
+                                <span
+                                    class="text-xs font-mono text-slate-400">#{{ strtoupper(substr($ticket->uuid, 0, 8)) }}</span>
+                                <span class="text-xs text-emerald-500 font-bold flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                    Scanned Just Now
+                                </span>
+                            </div>
+                        </div>
+
+                    @elseif($status === 'duplicate' && $ticket)
+                        <!-- Warning Icon -->
+                        <div
+                            class="w-32 h-32 rounded-full bg-amber-500 flex items-center justify-center mb-6 shadow-lg shadow-amber-500/30 animate-pulse">
+                            <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                </path>
+                            </svg>
+                        </div>
+
+                        <h1 class="text-4xl font-black text-amber-500 tracking-tight mb-2 uppercase">Already Scanned</h1>
+                        <p class="text-slate-500 dark:text-slate-400 font-medium mb-8">Access Warning</p>
+
+                        <div
+                            class="w-full bg-black/5 dark:bg-white/5 rounded-2xl p-6 mb-8 backdrop-blur-sm border border-amber-500/20">
+                            <div class="flex flex-col gap-1 mb-4">
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Original Scan</span>
+                                <span
+                                    class="text-lg font-bold text-slate-900 dark:text-white">{{ $ticket->scanned_at->format('M d, H:i:s') }}</span>
+                                <span class="text-sm text-slate-500">{{ $ticket->scanned_at->diffForHumans() }}</span>
+                            </div>
+
+                            <div class="flex flex-col gap-1 mb-4 pt-4 border-t border-black/5 dark:border-white/5">
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Guest Name</span>
+                                <span
+                                    class="text-xl font-bold text-slate-700 dark:text-slate-300">{{ $ticket->user_name }}</span>
+                            </div>
+
+                            <div class="mt-2 text-xs font-mono text-slate-400">
+                                Ticket #{{ strtoupper(substr($ticket->uuid, 0, 8)) }}
+                            </div>
+                        </div>
+
+                    @else
+                        <!-- Error Icon -->
+                        <div
+                            class="w-32 h-32 rounded-full bg-rose-500 flex items-center justify-center mb-6 shadow-lg shadow-rose-500/30 animate-shake">
+                            <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M6 18L18 6M6 6l12 12">
+                                </path>
+                            </svg>
+                        </div>
+
+                        <h1 class="text-4xl font-black text-rose-500 tracking-tight mb-2 uppercase">Invalid Ticket</h1>
+                        <p class="text-slate-500 dark:text-slate-400 font-medium mb-8">Access Denied</p>
+
+                        <div
+                            class="w-full bg-black/5 dark:bg-white/5 rounded-2xl p-6 mb-8 backdrop-blur-sm border border-rose-500/20">
+                            <p class="text-slate-600 dark:text-slate-300 font-medium">The scanned code does not match any valid
+                                ticket.</p>
+                            <p class="text-xs font-mono text-slate-400 mt-2">Code: {{ $code ?? 'N/A' }}</p>
+                        </div>
+                    @endif
+
+                    <!-- Actions -->
+                    <div class="flex flex-col w-full gap-3">
+                        <a href="{{ route('scan') }}"
+                            class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-4 px-6 rounded-2xl shadow-lg shadow-indigo-600/20 transition-all duration-300 transform hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4">
+                                </path>
+                            </svg>
+                            Scan Next Ticket
+                        </a>
+                        <a href="{{ route('admin.dashboard') }}"
+                            class="w-full bg-white dark:bg-white/5 hover:bg-slate-50 dark:hover:bg-white/10 text-slate-700 dark:text-slate-200 font-bold py-4 px-6 rounded-2xl border border-slate-200 dark:border-white/10 transition-colors">
+                            Return to Dashboard
+                        </a>
+                    </div>
+
                 </div>
-                <div class="space-y-1">
-                    <p class="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-bold">Ticket Type</p>
-                    <p class="text-lg font-bold">{{ $ticket->type }}</p>
-                </div>
-                <div class="col-span-2 space-y-1">
-                    <p class="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-bold">Allocated Seat</p>
-                    <p class="text-lg font-bold">{{ $ticket->seat_number }}</p>
-                </div>
-            </div>
-
-            <div class="border-t border-white/10 pt-6">
-                <div class="flex items-center gap-3">
-                    <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-                    <p class="text-sm font-medium text-emerald-400 uppercase tracking-widest">Active Session Verified</p>
-                </div>
             </div>
         </div>
-
-    @elseif($status === 'duplicate')
-        <!-- DUPLICATE STATE -->
-        <div class="flex flex-col items-center">
-            <div class="w-24 h-24 bg-amber-500 rounded-full flex items-center justify-center shadow-2xl shadow-amber-500/40 mb-8">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-            </div>
-            
-            <h1 class="text-4xl font-black text-amber-500 uppercase tracking-tight leading-none">Already<br>Scanned</h1>
-            <p class="text-slate-400 mt-4 font-medium">Code: <span class="text-white">{{ $code }}</span></p>
-        </div>
-
-        <div class="glass rounded-[2rem] p-6 text-sm text-amber-200/60 bg-amber-500/10 border-amber-500/20">
-            This ticket was validated at <span class="text-amber-300 font-bold">{{ $ticket->scanned_at->format('M d, Y h:i A') }}</span>. Please refer the attendee to the information desk.
-        </div>
-
-    @else
-        <!-- INVALID STATE -->
-        <div class="flex flex-col items-center">
-            <div class="w-24 h-24 bg-rose-500 rounded-full flex items-center justify-center shadow-2xl shadow-rose-500/40 mb-8">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </div>
-            
-            <h1 class="text-4xl font-black text-rose-500">INVALID CODE</h1>
-            <p class="text-slate-400 mt-2 font-medium">Entered: <span class="text-white">{{ $code ?: 'N/A' }}</span></p>
-        </div>
-
-        <div class="glass rounded-[2rem] p-6 text-sm text-rose-200/60 bg-rose-500/10 border-rose-500/20">
-            The provided ticket code was not found in our database. Ensure the code is entered correctly or try scanning again.
-        </div>
-    @endif
-
-    <div class="pt-8">
-        <a href="{{ route('scan') }}" class="block w-full bg-white hover:bg-slate-200 text-slate-900 font-black py-4 rounded-2xl transition-all shadow-xl uppercase tracking-widest">
-            Scan
-        </a>
     </div>
-</div>
 
-<script>
-    // Simulated Analytics
-    console.log('📊 Analytics: [validation_result]', {
-        status: "{{ $status }}",
-        code: "{{ $code }}",
-        timestamp: new Date().toISOString(),
-        mock_latency_ms: Math.floor(Math.random() * 200) + 100
-    });
-</script>
+    <style>
+        @keyframes bounce-short {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10%);
+            }
+        }
+
+        .animate-bounce-short {
+            animation: bounce-short 0.5s ease-in-out 1;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            75% {
+                transform: translateX(5px);
+            }
+        }
+
+        .animate-shake {
+            animation: shake 0.4s ease-in-out 1;
+        }
+    </style>
 @endsection

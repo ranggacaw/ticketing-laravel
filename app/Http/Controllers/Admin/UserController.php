@@ -34,7 +34,7 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role' => ['required', 'string', 'in:admin,staff,volunteer'],
         ]);
@@ -64,7 +64,7 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user->id],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
             'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
             'role' => ['required', 'string', 'in:admin,staff,volunteer'],
         ]);
@@ -80,6 +80,16 @@ class UserController extends Controller
         $user->save();
 
         return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
+    }
+
+    /**
+     * Remove the specified user from storage.
+     */
+    public function show(User $user)
+    {
+        $tickets = $user->tickets()->with(['event', 'payment'])->latest()->paginate(10);
+        $activities = \App\Models\ActivityLog::where('user_id', $user->id)->latest()->limit(20)->get();
+        return view('admin.users.show', compact('user', 'tickets', 'activities'));
     }
 
     /**
