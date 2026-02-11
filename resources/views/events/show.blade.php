@@ -104,39 +104,64 @@
                     @else
                         <form action="{{ route('events.checkout', $event) }}" method="POST" class="space-y-6">
                             @csrf
-                            <div class="space-y-3">
-                                @foreach($event->ticketTypes as $ticketType)
-                                    <label class="block relative cursor-pointer group">
-                                        <input type="radio" name="ticket_type_id" value="{{ $ticketType->id }}" class="peer sr-only"
-                                            {{ !$ticketType->isAvailable() ? 'disabled' : '' }} required />
-                                        <div
-                                            class="p-4 bg-slate-900/50 border border-white/5 rounded-xl transition-all peer-checked:border-indigo-500 peer-checked:bg-indigo-500/10 hover:bg-slate-900 {{ !$ticketType->isAvailable() ? 'opacity-50 grayscale' : '' }}">
-                                            <div class="flex justify-between items-baseline mb-1">
-                                                <span class="font-bold text-white">{{ $ticketType->name }}</span>
-                                                <span
-                                                    class="font-bold text-indigo-400">${{ number_format($ticketType->price, 2) }}</span>
-                                            </div>
-                                            <p
-                                                class="text-xs text-slate-500 line-clamp-1 group-hover:line-clamp-none transition-all">
-                                                {{ $ticketType->description }}</p>
-                                            @if(!$ticketType->isAvailable())
-                                                <div class="mt-2 text-[10px] uppercase font-bold text-red-400">Sold Out</div>
-                                            @endif
-
-                                            <!-- Checkmark icon for selected state -->
-                                            <div
-                                                class="absolute top-4 right-4 text-indigo-500 opacity-0 peer-checked:opacity-100 transition-opacity">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
-                                                    fill="currentColor">
-                                                    <path fill-rule="evenodd"
-                                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                        clip-rule="evenodd" />
-                                                </svg>
-                                            </div>
+                            @if($event->ticketTypes->count() > 1)
+                                <div class="space-y-2">
+                                    <label class="text-sm font-bold text-slate-400 block ml-1">Select Ticket Type</label>
+                                    <div class="relative">
+                                        <select
+                                            name="ticket_type_id"
+                                            required
+                                            class="w-full bg-slate-900 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all appearance-none">
+                                            <option value="" disabled selected>Choose a ticket type...</option>
+                                            @foreach($event->ticketTypes as $ticketType)
+                                                <option value="{{ $ticketType->id }}" {{ !$ticketType->isAvailable() ? 'disabled' : '' }}>
+                                                    {{ $ticketType->name }} - {{ number_format($ticketType->price) }}
+                                                    {{ !$ticketType->isAvailable() ? '(Sold Out)' : '' }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-slate-400">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                            </svg>
                                         </div>
-                                    </label>
-                                @endforeach
-                            </div>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="space-y-3">
+                                    @foreach($event->ticketTypes as $ticketType)
+                                        <label class="block relative cursor-pointer group">
+                                            <input type="radio" name="ticket_type_id" value="{{ $ticketType->id }}" class="peer sr-only"
+                                                {{ !$ticketType->isAvailable() ? 'disabled' : '' }} required />
+                                            <div
+                                                class="p-4 bg-slate-900/50 border border-white/5 rounded-xl transition-all peer-checked:border-indigo-500 peer-checked:bg-indigo-500/10 hover:bg-slate-900 {{ !$ticketType->isAvailable() ? 'opacity-50 grayscale' : '' }}">
+                                                <div class="flex justify-between items-baseline mb-1">
+                                                    <span class="font-bold text-white">{{ $ticketType->name }}</span>
+                                                    <span
+                                                        class="font-bold text-indigo-400">${{ number_format($ticketType->price, 2) }}</span>
+                                                </div>
+                                                <p
+                                                    class="text-xs text-slate-500 line-clamp-1 group-hover:line-clamp-none transition-all">
+                                                    {{ $ticketType->description }}</p>
+                                                @if(!$ticketType->isAvailable())
+                                                    <div class="mt-2 text-[10px] uppercase font-bold text-red-400">Sold Out</div>
+                                                @endif
+
+                                                <!-- Checkmark icon for selected state -->
+                                                <div
+                                                    class="absolute top-4 right-4 text-indigo-500 opacity-0 peer-checked:opacity-100 transition-opacity">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
+                                                        fill="currentColor">
+                                                        <path fill-rule="evenodd"
+                                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                            clip-rule="evenodd" />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    @endforeach
+                                </div>
+                            @endif
 
                             <div class="space-y-2">
                                 <label class="text-sm font-bold text-slate-400 block ml-1">Quantity</label>
