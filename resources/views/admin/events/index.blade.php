@@ -49,9 +49,9 @@
                                 <td class="px-6 py-5">
                                     <div class="flex flex-col">
                                         <span
-                                            class="text-slate-700 dark:text-slate-300 text-sm font-medium">{{ \Carbon\Carbon::parse($event->start_time)->format('M d, Y') }}</span>
+                                            class="text-slate-700 dark:text-slate-300 text-sm font-medium">{{ $event->start_time?->format('M d, Y') ?? 'Not Set' }}</span>
                                         <span
-                                            class="text-xs text-slate-500">{{ \Carbon\Carbon::parse($event->start_time)->format('h:i A') }}</span>
+                                            class="text-xs text-slate-500">{{ $event->start_time?->format('h:i A') ?? '' }}</span>
                                     </div>
                                 </td>
                                 <td class="px-6 py-5">

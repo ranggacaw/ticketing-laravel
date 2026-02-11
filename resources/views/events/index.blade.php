@@ -20,7 +20,7 @@
                             <div
                                 class="absolute inset-0 flex items-center justify-center text-white/5 bg-gradient-to-br from-indigo-500/10 to-cyan-500/10 group-hover:from-indigo-500/20 group-hover:to-cyan-500/20 transition-all duration-500">
                                 <span
-                                    class="text-6xl font-bold opacity-20 group-hover:scale-110 transition-transform duration-700">{{ Str::limit($event->name, 2, '') }}</span>
+                                    class="text-6xl font-bold opacity-20 group-hover:scale-110 transition-transform duration-700">{{ \Illuminate\Support\Str::limit($event->name, 2, '') }}</span>
                             </div>
                         </figure>
                         <div class="p-6">
@@ -64,7 +64,8 @@
                                 @endif
                             </div>
 
-                            <p class="text-sm text-slate-400 line-clamp-2 mb-6 h-10">{{ Str::limit($event->description, 100) }}</p>
+                            <p class="text-sm text-slate-400 line-clamp-2 mb-6 h-10">
+                                {{ \Illuminate\Support\Str::limit($event->description, 100) }}</p>
 
                             <div class="flex items-center justify-between pt-4 border-t border-white/5">
                                 <div class="text-xs text-slate-500">

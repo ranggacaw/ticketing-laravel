@@ -52,7 +52,7 @@
                         <label for="start_time"
                             class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Start Time</label>
                         <input type="datetime-local" name="start_time" id="start_time"
-                            value="{{ old('start_time', $event->start_time->format('Y-m-d\TH:i')) }}"
+                            value="{{ old('start_time', $event->start_time?->format('Y-m-d\TH:i')) }}"
                             class="w-full rounded-xl border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 focus:border-indigo-500 focus:ring-indigo-500 transition-colors"
                             required>
                         @error('start_time')
@@ -64,7 +64,7 @@
                         <label for="end_time" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">End
                             Time</label>
                         <input type="datetime-local" name="end_time" id="end_time"
-                            value="{{ old('end_time', $event->end_time->format('Y-m-d\TH:i')) }}"
+                            value="{{ old('end_time', $event->end_time?->format('Y-m-d\TH:i')) }}"
                             class="w-full rounded-xl border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 focus:border-indigo-500 focus:ring-indigo-500 transition-colors"
                             required>
                         @error('end_time')

@@ -44,10 +44,12 @@ class CheckoutController extends Controller
                         'ticket_type_id' => $lockedType->id,
                         'user_id' => auth()->id(),
                         'price' => $lockedType->price,
-                        'status' => 'valid', // Assume immediate success for MVP
-                        'payment_status' => 'paid',
+                        'status' => 'issued', // Assume immediate success for MVP
+                        'payment_status' => 'confirmed',
                         'user_name' => auth()->user()->name,
                         'user_email' => auth()->user()->email,
+                        'type' => $lockedType->name,
+                        'seat_number' => 'General Admission',
                     ]);
                     $tickets[] = $ticket;
                 }

@@ -52,7 +52,7 @@
                                     <span class="text-slate-900 dark:text-slate-200 font-medium">{{ $ticketType->name }}</span>
                                     @if($ticketType->description)
                                         <p class="text-xs text-slate-500 mt-0.5 truncate max-w-xs">
-                                            {{Str::limit($ticketType->description, 50)}}</p>
+                                            {{\Illuminate\Support\Str::limit($ticketType->description, 50)}}</p>
                                     @endif
                                 </td>
                                 <td class="px-6 py-5">

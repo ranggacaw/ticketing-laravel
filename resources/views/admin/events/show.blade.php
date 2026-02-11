@@ -19,7 +19,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
-                        <span>{{ $event->start_time->format('M d, Y') }}</span>
+                        <span>{{ $event->start_time?->format('M d, Y') ?? 'Not Set' }}</span>
                     </div>
                     <div class="flex items-center gap-1">
                         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -77,7 +77,7 @@
                     <p class="text-slate-500 text-sm mt-1 max-w-sm">Define pricing tiers and ticket availability.</p>
                     <div class="mt-4">
                         <a href="{{ route('admin.events.ticket-types.index', $event) }}"
-                             class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-colors">
+                            class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-colors">
                             Manage Ticket Types
                         </a>
                     </div>
@@ -156,14 +156,16 @@
                         <div>
                             <span class="text-xs text-slate-500 block mb-0.5">Start</span>
                             <p class="font-medium text-slate-900 dark:text-slate-200">
-                                {{ $event->start_time->format('D, M d Y') }}</p>
-                            <p class="text-sm text-slate-500">{{ $event->start_time->format('h:i A') }}</p>
+                                {{ $event->start_time?->format('D, M d Y') ?? 'Not Set' }}
+                            </p>
+                            <p class="text-sm text-slate-500">{{ $event->start_time?->format('h:i A') ?? '' }}</p>
                         </div>
                         <div class="pt-3 border-t border-black/5 dark:border-white/5">
                             <span class="text-xs text-slate-500 block mb-0.5">End</span>
                             <p class="font-medium text-slate-900 dark:text-slate-200">
-                                {{ $event->end_time->format('D, M d Y') }}</p>
-                            <p class="text-sm text-slate-500">{{ $event->end_time->format('h:i A') }}</p>
+                                {{ $event->end_time?->format('D, M d Y') ?? 'Not Set' }}
+                            </p>
+                            <p class="text-sm text-slate-500">{{ $event->end_time?->format('h:i A') ?? '' }}</p>
                         </div>
                     </div>
                 </div>
