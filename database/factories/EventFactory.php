@@ -24,7 +24,7 @@ class EventFactory extends Factory
             'description' => fake()->paragraph(),
             'start_time' => fake()->dateTimeBetween('+1 week', '+1 month'),
             'end_time' => fake()->dateTimeBetween('+1 month', '+2 months'),
-            'status' => fake()->randomElement(['draft', 'published', 'cancelled', 'completed']),
+            'status' => 'published',
         ];
     }
 }

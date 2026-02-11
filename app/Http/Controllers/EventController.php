@@ -14,7 +14,11 @@ class EventController extends Controller
 
     public function show(\App\Models\Event $event)
     {
-        abort_unless($event->status === 'published', 404);
+        abort_unless(
+            $event->status === 'published' ||
+            (auth()->check() && in_array(auth()->user()->role, ['admin', 'staff'])),
+            404
+        );
         $event->load(['venue', 'ticketTypes', 'organizer']);
         return view('events.show', compact('event'));
     }
