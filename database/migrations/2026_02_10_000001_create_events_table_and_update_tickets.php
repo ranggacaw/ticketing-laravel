@@ -29,7 +29,7 @@ return new class extends Migration {
         $eventId = DB::table('events')->insertGetId([
             'name' => 'Default Event',
             'description' => 'Migrated Event',
-            'location' => 'Main Hall',
+            'location' => fake()->city() . ', ' . fake()->country(),
             'start_time' => now()->addDays(30), // Future event by default for "Upcoming" test
             'created_at' => now(),
             'updated_at' => now(),

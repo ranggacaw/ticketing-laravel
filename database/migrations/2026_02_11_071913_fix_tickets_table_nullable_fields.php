@@ -25,7 +25,7 @@ return new class extends Migration {
         Schema::table('tickets', function (Blueprint $table) {
             $table->string('seat_number')->nullable(false)->change();
             $table->string('type')->nullable(false)->change();
-            $table->unique('seat_number');
+            // $table->unique('seat_number');
         });
     }
 };
