@@ -29,18 +29,9 @@ class TicketTypeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Event $event)
+    public function store(\App\Http\Requests\StoreTicketPriceRequest $request, Event $event)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'required|numeric|min:0',
-            'quantity' => 'required|integer|min:1',
-            'sale_start_date' => 'nullable|date',
-            'sale_end_date' => 'nullable|date|after_or_equal:sale_start_date',
-        ]);
-
-        $event->ticketTypes()->create($validated);
+        $event->ticketTypes()->create($request->validated());
 
         return redirect()->route('admin.events.ticket-types.index', $event)
             ->with('success', 'Ticket type created successfully.');
@@ -66,18 +57,9 @@ class TicketTypeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Event $event, TicketType $ticketType)
+    public function update(\App\Http\Requests\UpdateTicketPriceRequest $request, Event $event, TicketType $ticketType)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'required|numeric|min:0',
-            'quantity' => 'required|integer|min:1', // Assuming we can update total quantity
-            'sale_start_date' => 'nullable|date',
-            'sale_end_date' => 'nullable|date|after_or_equal:sale_start_date',
-        ]);
-
-        $ticketType->update($validated);
+        $ticketType->update($request->validated());
 
         return redirect()->route('admin.events.ticket-types.index', $event)
             ->with('success', 'Ticket type updated successfully.');
