@@ -35,7 +35,13 @@ class TicketFactory extends Factory
             'user_name' => fake()->name(),
             'user_email' => fake()->unique()->safeEmail(),
             'seat_number' => strtoupper(fake()->bothify('??-##')),
-            'price' => fake()->numberBetween(50000, 1000000),
+            'price' => function (array $attributes) {
+                if (isset($attributes['ticket_type_id'])) {
+                    $ticketType = \App\Models\TicketType::find($attributes['ticket_type_id']);
+                    return $ticketType ? $ticketType->price : fake()->numberBetween(50000, 1000000);
+                }
+                return fake()->numberBetween(50000, 1000000);
+            },
             'type' => fake()->randomElement(['VIP', 'General Admission']),
             'barcode_data' => strtoupper(fake()->bothify('TICKET-####-####')),
             'scanned_at' => null,

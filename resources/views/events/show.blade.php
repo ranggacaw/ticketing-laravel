@@ -38,7 +38,7 @@
                             <span class="font-medium">{{ $event->start_time->format('l, F j, Y • h:i A') }}</span>
                         </div>
                     @endif
-                    @if($event->location)
+                    @if($event->venue || $event->location)
                         <div class="flex items-center gap-2">
                             <div class="p-2 bg-cyan-500/10 rounded-lg text-cyan-400">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -49,7 +49,16 @@
                                         d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                 </svg>
                             </div>
-                            <span class="font-medium">{{ $event->location }}</span>
+                            <span class="font-medium">
+                                @if($event->venue)
+                                    {{ $event->venue->address }}
+                                    @if($event->location)
+                                        ({{ $event->location }})
+                                    @endif
+                                @else
+                                    {{ $event->location }}
+                                @endif
+                            </span>
                         </div>
                     @endif
                 </div>
@@ -115,7 +124,7 @@
                                             <option value="" disabled selected>Choose a ticket type...</option>
                                             @foreach($event->ticketTypes as $ticketType)
                                                 <option value="{{ $ticketType->id }}" {{ !$ticketType->isAvailable() ? 'disabled' : '' }}>
-                                                    {{ $ticketType->name }} - {{ number_format($ticketType->price) }}
+                                                    {{ $ticketType->name }} - Rp {{ number_format($ticketType->price, 0, ',', '.') }}
                                                     {{ !$ticketType->isAvailable() ? '(Sold Out)' : '' }}
                                                 </option>
                                             @endforeach
@@ -138,7 +147,7 @@
                                                 <div class="flex justify-between items-baseline mb-1">
                                                     <span class="font-bold text-white">{{ $ticketType->name }}</span>
                                                     <span
-                                                        class="font-bold text-indigo-400">${{ number_format($ticketType->price, 2) }}</span>
+                                                        class="font-bold text-indigo-400">Rp {{ number_format($ticketType->price, 0, ',', '.') }}</span>
                                                 </div>
                                                 <p
                                                     class="text-xs text-slate-500 line-clamp-1 group-hover:line-clamp-none transition-all">
@@ -174,7 +183,7 @@
                                 </select>
                             </div>
 
-                            @if(($event->start_time && $event->start_time->isPast()) || in_array($event->status, ['completed', 'cancelled']))
+                            @if(($event->end_time && $event->end_time->isPast()) || in_array($event->status, ['completed', 'cancelled']))
                                 <div class="w-full py-4 bg-amber-500/20 text-amber-500 font-bold rounded-xl border border-amber-500/20 text-center flex items-center justify-center gap-2 cursor-not-allowed">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />

@@ -20,7 +20,7 @@ class TicketTypeFactory extends Factory
             'event_id' => \App\Models\Event::factory(),
             'name' => fake()->word() . ' Access',
             'description' => fake()->sentence(),
-            'price' => fake()->randomFloat(2, 10, 500),
+            'price' => fake()->numberBetween(50000, 1000000),
             'quantity' => fake()->numberBetween(50, 500),
             'sold' => 0,
             'sale_start_date' => now()->subDays(1),
