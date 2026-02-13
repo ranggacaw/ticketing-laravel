@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ config('app.name', 'TicketScan') }} | Browse Events</title>
+    <title>{{ config('app.name', 'Tiketcaw') }} | Browse Events</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -21,19 +21,9 @@
         <div class="drawer-content flex flex-col min-h-screen">
             <!-- Navbar -->
             <div class="w-full navbar bg-white/80 backdrop-blur sticky top-0 z-50 border-b border-base-300">
-                <div class="flex-none lg:hidden">
-                    <label for="my-drawer-3" aria-label="open sidebar" class="btn btn-square btn-ghost">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                            class="inline-block w-6 h-6 stroke-current">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </label>
-                </div>
-                <div class="flex-1 px-4 text-xl font-bold tracking-tight">
-                    <a href="{{ url('/') }}" class="flex items-center gap-2">
-                        <span
-                            class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-cyan-600">TicketScan</span>
+                <div class="flex-1 px-4">
+                    <a href="{{ url('/') }}" class="flex items-center gap-2.5 group">
+                        <img src="{{ asset('tiketcaw-logo.png') }}" alt="Logo" class="w-32 object-contain">
                     </a>
                 </div>
                 <div class="flex-none hidden lg:block">
@@ -103,7 +93,7 @@
 
             <footer class="footer items-center p-6 bg-white text-base-content/60 mt-auto border-t border-base-300">
                 <div class="items-center grid-flow-col">
-                    <p>&copy; {{ date('Y') }} {{ config('app.name', 'TicketScan') }}. All rights reserved.</p>
+                    <p>&copy; {{ date('Y') }} {{ config('app.name', 'Tiketcaw') }}. All rights reserved.</p>
                 </div>
                 <div class="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
                     <!-- Social icons can go here -->

@@ -41,13 +41,22 @@
             <h1 class="text-2xl font-bold tracking-tight text-primary-black">Welcome back, {{ auth()->user()->name }}!
             </h1>
         </div>
-        <div class="relative">
-            <a href="{{ route('profile.edit') }}"
-                class="relative block rounded-full border-2 border-primary/30 p-0.5 overflow-hidden">
-                <img alt="User Profile" class="w-10 h-10 rounded-full object-cover" data-alt="User avatar"
-                    src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=e61f27&color=fff" />
-            </a>
-            <span class="absolute top-0 right-0 w-3 h-3 bg-primary rounded-full border-2 border-surface-light"></span>
+        <div class="flex items-center gap-3">
+            <form method="POST" action="{{ route('logout') }}" class="inline">
+                @csrf
+                <button type="submit" class="p-2 text-gray-400 hover:text-primary transition-colors" title="Sign Out">
+                    <span class="material-icons">logout</span>
+                </button>
+            </form>
+            <div class="relative">
+                <a href="{{ route('profile.edit') }}"
+                    class="relative block rounded-full border-2 border-primary/30 p-0.5 overflow-hidden">
+                    <img alt="User Profile" class="w-10 h-10 rounded-full object-cover" data-alt="User avatar"
+                        src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=e61f27&color=fff" />
+                </a>
+                <span
+                    class="absolute top-0 right-0 w-3 h-3 bg-primary rounded-full border-2 border-surface-light"></span>
+            </div>
         </div>
     </header>
     <main class="flex-1 px-6 pb-24 space-y-8 overflow-y-auto">
@@ -106,7 +115,8 @@
                         <div class="p-5">
                             <div class="flex justify-between items-start mb-2">
                                 <h3 class="font-bold text-lg leading-tight text-primary-black">
-                                    {{ $ticket->event->title ?? $ticket->type }}</h3>
+                                    {{ $ticket->event->title ?? $ticket->type }}
+                                </h3>
                             </div>
                             <p class="text-sm text-gray-500 mb-4">{{ $ticket->event->location ?? 'Venue TBD' }}</p>
                             <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-sm">

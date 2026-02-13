@@ -119,5 +119,23 @@
                 </div>
             </form>
         </div>
+        <!-- Danger Zone / Logout -->
+        <div class="bg-red-500/5 backdrop-blur border border-red-500/20 rounded-2xl p-8 lg:col-span-2">
+            <h3 class="text-xl font-bold text-red-500 mb-2">Account Actions</h3>
+            <p class="text-slate-400 mb-6 text-sm">Sign out of your account or manage sensitive account settings.</p>
+
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit"
+                    class="flex items-center px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors shadow-lg shadow-red-600/20">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
+                        </path>
+                    </svg>
+                    Sign Out from Account
+                </button>
+            </form>
+        </div>
     </div>
 @endsection
