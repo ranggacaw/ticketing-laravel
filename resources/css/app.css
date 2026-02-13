@@ -2,6 +2,7 @@
 @plugin "daisyui" {
     themes: light --default, dark --prefersdark;
 }
+@plugin "@tailwindcss/container-queries";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -14,13 +15,18 @@
         "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
         "Noto Color Emoji";
     
-    --font-display: "Spline Sans", sans-serif;
+    --font-display: "Plus Jakarta Sans", "Spline Sans", sans-serif;
 
     --color-primary: #910309;
     --color-primary-dark: #820308;
     --color-primary-black: #212020;
     --color-surface-light: #ffffff;
     --color-card-bg: #ffffff;
+    
+    --color-primary-ref: #e61f27;
+    --color-background-light: #ffffff;
+    --color-background-dark: #0f172a;
+    --color-text-dark: #101010;
 
     --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.05);
     --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -65,4 +71,11 @@
     .animate-scan-line {
         animation: scan 3s linear infinite;
     }
+}
+
+@utility no-scrollbar {
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    scrollbar-width: none;
 }
