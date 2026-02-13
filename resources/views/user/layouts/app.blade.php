@@ -111,12 +111,13 @@
             <!-- Desktop Top Bar -->
             <div class="hidden md:flex justify-between items-center mb-8">
                 <div>
-                    <h2 class="text-2xl font-bold text-white">@yield('header', 'Dashboard')</h2>
-                    <p class="text-slate-400 text-sm">@yield('subheader', 'Welcome back, ' . auth()->user()->name)</p>
+                    <h2 class="text-2xl font-bold text-base-content">@yield('header', 'Dashboard')</h2>
+                    <p class="text-base-content/60 text-sm">@yield('subheader', 'Welcome back, ' . auth()->user()->name)
+                    </p>
                 </div>
                 <div class="flex items-center space-x-4">
                     <!-- Notifications (Future) -->
-                    <button class="p-2 text-slate-400 hover:text-white relative">
+                    <button class="p-2 text-base-content/40 hover:text-primary relative transition-colors">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
@@ -124,7 +125,7 @@
                         </svg>
                     </button>
                     <div
-                        class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-lg">
+                        class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold shadow-sm">
                         {{ substr(auth()->user()->name, 0, 1) }}
                     </div>
                 </div>
@@ -136,9 +137,9 @@
 
     <!-- Mobile Bottom Nav -->
     <nav
-        class="md:hidden fixed bottom-0 w-full glass z-30 border-t border-white/10 px-6 py-3 flex justify-between items-center">
+        class="md:hidden fixed bottom-0 w-full glass z-30 border-t border-base-300 px-6 py-3 flex justify-between items-center">
         <a href="{{ route('user.dashboard') }}"
-            class="flex flex-col items-center {{ request()->routeIs('user.dashboard') ? 'mobile-nav-active' : 'text-slate-500' }}">
+            class="flex flex-col items-center {{ request()->routeIs('user.dashboard') ? 'mobile-nav-active' : 'text-base-content/40' }}">
             <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
@@ -147,7 +148,7 @@
             <span class="text-xs">Home</span>
         </a>
         <a href="{{ route('events.index') }}"
-            class="flex flex-col items-center {{ request()->routeIs('events.*') ? 'mobile-nav-active' : 'text-slate-500' }}">
+            class="flex flex-col items-center {{ request()->routeIs('events.*') ? 'mobile-nav-active' : 'text-base-content/40' }}">
             <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -155,7 +156,7 @@
             <span class="text-xs">Events</span>
         </a>
         <a href="{{ route('user.tickets.index') }}"
-            class="flex flex-col items-center {{ request()->routeIs('user.tickets.*') ? 'mobile-nav-active' : 'text-slate-500' }}">
+            class="flex flex-col items-center {{ request()->routeIs('user.tickets.*') ? 'mobile-nav-active' : 'text-base-content/40' }}">
             <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z">
@@ -164,7 +165,7 @@
             <span class="text-xs">Tickets</span>
         </a>
         <a href="{{ route('user.payments.index') }}"
-            class="flex flex-col items-center {{ request()->routeIs('user.payments.*') ? 'mobile-nav-active' : 'text-slate-500' }}">
+            class="flex flex-col items-center {{ request()->routeIs('user.payments.*') ? 'mobile-nav-active' : 'text-base-content/40' }}">
             <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
@@ -173,7 +174,7 @@
         </a>
         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
         <button onclick="document.getElementById('logout-form').submit()"
-            class="flex flex-col items-center text-slate-500">
+            class="flex flex-col items-center text-base-content/40 hover:text-error transition-colors">
             <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">

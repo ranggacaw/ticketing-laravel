@@ -8,8 +8,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -18,7 +20,7 @@
         <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
         <div class="drawer-content flex flex-col min-h-screen">
             <!-- Navbar -->
-            <div class="w-full navbar bg-slate-900/90 backdrop-blur sticky top-0 z-50 border-b border-white/5">
+            <div class="w-full navbar bg-white/80 backdrop-blur sticky top-0 z-50 border-b border-base-300">
                 <div class="flex-none lg:hidden">
                     <label for="my-drawer-3" aria-label="open sidebar" class="btn btn-square btn-ghost">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -31,7 +33,7 @@
                 <div class="flex-1 px-4 text-xl font-bold tracking-tight">
                     <a href="{{ url('/') }}" class="flex items-center gap-2">
                         <span
-                            class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-400">TicketScan</span>
+                            class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-cyan-600">TicketScan</span>
                     </a>
                 </div>
                 <div class="flex-none hidden lg:block">
@@ -44,7 +46,7 @@
                                 <details class="dropdown dropdown-end">
                                     <summary class="m-1 btn btn-ghost btn-sm">{{ auth()->user()->name }}</summary>
                                     <ul
-                                        class="p-2 shadow-2xl menu dropdown-content z-[1] bg-slate-800 border border-white/5 rounded-box w-52">
+                                        class="p-2 shadow-2xl menu dropdown-content z-[1] bg-base-100 border border-base-300 rounded-box w-52">
                                         @if(auth()->user()->role === 'admin' || auth()->user()->role === 'staff')
                                             <li><a href="{{ route('admin.dashboard') }}">Admin Dashboard</a></li>
                                         @elseif(auth()->user()->role === 'volunteer')
@@ -99,7 +101,7 @@
                 @yield('content')
             </main>
 
-            <footer class="footer items-center p-6 bg-slate-900 text-slate-400 mt-auto border-t border-white/5">
+            <footer class="footer items-center p-6 bg-white text-base-content/60 mt-auto border-t border-base-300">
                 <div class="items-center grid-flow-col">
                     <p>&copy; {{ date('Y') }} {{ config('app.name', 'TicketScan') }}. All rights reserved.</p>
                 </div>
@@ -110,7 +112,7 @@
         </div>
         <div class="drawer-side z-50">
             <label for="my-drawer-3" aria-label="close sidebar" class="drawer-overlay"></label>
-            <ul class="menu p-4 w-80 min-h-full bg-slate-900 text-slate-900">
+            <ul class="menu p-4 w-80 min-h-full bg-base-100 text-base-content">
                 <!-- Sidebar content here -->
                 <li><a href="{{ route('events.index') }}"
                         class="{{ request()->routeIs('events.*') ? 'active' : '' }}">Browse Events</a></li>
