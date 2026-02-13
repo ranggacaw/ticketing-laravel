@@ -1,8 +1,16 @@
 @import "tailwindcss";
+@import "@fontsource/plus-jakarta-sans/300.css";
+@import "@fontsource/plus-jakarta-sans/400.css";
+@import "@fontsource/plus-jakarta-sans/500.css";
+@import "@fontsource/plus-jakarta-sans/600.css";
+@import "@fontsource/plus-jakarta-sans/700.css";
+@import "material-icons/iconfont/material-icons.css";
+
 @plugin "daisyui" {
     themes: light --default, dark --prefersdark;
 }
 @plugin "@tailwindcss/container-queries";
+@plugin "@tailwindcss/forms";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -17,15 +25,15 @@
     
     --font-display: "Plus Jakarta Sans", "Spline Sans", sans-serif;
 
-    --color-primary: #910309;
-    --color-primary-dark: #820308;
-    --color-primary-black: #212020;
+    --color-primary: #e61f27;
+    --color-primary-dark: #c01a20;
+    --color-primary-black: #101010;
     --color-surface-light: #ffffff;
     --color-card-bg: #ffffff;
     
     --color-primary-ref: #e61f27;
-    --color-background-light: #ffffff;
-    --color-background-dark: #0f172a;
+    --color-background-light: #f6f8f6;
+    --color-background-dark: #102216;
     --color-text-dark: #101010;
 
     --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.05);

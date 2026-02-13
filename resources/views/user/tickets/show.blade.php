@@ -1,115 +1,141 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="py-12 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-md mx-auto">
-            <div class="mb-4">
-                <a href="{{ route('user.tickets.index') }}"
-                    class="inline-flex items-center text-sm text-slate-500 hover:text-slate-200 transition-colors">
-                    <svg class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                    </svg>
-                    My Tickets
-                </a>
+<!-- Wrapper to center the mobile-like view -->
+<div class="flex items-center justify-center min-h-[calc(100vh-4rem)] bg-gray-100 dark:bg-gray-900 py-8">
+    
+    <!-- Phone Container -->
+    <div class="max-w-[390px] w-full bg-background-light dark:bg-background-dark min-h-[844px] shadow-2xl rounded-[3rem] border-[8px] border-slate-900 dark:border-slate-800 overflow-hidden flex flex-col relative">
+        
+        <!-- Status Bar (Visual only) -->
+        <div class="h-11 px-8 flex justify-between items-center bg-transparent select-none pointer-events-none">
+            <span class="text-sm font-semibold text-slate-900 dark:text-white">{{ now()->format('g:i') }}</span>
+            <div class="flex items-center space-x-2 text-slate-900 dark:text-white">
+                <span class="material-icons text-xs">signal_cellular_alt</span>
+                <span class="material-icons text-xs">wifi</span>
+                <span class="material-icons text-xs">battery_full</span>
             </div>
+        </div>
 
-            <div class="relative bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-2xl ring-1 ring-white/10"
-                id="ticket-card">
-                <!-- Event Cover (Placeholder color if no image) -->
-                <div class="h-32 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 relative">
-                    <div class="absolute inset-0 bg-black/20"></div>
-                    <div class="absolute bottom-4 left-6 text-white">
-                        <p class="text-xs font-semibold uppercase tracking-wider opacity-80 mb-1">
-                            {{ $ticket->event->start_time->format('D, M d Y') }} •
-                            {{ $ticket->event->start_time->format('h:i A') }}
-                        </p>
-                        <h2 class="text-xl font-bold leading-tight">{{ $ticket->event->name }}</h2>
-                    </div>
-                </div>
+        <!-- Header -->
+        <header class="px-6 py-4 flex items-center justify-between">
+            <a href="{{ route('user.tickets.index') }}" class="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                <span class="material-icons text-slate-600 dark:text-slate-300">chevron_left</span>
+            </a>
+            <h1 class="text-lg font-bold text-primary-black dark:text-white">Ticket Details</h1>
+            <button class="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                <span class="material-icons text-slate-600 dark:text-slate-300">ios_share</span>
+            </button>
+        </header>
 
-                <div class="p-6 sm:p-8 flex flex-col items-center text-center bg-white dark:bg-slate-800 relative z-10">
-                    <!-- Tear Line visual -->
-                    <div class="w-full absolute top-0 left-0 -mt-3 flex items-center justify-between pointer-events-none">
-                        <div class="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-900 -ml-3"></div>
-                        <div class="border-t-2 border-dashed border-slate-200 dark:border-slate-700 w-full mx-2"></div>
-                        <div class="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-900 -mr-3"></div>
-                    </div>
-
-                    <span
-                        class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 mb-6">
-                        {{ $ticket->type }}
-                    </span>
-
-                    <div class="mb-8 p-4 bg-white rounded-2xl shadow-sm border border-slate-200">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data={{ $ticket->uuid }}"
-                            alt="Ticket QR" class="w-48 h-48 mx-auto" />
-                    </div>
-
-                    <p class="text-xs text-slate-400 font-mono mb-6 uppercase tracking-[0.2em]">{{ $ticket->uuid }}</p>
-
-                    <div class="grid grid-cols-2 gap-4 w-full text-left bg-slate-50 dark:bg-slate-700/50 rounded-2xl p-4">
+        <!-- Main Content -->
+        <main class="flex-1 px-6 pb-12 overflow-y-auto scrollbar-hide">
+            
+            <!-- Ticket Card -->
+            <div class="relative mt-4 bg-white dark:bg-slate-900 rounded-3xl shadow-xl shadow-primary/5 overflow-hidden">
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-6">
                         <div>
-                            <span
-                                class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block mb-1">Seat</span>
-                            <span class="text-lg font-bold text-slate-900 dark:text-white">{{ $ticket->seat_number }}</span>
+                            <span class="text-[10px] uppercase tracking-widest text-primary font-bold">Booking Confirmed</span>
+                            <h2 class="text-2xl font-bold text-primary-black dark:text-white mt-1 leading-tight">{{ $ticket->event->name }}</h2>
+                        </div>
+                        <div class="bg-primary/10 p-2 rounded-lg">
+                            <span class="material-icons text-primary">flight_takeoff</span>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-y-6">
+                        <div>
+                            <p class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold mb-1">Date</p>
+                            <p class="text-sm font-bold text-slate-800 dark:text-slate-200">{{ $ticket->event->start_time->format('d M, Y') }}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold mb-1">Location</p>
+                            <p class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate max-w-[120px] ml-auto" title="{{ $ticket->event->location }}">{{ $ticket->event->location }}</p>
                         </div>
                         <div>
-                            <span
-                                class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block mb-1">Price</span>
-                            <span class="text-lg font-bold text-slate-900 dark:text-white">Rp
-                                {{ number_format($ticket->price, 0, ',', '.') }}</span>
+                            <p class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold mb-1">Time</p>
+                            <p class="text-sm font-bold text-slate-800 dark:text-slate-200">{{ $ticket->event->start_time->format('h:i A') }}</p>
                         </div>
-                        <div class="col-span-2 pt-2 mt-2 border-t border-slate-200 dark:border-slate-600">
-                            <span
-                                class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block mb-1">Location</span>
-                            <span
-                                class="text-sm font-medium text-slate-700 dark:text-slate-200">{{ $ticket->event->location }}</span>
+                        <div class="text-right">
+                            <p class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold mb-1">Seat</p>
+                            <p class="text-sm font-bold text-slate-800 dark:text-slate-200">{{ $ticket->seat_number ?? 'Any' }}</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Footer / Actions -->
-                <div class="bg-slate-50 dark:bg-slate-900/50 p-4 flex gap-3 justify-center">
-                    <button onclick="window.print()"
-                        class="flex-1 inline-flex justify-center items-center py-3 px-4 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-                        </svg>
-                        Download
-                    </button>
-                    <button
-                        class="flex-1 inline-flex justify-center items-center py-3 px-4 rounded-xl text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 transition-colors shadow-lg shadow-indigo-600/20">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z">
-                            </path>
-                        </svg>
-                        Add to Wallet
-                    </button>
+                <!-- Tear Line -->
+                <div class="relative flex items-center px-2">
+                    <div class="w-6 h-6 rounded-full bg-background-light dark:bg-background-dark -ml-5 z-10"></div>
+                    <div class="flex-1 border-t-2 border-dashed border-background-light dark:border-slate-800"></div>
+                    <div class="w-6 h-6 rounded-full bg-background-light dark:bg-background-dark -mr-5 z-10"></div>
+                </div>
+
+                <!-- QR Code -->
+                <div class="p-8 flex flex-col items-center justify-center">
+                    <div class="bg-white p-4 rounded-2xl border-2 border-slate-50 shadow-inner">
+                        <img class="w-48 h-48"
+                             src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data={{ $ticket->uuid }}"
+                             alt="Ticket QR Code" />
+                    </div>
+                    <p class="mt-4 text-[10px] font-medium text-slate-400 tracking-[0.2em] uppercase">Scan at Entrance</p>
                 </div>
             </div>
 
-            <p class="text-center text-xs text-slate-500 mt-6 max-w-xs mx-auto">
-                Please present this QR code at the entrance. Screenshots are accepted but original ticket is preferred.
-            </p>
+            <!-- Booking Info -->
+            <div class="mt-8 space-y-4">
+                <h3 class="text-sm font-bold text-primary-black dark:text-white px-1">Booking Information</h3>
+                <div class="bg-white dark:bg-slate-900/50 rounded-2xl p-4 border border-primary/5">
+                    <div class="flex justify-between py-2 border-b border-slate-50 dark:border-slate-800">
+                        <span class="text-sm text-slate-500">Holder</span>
+                        <span class="text-sm font-semibold text-primary-black dark:text-white">{{ auth()->user()->name }}</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-slate-50 dark:border-slate-800">
+                        <span class="text-sm text-slate-500">Ticket ID</span>
+                        <span class="text-sm font-semibold text-primary-black dark:text-white font-mono text-xs">#{{ \Illuminate\Support\Str::limit($ticket->uuid, 8, '') }}</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-slate-50 dark:border-slate-800">
+                        <span class="text-sm text-slate-500">Event Type</span>
+                        <span class="text-sm font-semibold text-primary-black dark:text-white">{{ $ticket->type }}</span>
+                    </div>
+                    <div class="flex justify-between py-2">
+                        <span class="text-sm text-slate-500">Total Paid</span>
+                        <span class="text-sm font-bold text-primary">Rp {{ number_format($ticket->price, 0, ',', '.') }}</span>
+                    </div>
+                </div>
+            </div>
 
+            <!-- Actions -->
+            <div class="mt-6 flex flex-col space-y-3">
+                <button onclick="window.print()" class="w-full py-4 px-6 rounded-xl border-2 border-slate-100 dark:border-slate-800 flex items-center justify-center space-x-2 text-slate-600 dark:text-slate-300 font-semibold hover:bg-white dark:hover:bg-slate-800 transition-colors">
+                    <span class="material-icons text-sm">receipt_long</span>
+                    <span>View Receipt</span>
+                </button>
+                <button class="w-full py-4 px-6 rounded-xl bg-primary text-white flex items-center justify-center space-x-2 font-bold shadow-lg shadow-red-200 dark:shadow-none hover:bg-red-700 transition-colors">
+                    <span class="material-icons text-xl">wallet</span>
+                    <span>Add to Apple Wallet</span>
+                </button>
+            </div>
+
+            <!-- Info Box -->
+            <div class="mt-8 p-4 bg-primary/5 rounded-2xl border border-primary/10 flex items-start space-x-3">
+                <span class="material-icons text-primary text-xl">lightbulb</span>
+                <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                    Please arrive at the venue at least <span class="font-bold text-slate-900 dark:text-white">45 minutes</span> before the event starts. Your screen brightness will automatically increase for scanning.
+                </p>
+            </div>
+
+            <!-- Testimonial Section (only if past) -->
             @if($ticket->event->end_time->isPast())
                 <div class="mt-8 pt-8 border-t border-slate-200 dark:border-white/10">
-                    <div
-                        class="bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-white/5">
+                    <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-white/5">
                         <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4 text-center">How was the event?</h3>
 
                         @if($ticket->testimonial)
                             <div class="text-center">
                                 <div class="flex justify-center gap-1 mb-2">
                                     @for($i = 1; $i <= 5; $i++)
-                                        <svg class="w-6 h-6 {{ $i <= $ticket->testimonial->rating ? 'text-amber-400' : 'text-slate-200 dark:text-slate-600' }}"
-                                            fill="currentColor" viewBox="0 0 20 20">
-                                            <path
-                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
+                                        <span class="material-icons text-xl {{ $i <= $ticket->testimonial->rating ? 'text-amber-400' : 'text-slate-200 dark:text-slate-600' }}">star</span>
                                     @endfor
                                 </div>
                                 <p class="text-slate-600 dark:text-slate-300 italic">"{{ $ticket->testimonial->comment }}"</p>
@@ -126,19 +152,15 @@
                                     <template x-for="i in 5">
                                         <button type="button" @click="rating = i; document.getElementById('rating').value = i"
                                             class="focus:outline-none transition-transform hover:scale-110">
-                                            <svg class="w-8 h-8"
-                                                :class="i <= rating ? 'text-amber-400' : 'text-slate-200 dark:text-slate-600'"
-                                                fill="currentColor" viewBox="0 0 20 20">
-                                                <path
-                                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                            </svg>
+                                            <span class="material-icons text-3xl"
+                                                :class="i <= rating ? 'text-amber-400' : 'text-slate-200 dark:text-slate-600'">star</span>
                                         </button>
                                     </template>
                                 </div>
 
                                 <div>
                                     <textarea name="comment" rows="3"
-                                        class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:border-indigo-500 focus:ring-indigo-500 text-sm"
+                                        class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:border-indigo-500 focus:ring-indigo-500 text-sm p-3"
                                         placeholder="Share your experience..."></textarea>
                                 </div>
 
@@ -151,6 +173,42 @@
                     </div>
                 </div>
             @endif
+
+        </main>
+
+        <!-- Home Indicator Visual -->
+        <div class="h-6 flex justify-center items-center pb-2 bg-background-light dark:bg-background-dark">
+            <div class="w-32 h-1 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
         </div>
+
+        <!-- Decorative Blurs -->
+        <div class="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 blur-[60px] rounded-full pointer-events-none"></div>
+        <div class="absolute top-1/2 -left-24 w-48 h-48 bg-primary/5 blur-[60px] rounded-full pointer-events-none"></div>
     </div>
+</div>
+
+<style>
+    /* Ensure material icons use the correct font family */
+    .material-icons {
+        font-family: 'Material Icons';
+        font-weight: normal;
+        font-style: normal;
+        font-size: 24px;
+        display: inline-block;
+        line-height: 1;
+        text-transform: none;
+        letter-spacing: normal;
+        word-wrap: normal;
+        white-space: nowrap;
+        direction: ltr;
+        /* Support for all WebKit browsers. */
+        -webkit-font-smoothing: antialiased;
+        /* Support for Safari and Chrome. */
+        text-rendering: optimizeLegibility;
+        /* Support for Firefox. */
+        -moz-osx-font-smoothing: grayscale;
+        /* Support for IE. */
+        font-feature-settings: 'liga';
+    }
+</style>
 @endsection
