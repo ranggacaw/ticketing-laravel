@@ -1,335 +1,402 @@
-# Enhanced Prompt: PHP Laravel Ticketing System Development
+# Product Brief: Event Ticketing System (Laravel)
 
 ## Project Overview
-Develop a comprehensive web-based ticketing system using PHP Laravel framework, inspired by the functionality and user experience of tiket.com. The application must feature two distinct interfaces: a customer-facing frontend and an administrative backend.
+A web-based **event ticketing** platform built with PHP Laravel. The application provides three distinct interfaces: a **public event browsing** frontend, a **user portal** for ticket holders, and a **custom admin panel** for event/ticket management. It includes QR/barcode-based ticket validation for on-site entry.
+
+> **Note:** This is NOT a transportation ticketing system. It is purpose-built for events (concerts, conferences, festivals, etc.).
 
 ---
 
 ## 🎨 Design Requirements
 
-### Frontend (Customer Interface)
-- **Framework**: DaisyUI (Tailwind CSS components)
-- **Mandatory Color Palette**:
-  - Primary Red: `#e61f27`
-  - Primary Black: `#101010`
-  - Primary White: `#ffffff`
+### Frontend (Public & User Portal)
+- **CSS Framework**: DaisyUI v5 (beta) on Tailwind CSS v4
+- **Font**: Plus Jakarta Sans (via `@fontsource`), Spline Sans (user dashboard)
+- **Icons**: Material Icons + Material Symbols Outlined + inline SVGs
+- **Color Palette**:
+  - Primary Red: `#e61f27` (public pages, event cards, CTAs)
+  - Primary Black: `#101010` (text)
+  - Primary White: `#ffffff` (backgrounds)
 - **Design Principles**:
-  - Fully responsive design (mobile-first approach)
-  - Modern, clean, and intuitive user interface
-  - Fast loading times and optimized performance
-  - Accessibility compliance (WCAG 2.1 Level AA)
+  - Mobile-first responsive design
+  - DaisyUI light/dark theme support (auto via `prefers-color-scheme`)
+  - Glassmorphism effects on admin/user portal (backdrop-blur, translucent cards)
+  - Three distinct visual modes: public (red-primary), user portal (dark immersive slate), admin (indigo accent with glass cards)
 
-### Backend (Admin Panel)
-- **Framework**: Filament Laravel (v3.x recommended)
-- **Interface**: Professional admin dashboard with default Filament styling (customizable to match brand colors)
+### Admin Panel
+- **Framework**: Custom Blade views (NOT Filament)
+- **Layout**: Fixed sidebar + top navbar with 3-mode theme switcher (light/dark/system)
+- **Accent**: Indigo (`indigo-500`/`indigo-600`) with gradient text effects
+- **Glass UI**: `.glass-card` class with `backdrop-blur-xl`
+
+### User Portal
+- **Layout**: Desktop sidebar + mobile bottom navigation bar
+- **Theme**: Dark immersive (`bg-slate-900`) with glassmorphism
+- **Alpine.js**: Used for interactive components (toast notifications, scan mode switcher)
 
 ---
 
 ## 🔧 Technical Stack
 
-### Required Technologies
-- **Backend Framework**: Laravel 10.x or 11.x
-- **Frontend Framework**: DaisyUI with Tailwind CSS 3.x
-- **Admin Panel**: Filament Laravel
-- **Database**: MySQL 8.0+ or PostgreSQL 13+
-- **PHP Version**: 8.1 or higher
-- **Package Manager**: Composer (backend), NPM/Yarn (frontend)
+### Implemented Technologies
+- **Backend Framework**: Laravel 12.x
+- **PHP Version**: 8.2+
+- **Frontend**: DaisyUI v5.5.1-beta.2 + Tailwind CSS v4
+- **Build Tool**: Vite 7 with `laravel-vite-plugin` v2 and `@tailwindcss/vite`
+- **Admin Panel**: Custom Blade views with `@extends`/`@section` layout system
+- **Database**: SQLite (dev) / MySQL 8.0+ / PostgreSQL 13+ (production)
+- **Package Manager**: Composer (backend), NPM (frontend)
 
-### Additional Dependencies
-- Laravel Breeze or Jetstream (for authentication scaffolding)
-- Laravel Sanctum (API authentication if needed)
-- Laravel Queue (for email notifications and background jobs)
-- Laravel Storage (for file uploads and management)
+### Key Dependencies
+| Package | Purpose |
+|---------|---------|
+| `barryvdh/laravel-dompdf` | PDF ticket generation & export |
+| `simplesoftwareio/simple-qrcode` | QR code generation for tickets |
+| `milon/barcode` | Code128 barcode generation |
+| `@tailwindcss/forms` | Form element styling |
+| `@tailwindcss/typography` | Prose content styling |
+| `@tailwindcss/container-queries` | Container query utilities |
+| `daisyui` v5 beta | UI component library |
+| `material-icons` | Icon font |
+| `pestphp/pest` | Testing framework |
+
+### What is NOT Used (contrary to original brief)
+- ~~Filament Laravel~~ → Custom admin panel
+- ~~Laravel Breeze / Jetstream~~ → Custom AuthController
+- ~~Laravel Sanctum~~ → No API authentication
+- ~~Stripe / Xendit / Midtrans~~ → No payment gateway (immediate confirmation MVP)
+- ~~Redis / Memcached~~ → No caching layer configured
+- ~~WebSockets~~ → No real-time features
 
 ---
 
-## 👤 Customer-Facing Features
+## 👤 User Roles & Access
+
+| Role | Access Level |
+|------|-------------|
+| `admin` | Full access: all CRUD, user management, system config |
+| `staff` | Admin panel access: ticket/event management, history, scan/validate |
+| `volunteer` | Scan/validate tickets only |
+| `user` | Public browsing, checkout, user portal (tickets, payments, profile) |
+
+Role enforcement is via custom `RoleMiddleware` supporting comma-separated roles and negation (`!`).
+
+---
+
+## 👤 Customer-Facing Features (Implemented)
 
 ### 1. Authentication System
-- **User Registration**:
-  - Email and password registration
-  - Email verification required
-  - Social authentication (Google, Facebook - optional)
-  - Phone number verification (optional enhancement)
-  
-- **User Login**:
-  - Email/username and password
-  - "Remember me" functionality
-  - Password reset via email
-  - Account lockout after failed attempts
+- **User Registration**: Email + password, auto-login after registration, rate-limited (3/min)
+- **User Login**: Email + password, role-based redirect after login, rate-limited (5/min)
+- **Password Reset**: Forgot password flow via email token
+- **Logout**: Session invalidation + regeneration
+- **Activity Logging**: Login, logout, and failed login attempts are auto-logged with IP/user-agent
 
-### 2. Ticket Search & Discovery
-- **Search Functionality**:
-  - Search by origin and destination
-  - Date range picker (departure and return)
-  - Passenger count selector (adults, children, infants)
-  - Filter options: price range, departure time, airlines/operators, class type
-  - Autocomplete suggestions for locations
-  
-- **Search Results Display**:
-  - List view with sorting options (price, duration, departure time)
-  - Direct and transit routes
-  - Real-time availability status
-  - Price comparison view
+> **Not implemented**: Social auth (Google/Facebook), email verification enforcement, "Remember me", phone verification
 
-### 3. Booking System
-- **Ticket Selection**:
-  - Detailed ticket information (schedule, facilities, terms)
-  - Seat selection interface (if applicable)
-  - Multiple passenger details form
-  - Contact information collection
-  
-- **Booking Flow**:
-  - Step-by-step booking wizard
-  - Real-time price calculation
-  - Promo code/discount application
-  - Booking summary review page
-  - Session timeout warning (prevent booking expiry)
+### 2. Event Discovery
+- **Public Event Listing**: Paginated grid (9 per page) of published events
+- **Event Detail Page**: Full event info with venue, organizer, available ticket types
+- **Visibility Control**: Only `published` events shown publicly; admin/staff can preview unpublished
 
-### 4. Payment Integration
-- **Payment Methods**:
-  - Credit/Debit card processing (Stripe/Xendit/Midtrans)
-  - Bank transfer (virtual accounts)
-  - E-wallets (GoPay, OVO, Dana, ShopeePay)
-  - PayPal integration (optional)
-  
-- **Payment Process**:
-  - Secure payment gateway integration
-  - Payment confirmation page
-  - Automatic booking expiration (e.g., 30 minutes)
-  - Receipt generation and email delivery
-  - Payment status tracking
+> **Not implemented**: Search/filter by category, date, price range, location. No autocomplete. No sorting options.
 
-### 5. User Dashboard
-- **My Bookings**:
-  - Active and past bookings list
-  - Booking details view
-  - E-ticket download (PDF format)
-  - Booking cancellation (with refund rules)
-  
-- **Profile Management**:
-  - Personal information editing
-  - Saved passengers (frequent travelers)
-  - Notification preferences
-  - Payment method management
+### 3. Checkout / Ticket Purchase
+- **Ticket Type Selection**: Choose from available ticket types (e.g., VIP, Standard, GA)
+- **Quantity Selection**: Purchase 1–10 tickets per transaction
+- **Pessimistic Locking**: `lockForUpdate()` prevents overselling during concurrent purchases
+- **Immediate Confirmation**: Tickets issued with `status=issued`, `payment_status=confirmed` (no actual payment gateway)
+- **Success Page**: Displays purchased ticket details with UUID
 
-### 6. Additional User Features
-- Email notifications (booking confirmation, reminders, updates)
-- SMS notifications (optional enhancement)
-- Booking history export
-- Customer support chat/ticket system
-- Travel insurance purchase option (optional)
-- Multi-language support (optional)
+> **Not implemented**: Step-by-step wizard, seat selection during checkout, promo codes, payment gateway, booking expiration timer
+
+### 4. User Portal (Dashboard)
+- **Dashboard Stats**: Active ticket count, pending payments, total loyalty points
+- **My Tickets**: List with upcoming/past tabs (filtered by event start time), paginated (12)
+- **Ticket Detail**: View ticket info with QR code + barcode
+- **My Payments**: Payment list (paginated 10) + detail view
+- **Profile Management**: Edit name, email, phone, avatar (1MB max). Password change with current password verification.
+- **Testimonials**: Submit rating (1–5) + comment for past events. Awards 10 loyalty points. One review per event per user.
+- **Activity History**: View own activity logs with filters (action type, date range), paginated (25)
+
+> **Not implemented**: E-ticket PDF download from user side, booking cancellation, saved passengers, notification preferences, payment method management
+
+### 5. Ticket Scanning & Validation
+- **QR/Barcode Scanner**: Camera-based scanning UI (Alpine.js) for on-site entry validation
+- **Manual Entry**: Barcode code or UUID text input
+- **Validation Logic**: Checks ticket exists → checks not already scanned → marks as scanned with timestamp
+- **Duplicate Detection**: Already-scanned tickets return `duplicate` status
+- **Validated Tickets List**: View all scanned tickets, paginated (20)
+- **Access**: Admin, staff, and volunteer roles
 
 ---
 
-## 🛠️ Admin Panel Features (Filament)
+## 🛠️ Admin Panel Features (Custom Blade)
 
-### 1. Dashboard & Analytics
-- Key metrics overview (total bookings, revenue, active users)
-- Sales charts and graphs (daily, weekly, monthly)
-- Recent transactions list
-- Popular routes and destinations
-- Real-time booking notifications
+### 1. Dashboard
+- Key metrics: total tickets, validated count, unvalidated count, tickets by type (VVIP/VIP/Festival/GA), total sales revenue
+- Recent 5 activity logs
+> **Not implemented**: Charts/graphs, time-period filtering, real-time notifications
 
-### 2. Ticket Management
-- **CRUD Operations**:
-  - Create, read, update, delete tickets
-  - Bulk import tickets (CSV/Excel)
-  - Bulk update pricing and availability
-  
-- **Ticket Configuration**:
-  - Route management (origin, destination, stops)
-  - Schedule configuration (date, time, duration)
-  - Pricing tiers (economy, business, first class)
-  - Seat inventory management
-  - Ticket categories (bus, train, flight, event)
-  - Dynamic pricing rules (peak/off-peak)
+### 2. Event Management (Admin Only)
+- Full CRUD for events (name, slug auto-generation, description, dates, status, venue, organizer, images)
+- Event statuses: draft, published, cancelled
+- Nested ticket type management per event
 
-### 3. User Management
-- **Customer Management**:
-  - View all registered users
-  - User details and booking history
-  - Account status management (active, suspended, banned)
-  - Password reset for users
-  
-- **Admin User Management**:
-  - Role-based access control (RBAC)
-  - Permission management
-  - Admin user CRUD operations
-  - Activity logs and audit trails
+### 3. Ticket Type Management (Admin Only)
+- CRUD for ticket types under each event (name, description, price, quantity, sale window dates)
+- Availability logic: checks sale date window + sold count vs quantity
+- Deletion blocked if tickets have been sold (`sold > 0`)
+- Form request validation (`StoreTicketPriceRequest`, `UpdateTicketPriceRequest`)
 
-### 4. Transaction Management
-- **Booking Management**:
-  - View all bookings with filters (status, date, user)
-  - Booking details and passenger information
-  - Manual booking creation/modification
-  - Refund processing
-  - Booking cancellation with audit trail
-  
-- **Payment Management**:
-  - Payment status tracking (pending, paid, failed, refunded)
-  - Payment reconciliation
-  - Manual payment confirmation
-  - Transaction reports and exports
+### 4. Ticket Management (Admin + Staff)
+- Full CRUD with barcode generation
+- PDF export via DomPDF (individual ticket)
+- AJAX preview with rendered HTML partial
+- Edit blocked for already-scanned tickets
+- Barcode regeneration on data change
+- QR code (SVG) + Code128 barcode per ticket
 
-### 5. Content Management
-- **Operators/Providers**:
-  - Manage airlines, bus operators, train services
-  - Operator profiles and contact information
-  
-- **Location Management**:
-  - Cities, terminals, airports, stations
-  - Location details and codes
-  
-- **Promotional Management**:
-  - Promo code creation and management
-  - Discount rules configuration
-  - Banner and advertisement management
+### 5. Venue Management (Admin Only)
+- Full CRUD: name, description, address, city, state, country, postal_code, capacity
+- Nested seat management per venue
 
-### 6. Reporting & Analytics
-- Sales reports (by period, route, operator)
-- Revenue reports with filters
-- User registration trends
-- Booking conversion analytics
-- Payment method statistics
-- Export functionality (PDF, Excel, CSV)
+### 6. Seat Management (Admin Only)
+- Single and **bulk seat creation** (range `number_start..number_end`)
+- Fields: section, row, number, type (standard/vip/accessible/restricted), status (available/reserved/sold/blocked)
+- Unique constraint: `[venue_id, section, row, number]`
+- Skip duplicates on bulk create
 
-### 7. System Configuration
-- General settings (site name, logo, contact info)
-- Email template configuration
-- Payment gateway settings
-- Notification settings
-- System maintenance mode
-- API key management
+### 7. Organizer Management (Admin Only)
+- Full CRUD: name, email, phone, website, description
+- User association (organizer linked to a user account)
+- Event count display on index
+
+### 8. User Management (Admin Only)
+- CRUD for admin/staff/volunteer users
+- View user detail with their tickets + last 20 activity logs
+- Self-deletion prevention
+
+### 9. Activity History (Admin + Staff)
+- Full activity log browser with filters: user, action type, date range, free-text search
+- Single log detail view
+- CSV export (up to 10,000 records) with same filters
+- Paginated (25 per page)
+
+> **Not implemented**: Role/permission management UI, system configuration panel, email template config, promotional/banner management, bulk ticket import, reporting with charts
 
 ---
 
-## 📊 Database Schema Requirements
+## 📊 Database Schema (Actual)
 
-### Core Tables
-1. **users** - Customer and admin accounts
-2. **tickets** - Available ticket inventory
-3. **bookings** - Customer booking records
-4. **booking_passengers** - Passenger details for each booking
-5. **payments** - Payment transaction records
-6. **locations** - Cities, terminals, stations
-7. **operators** - Transportation providers
-8. **promo_codes** - Discount and promotional codes
-9. **notifications** - System notifications
-10. **settings** - Application configuration
+### Core Tables (11)
+| Table | Key Columns | Purpose |
+|-------|-------------|---------|
+| `users` | name, email, password, role, phone, avatar, email_verified_at | All user accounts (admin/staff/volunteer/user) |
+| `events` | name, slug, description, start_time, end_time, status, venue_id, organizer_id, image | Event definitions |
+| `venues` | name, description, address, city, state, country, postal_code, capacity | Event locations |
+| `seats` | venue_id, section, row, number, type, status | Individual seats within venues |
+| `organizers` | user_id, name, email, phone, website, description | Event organizer profiles |
+| `ticket_types` | event_id, name, description, price, quantity, sold, sale_start_date, sale_end_date | Ticket pricing tiers per event |
+| `tickets` | uuid, secure_token, user_id, event_id, ticket_type_id, seat_id, barcode, status, payment_status, scanned_at | Individual issued tickets |
+| `payments` | user_id, amount, status, payment_method, transaction_id | Payment records |
+| `payment_tickets` | payment_id, ticket_id | Many-to-many pivot |
+| `testimonials` | user_id, event_id, ticket_id, rating, comment | User reviews for past events |
+| `loyalty_points` | user_id, points, source, description | Points earned from actions (e.g., testimonials) |
+| `activity_logs` | user_id, action, resource_type, resource_id, metadata, description, ip_address, user_agent | Polymorphic audit trail |
 
-### Relationships
-- One-to-Many: User → Bookings, Operator → Tickets
-- Many-to-Many: Tickets ↔ Categories, Users ↔ Roles
-- Polymorphic: Payments (bookable_type, bookable_id)
+### Key Relationships
+- **One-to-Many**: Venue → Events, Event → TicketTypes, Event → Tickets, User → Tickets, User → Payments
+- **Many-to-Many**: Payment ↔ Ticket (via `payment_tickets`)
+- **Belongs-To**: Ticket → TicketType, Ticket → Event, Ticket → User, Ticket → Seat, Event → Venue, Event → Organizer, Organizer → User
+- **Polymorphic**: ActivityLog → any model (via `resource_type`/`resource_id`)
+- **Has-Many**: User → Testimonials, User → LoyaltyPoints, User → ActivityLogs
+
+### Legacy Fields on Tickets
+The `tickets` table retains `user_name`, `user_email`, `seat_number`, `type` as legacy columns for backward compatibility. Normalized versions use `user_id`, `seat_id`, and `ticket_type_id` foreign keys.
 
 ---
 
-## 🔒 Security Requirements
+## 🔒 Security (Implemented)
 
 1. **Authentication & Authorization**:
-   - Laravel's built-in authentication
-   - CSRF protection on all forms
-   - Rate limiting on API endpoints
-   - JWT tokens for API authentication
+   - Custom authentication controller with rate limiting (IP-based)
+   - CSRF protection on all forms (Blade `@csrf` directives)
+   - Role-based middleware (`RoleMiddleware`) with multi-role and negation support
+   - Policy-based authorization (`TicketPolicy`, `PaymentPolicy`, `TicketTypePolicy`)
 
 2. **Data Protection**:
-   - Encrypted sensitive data (personal information, payment details)
-   - HTTPS enforcement
-   - SQL injection prevention (Eloquent ORM)
-   - XSS protection
-   - Input validation and sanitization
+   - Eloquent ORM (SQL injection prevention)
+   - Blade templating (XSS protection via `{{ }}` escaping)
+   - Input validation on all forms (Form Requests + inline validation)
+   - Password hashing (bcrypt via Laravel)
+   - Session invalidation on logout
 
-3. **Payment Security**:
-   - PCI DSS compliance for payment handling
-   - No storage of credit card details (tokenization)
-   - Secure payment gateway integration
+3. **Ticket Security**:
+   - UUID-based ticket identification
+   - `secure_token` for additional verification
+   - CRC32-based deterministic barcode generation
+   - Pessimistic locking during checkout to prevent race conditions
 
----
-
-## ⚡ Performance Optimization
-
-1. **Backend Optimization**:
-   - Query optimization and indexing
-   - Eager loading to prevent N+1 problems
-   - Redis/Memcached for caching
-   - Laravel Queue for background tasks
-   - Database connection pooling
-
-2. **Frontend Optimization**:
-   - Asset minification and bundling (Vite)
-   - Lazy loading for images
-   - Code splitting
-   - Browser caching strategies
-   - CDN integration for static assets
+> **Not implemented**: HTTPS enforcement config, encryption at rest for PII, JWT/API tokens, PCI DSS compliance, payment tokenization
 
 ---
 
-## 📱 Responsive Design Breakpoints
+## ⚡ Architecture & Patterns
 
-- Mobile: 320px - 640px
-- Tablet: 641px - 1024px
-- Desktop: 1025px - 1440px
-- Large Desktop: 1441px+
+### Backend
+- **Layout**: `@extends`/`@section`/`@yield` Blade inheritance (3 layouts + 1 user portal layout)
+- **Activity Logging**: `LogsActivity` trait auto-logs Eloquent create/update/delete events; `ActivityLogger` service for manual logging
+- **Auth Event Listeners**: `LogSuccessfulLogin`, `LogSuccessfulLogout`, `LogFailedLogin`
+- **Services**: `BarcodeService` (QR + Code128), `ActivityLogger`
+- **Validation**: Form Request classes for ticket types; inline validation elsewhere
+- **PDF Generation**: DomPDF for ticket export
+
+### Frontend
+- **Build**: Vite 7 with Tailwind CSS v4 + DaisyUI v5
+- **JS**: Alpine.js (CDN, user portal), vanilla JS (admin theme switcher, sidebar)
+- **CSS**: Single entry point (`resources/css/app.css`) with Tailwind v4 config
+- **Interactivity**: Camera-based barcode scanning, form validation, toast notifications
+
+### View Structure
+```
+resources/views/
+├── layouts/           (app, admin, public)
+├── auth/              (login, register, forgot/reset password)
+├── events/            (index, show)
+├── checkout/          (success)
+├── scan.blade.php     (barcode scanner)
+├── result.blade.php   (scan result)
+├── user/
+│   ├── layouts/       (app)
+│   ├── components/    (toast)
+│   ├── dashboard, profile/, tickets/, payments/
+├── admin/
+│   ├── dashboard
+│   ├── events/        (CRUD + ticket_types/)
+│   ├── tickets/       (CRUD + pdf, preview)
+│   ├── venues/        (CRUD + seats/)
+│   ├── organizers/    (CRUD)
+│   ├── users/         (CRUD)
+│   └── history/       (index, show, filters)
+├── my/history/        (user's own activity log)
+└── tickets/validated  (scanned tickets list)
+```
 
 ---
 
-## 🧪 Testing Requirements
+## 📱 Responsive Design
 
-- Unit tests for core business logic
-- Feature tests for critical user flows
-- Browser testing (Chrome, Firefox, Safari, Edge)
-- Mobile device testing (iOS, Android)
-- Payment gateway testing (sandbox environment)
-
----
-
-## 📦 Deliverables
-
-1. Complete Laravel application source code
-2. Database migration files and seeders
-3. Installation and deployment documentation
-4. API documentation (if applicable)
-5. User manual for admin panel
-6. Environment configuration examples (.env.example)
+- **Public layout**: DaisyUI drawer for mobile navigation
+- **Admin layout**: Collapsible sidebar for mobile/tablet
+- **User portal**: Desktop sidebar + dedicated mobile bottom navigation bar
+- **Breakpoints**: Tailwind CSS v4 defaults (sm: 640px, md: 768px, lg: 1024px, xl: 1280px, 2xl: 1536px)
 
 ---
 
-## 🚀 Optional Enhancements
+## 🧪 Testing (Current State)
 
+### Framework
+- **Pest PHP** (v3.8) on PHPUnit
+- `RefreshDatabase` trait per test class
+
+### Test Coverage (21 tests)
+| Test File | Tests | Coverage |
+|-----------|-------|----------|
+| `Feature/EventDiscoveryTest` | 3 | Published event listing, detail, unpublished 404 |
+| `Feature/CheckoutTest` | 3 | Guest blocked, user purchase + DB verification, sold-out prevention |
+| `Feature/TicketPriceManagementTest` | 7 | Admin CRUD for ticket types, validation, delete-with-sales guard, role auth |
+| `Feature/MasterDataTest` | 3 | Event-venue-organizer relations, availability logic, secure_token uniqueness |
+| `Feature/UserPortalTest` | 3 | Dashboard access, view own tickets, 403 on other's tickets |
+| `Feature/ExampleTest` | 1 | Homepage returns 200 |
+| `Unit/ExampleTest` | 1 | Boilerplate assertion |
+
+### Untested Areas (~80% of features)
+- Authentication flow (login, register, password reset)
+- All admin CRUD controllers (events, venues, seats, organizers, users, tickets)
+- Admin dashboard
+- Barcode scanning & validation
+- User payments, testimonials, profile management
+- Activity history & CSV export
+- Services (`BarcodeService`, `ActivityLogger`)
+- Policies (`PaymentPolicy`, `TicketPolicy`, `TicketTypePolicy`)
+- `RoleMiddleware` (only minimally tested via ticket type auth)
+
+---
+
+## 📦 Seeders
+
+| Seeder | Creates |
+|--------|---------|
+| `DatabaseSeeder` | Admin user (`admin@admin.com`, password: `password`) + 10 random tickets with full factory chain |
+| `SampleEventSeeder` | "Grand Hall" venue (NY, 100 capacity), "Tech Conference 2026" event, VIP ($500, qty 20) & Standard ($150, qty 80) ticket types, 100 seats (5 rows × 20) |
+
+---
+
+## 🚀 Future Enhancements (Not Yet Implemented)
+
+### High Priority
+- Payment gateway integration (Stripe/Midtrans/Xendit)
+- Event search, filtering, and sorting
+- Email notifications (booking confirmation, reminders)
+- E-ticket PDF download from user portal
+- Booking cancellation and refund flow
+- Seat selection during checkout
+
+### Medium Priority
+- Promo codes and discount system
+- Admin dashboard charts and analytics
+- Bulk ticket import (CSV/Excel)
+- Admin reporting with export (PDF/Excel)
+- System configuration panel
+- Email verification enforcement
+
+### Low Priority / Optional
+- Social authentication (Google, Facebook)
+- Multi-language support (i18n)
 - Multi-currency support
-- Integration with external ticketing APIs
+- Real-time seat availability (WebSocket)
+- Customer support / chat system
 - Mobile application (React Native/Flutter)
-- Advanced analytics with machine learning
-- Customer loyalty program
-- Travel itinerary builder
-- Real-time seat availability (WebSocket integration)
-- Booking modification system
+- Loyalty program expansion
 - Group booking discounts
-- Travel insurance integration
+- Travel/event insurance integration
+- API layer with Sanctum/JWT
 
 ---
 
-## 📋 Implementation Notes
+## 📋 Development Notes
 
-- Follow Laravel best practices and coding standards (PSR-12)
-- Use Eloquent ORM for all database operations
-- Implement repository pattern for business logic
-- Use Laravel's validation for all form inputs
-- Create reusable Blade components
-- Implement proper error handling and logging
-- Use Laravel's localization for multi-language support readiness
-- Ensure all Filament resources follow proper authorization policies
+- Uses PSR-4 autoloading
+- Eloquent ORM for all database operations
+- Blade templating with `@extends`/`@section` pattern (no Blade x-components for layouts)
+- Form Request validation for ticket type CRUD; inline validation elsewhere
+- `composer dev` script runs server + queue + Vite concurrently
+- `composer setup` script handles full installation
+- Factory chain: Ticket → TicketType → Event → Venue + Organizer
+- No soft deletes on any model
+- Event slug auto-generation with collision handling in model `booted()` method
 
 ---
 
-## 🎯 Success Criteria
+## 🎯 Current Project Status
 
-- All core features functional and bug-free
-- Responsive design working across all specified breakpoints
-- Payment integration fully tested in sandbox
-- Admin panel accessible with proper role-based permissions
-- Application passing all security audit checks
-- Page load time under 3 seconds on standard connections
-- Successful booking completion rate > 95%
+### Fully Functional
+- Authentication (login, register, password reset, logout)
+- Public event browsing and detail pages
+- Ticket checkout with oversell protection
+- User portal (dashboard, tickets, payments, profile, testimonials)
+- Admin panel (events, venues, seats, organizers, ticket types, tickets, users, history)
+- QR/barcode ticket scanning and validation
+- PDF ticket export
+- Comprehensive activity audit logging
+- Loyalty points (via testimonials)
+- Role-based access control (4 roles)
+
+### MVP Limitations
+- No real payment processing (immediate confirmation)
+- No search/filter/sort on event listing
+- No email notifications sent
+- Limited test coverage (~20%)
+- No API layer
+- `user/dashboard.blade.php` is standalone (doesn't extend user layout — inconsistency)
