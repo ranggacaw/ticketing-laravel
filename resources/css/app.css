@@ -7,7 +7,7 @@
 @import "material-icons/iconfont/material-icons.css";
 
 @plugin "daisyui" {
-    themes: light --default, dark --prefersdark;
+    themes: light --default;
 }
 @plugin "@tailwindcss/container-queries";
 @plugin "@tailwindcss/forms";
@@ -33,8 +33,6 @@
     
     --color-primary-ref: #e61f27;
     --color-background-light: #f6f8f6;
-    --color-background-dark: #102216;
-    --color-text-dark: #101010;
 
     --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.05);
     --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -42,7 +40,7 @@
 
 @layer components {
     .glass-card {
-        @apply backdrop-blur-xl bg-white/60 dark:bg-black/40 border border-white/20 shadow-lg;
+        @apply backdrop-blur-xl bg-white/60 border border-white/20 shadow-lg;
     }
     
     .gradient-text {

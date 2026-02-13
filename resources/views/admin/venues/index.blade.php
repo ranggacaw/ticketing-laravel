@@ -18,11 +18,11 @@
             </a>
         </div>
 
-        <div class="glass-card rounded-3xl overflow-hidden border-black/5 dark:border-white/10 shadow-sm">
+        <div class="glass-card rounded-3xl overflow-hidden border-black/5  shadow-sm">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="border-b border-black/5 dark:border-white/5 bg-black/5 dark:bg-white/5">
+                        <tr class="border-b border-black/5  bg-black/5 ">
                             <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-widest">Name</th>
                             <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-widest">Location
                             </th>
@@ -33,24 +33,24 @@
                                 Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-black/5 dark:divide-white/5">
+                    <tbody class="divide-y divide-black/5 ">
                         @forelse($venues as $venue)
-                            <tr class="hover:bg-black/5 dark:hover:bg-white/5 transition-colors duration-200 group">
+                            <tr class="hover:bg-black/5  transition-colors duration-200 group">
                                 <td class="px-6 py-5">
                                     <div class="flex flex-col">
-                                        <span class="text-slate-900 dark:text-slate-200 font-medium">{{ $venue->name }}</span>
+                                        <span class="text-slate-900  font-medium">{{ $venue->name }}</span>
                                         <span
                                             class="text-xs text-slate-500 mt-0.5 truncate max-w-xs">{{ $venue->address }}</span>
                                     </div>
                                 </td>
                                 <td class="px-6 py-5">
-                                    <span class="text-slate-700 dark:text-slate-300">{{ $venue->city }},
+                                    <span class="text-slate-700 ">{{ $venue->city }},
                                         {{ $venue->country }}</span>
                                 </td>
                                 <td class="px-6 py-5 text-center">
                                     @if($venue->capacity)
                                         <span
-                                            class="inline-flex items-center justify-center px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-xs border border-black/5 dark:border-white/5">
+                                            class="inline-flex items-center justify-center px-3 py-1 rounded-lg bg-slate-100  text-slate-600  font-bold text-xs border border-black/5 ">
                                             {{ number_format($venue->capacity) }}
                                         </span>
                                     @else
@@ -100,7 +100,7 @@
                                 <td colspan="4" class="px-6 py-20 text-center">
                                     <div class="flex flex-col items-center">
                                         <div
-                                            class="w-16 h-16 bg-black/5 dark:bg-white/5 rounded-2xl flex items-center justify-center text-slate-500 mb-4 glass">
+                                            class="w-16 h-16 bg-black/5  rounded-2xl flex items-center justify-center text-slate-500 mb-4 glass">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none"
                                                 viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -109,7 +109,7 @@
                                                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                             </svg>
                                         </div>
-                                        <h3 class="text-lg font-medium text-slate-900 dark:text-slate-300">No venues found</h3>
+                                        <h3 class="text-lg font-medium text-slate-900 ">No venues found</h3>
                                         <p class="text-slate-500 mt-1">Get started by adding your first venue.</p>
                                         <a href="{{ route('admin.venues.create') }}"
                                             class="mt-4 text-indigo-400 hover:text-indigo-300 font-medium">Add Venue &rarr;</a>

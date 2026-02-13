@@ -28,33 +28,33 @@
 
         <!-- Stats or Summary -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="glass-card p-4 rounded-2xl border-black/5 dark:border-white/5">
+            <div class="glass-card p-4 rounded-2xl border-black/5 ">
                 <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Seats</span>
-                <p class="text-2xl font-bold text-slate-900 dark:text-white mt-1">
+                <p class="text-2xl font-bold text-slate-900  mt-1">
                     {{ number_format($venue->seats()->count()) }}</p>
             </div>
-            <div class="glass-card p-4 rounded-2xl border-black/5 dark:border-white/5">
+            <div class="glass-card p-4 rounded-2xl border-black/5 ">
                 <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">VIP</span>
                 <p class="text-2xl font-bold text-amber-500 mt-1">
                     {{ number_format($venue->seats()->where('type', 'vip')->count()) }}</p>
             </div>
-            <div class="glass-card p-4 rounded-2xl border-black/5 dark:border-white/5">
+            <div class="glass-card p-4 rounded-2xl border-black/5 ">
                 <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Available</span>
                 <p class="text-2xl font-bold text-emerald-500 mt-1">
                     {{ number_format($venue->seats()->where('status', 'available')->count()) }}</p>
             </div>
-            <div class="glass-card p-4 rounded-2xl border-black/5 dark:border-white/5">
+            <div class="glass-card p-4 rounded-2xl border-black/5 ">
                 <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Blocked</span>
                 <p class="text-2xl font-bold text-rose-500 mt-1">
                     {{ number_format($venue->seats()->where('status', 'blocked')->count()) }}</p>
             </div>
         </div>
 
-        <div class="glass-card rounded-3xl overflow-hidden border-black/5 dark:border-white/10 shadow-sm">
+        <div class="glass-card rounded-3xl overflow-hidden border-black/5  shadow-sm">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="border-b border-black/5 dark:border-white/5 bg-black/5 dark:bg-white/5">
+                        <tr class="border-b border-black/5  bg-black/5 ">
                             <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-widest">Section
                             </th>
                             <th
@@ -71,19 +71,19 @@
                                 Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-black/5 dark:divide-white/5">
+                    <tbody class="divide-y divide-black/5 ">
                         @forelse($seats as $seat)
-                            <tr class="hover:bg-black/5 dark:hover:bg-white/5 transition-colors duration-200 group">
+                            <tr class="hover:bg-black/5  transition-colors duration-200 group">
                                 <td class="px-6 py-4">
                                     <span
-                                        class="text-slate-900 dark:text-slate-200 font-medium">{{ $seat->section ?? '-' }}</span>
+                                        class="text-slate-900  font-medium">{{ $seat->section ?? '-' }}</span>
                                 </td>
                                 <td class="px-6 py-4 text-center">
-                                    <span class="text-slate-700 dark:text-slate-300">{{ $seat->row ?? '-' }}</span>
+                                    <span class="text-slate-700 ">{{ $seat->row ?? '-' }}</span>
                                 </td>
                                 <td class="px-6 py-4 text-center">
                                     <span
-                                        class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold border border-black/5 dark:border-white/5">
+                                        class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-slate-100  text-slate-700  font-bold border border-black/5 ">
                                         {{ $seat->number }}
                                     </span>
                                 </td>
@@ -143,14 +143,14 @@
                                 <td colspan="6" class="px-6 py-20 text-center">
                                     <div class="flex flex-col items-center">
                                         <div
-                                            class="w-16 h-16 bg-black/5 dark:bg-white/5 rounded-2xl flex items-center justify-center text-slate-500 mb-4 glass">
+                                            class="w-16 h-16 bg-black/5  rounded-2xl flex items-center justify-center text-slate-500 mb-4 glass">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none"
                                                 viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                                             </svg>
                                         </div>
-                                        <h3 class="text-lg font-medium text-slate-900 dark:text-slate-300">No seats defined</h3>
+                                        <h3 class="text-lg font-medium text-slate-900 ">No seats defined</h3>
                                         <p class="text-slate-500 mt-1">Start by adding individual seats or bulk generating rows.
                                         </p>
                                         <a href="{{ route('admin.venues.seats.create', $venue) }}"

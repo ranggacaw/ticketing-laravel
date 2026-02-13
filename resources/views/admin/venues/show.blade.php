@@ -25,7 +25,7 @@
             </div>
             <div class="flex gap-3">
                 <a href="{{ route('admin.venues.edit', $venue) }}"
-                    class="inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 text-slate-700 dark:text-slate-200 font-semibold py-2.5 px-5 rounded-xl transition-all duration-300">
+                    class="inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200   text-slate-700  font-semibold py-2.5 px-5 rounded-xl transition-all duration-300">
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -38,20 +38,20 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Venue Details -->
             <div class="lg:col-span-1 space-y-8">
-                <div class="glass-card p-6 rounded-3xl border-black/5 dark:border-white/10 shadow-sm">
-                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Venue Details</h3>
+                <div class="glass-card p-6 rounded-3xl border-black/5  shadow-sm">
+                    <h3 class="text-lg font-semibold text-slate-900  mb-4">Venue Details</h3>
 
                     <div class="space-y-4">
                         <div>
                             <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Address</span>
-                            <p class="text-slate-700 dark:text-slate-300 mt-1">{{ $venue->address }}</p>
-                            <p class="text-slate-700 dark:text-slate-300">{{ $venue->city }}, {{ $venue->state }}
+                            <p class="text-slate-700  mt-1">{{ $venue->address }}</p>
+                            <p class="text-slate-700 ">{{ $venue->city }}, {{ $venue->state }}
                                 {{ $venue->postal_code }}
                             </p>
-                            <p class="text-slate-700 dark:text-slate-300">{{ $venue->country }}</p>
+                            <p class="text-slate-700 ">{{ $venue->country }}</p>
                         </div>
 
-                        <div class="pt-4 border-t border-black/5 dark:border-white/5">
+                        <div class="pt-4 border-t border-black/5 ">
                             <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Capacity</span>
                             <p class="text-2xl font-bold text-indigo-500 mt-1">
                                 {{ $venue->capacity ? number_format($venue->capacity) : 'N/A' }} <span
@@ -60,9 +60,9 @@
                         </div>
 
                         @if($venue->description)
-                            <div class="pt-4 border-t border-black/5 dark:border-white/5">
+                            <div class="pt-4 border-t border-black/5 ">
                                 <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">About</span>
-                                <p class="text-slate-600 dark:text-slate-400 mt-1 text-sm leading-relaxed">
+                                <p class="text-slate-600  mt-1 text-sm leading-relaxed">
                                     {{ $venue->description }}
                                 </p>
                             </div>
@@ -74,19 +74,19 @@
             <!-- Placeholder for Seats or Events -->
             <div class="lg:col-span-2 space-y-8">
                 <div
-                    class="glass-card p-6 rounded-3xl border-black/5 dark:border-white/10 shadow-sm flex flex-col items-center justify-center min-h-[300px] text-center">
+                    class="glass-card p-6 rounded-3xl border-black/5  shadow-sm flex flex-col items-center justify-center min-h-[300px] text-center">
                     <div
-                        class="w-16 h-16 bg-slate-100 dark:bg-white/5 rounded-full flex items-center justify-center text-slate-400 mb-4">
+                        class="w-16 h-16 bg-slate-100  rounded-full flex items-center justify-center text-slate-400 mb-4">
                         <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                         </svg>
                     </div>
-                    <h3 class="text-lg font-medium text-slate-900 dark:text-slate-300">Seat Management</h3>
+                    <h3 class="text-lg font-medium text-slate-900 ">Seat Management</h3>
                     <p class="text-slate-500 max-w-sm mt-2">Manage seating layouts, sections, and individual seat
                         availability.</p>
                     <a href="{{ route('admin.venues.seats.index', $venue) }}"
-                        class="mt-6 px-5 py-2.5 bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400 rounded-xl font-medium text-sm hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-colors inline-block">
+                        class="mt-6 px-5 py-2.5 bg-indigo-50 text-indigo-600   rounded-xl font-medium text-sm hover:bg-indigo-100  transition-colors inline-block">
                         Manage Seats
                     </a>
                 </div>

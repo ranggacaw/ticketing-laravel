@@ -30,7 +30,7 @@
                             </svg>
                         </div>
                         <input type="text" name="user_name" id="user_name" value="{{ old('user_name') }}" required
-                            class="w-full pl-12 pr-4 py-4 bg-white/5 dark:bg-black/20 border border-black/5 dark:border-white/5 rounded-2xl text-app-primary placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all @error('user_name') border-rose-500/50 @enderror"
+                            class="w-full pl-12 pr-4 py-4 bg-white/5  border border-black/5  rounded-2xl text-app-primary placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all @error('user_name') border-rose-500/50 @enderror"
                             placeholder="e.g. John Doe">
                     </div>
                     @error('user_name') <p class="mt-1 text-xs text-rose-500">{{ $message }}</p> @enderror
@@ -46,7 +46,7 @@
                             </svg>
                         </div>
                         <input type="email" name="user_email" id="user_email" value="{{ old('user_email') }}" required
-                            class="w-full pl-12 pr-4 py-4 bg-white/5 dark:bg-black/20 border border-black/5 dark:border-white/5 rounded-2xl text-app-primary placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all @error('user_email') border-rose-500/50 @enderror"
+                            class="w-full pl-12 pr-4 py-4 bg-white/5  border border-black/5  rounded-2xl text-app-primary placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all @error('user_email') border-rose-500/50 @enderror"
                             placeholder="john@example.com">
                     </div>
                     @error('user_email') <p class="mt-1 text-xs text-rose-500">{{ $message }}</p> @enderror
@@ -63,7 +63,7 @@
                             </svg>
                         </div>
                         <input type="text" name="seat_number" id="seat_number" value="{{ old('seat_number') }}" required
-                            class="w-full pl-12 pr-4 py-4 bg-white/5 dark:bg-black/20 border border-black/5 dark:border-white/5 rounded-2xl text-app-primary placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all @error('seat_number') border-rose-500/50 @enderror"
+                            class="w-full pl-12 pr-4 py-4 bg-white/5  border border-black/5  rounded-2xl text-app-primary placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all @error('seat_number') border-rose-500/50 @enderror"
                             placeholder="e.g. B12, Row 4-A">
                     </div>
                     @error('seat_number') <p class="mt-1 text-xs text-rose-500">{{ $message }}</p> @enderror
@@ -79,11 +79,11 @@
                             </svg>
                         </div>
                         <select name="type" id="type" required
-                            class="w-full pl-12 pr-4 py-4 bg-white/5 dark:bg-black/20 border border-black/5 dark:border-white/5 rounded-2xl text-app-primary appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all cursor-pointer">
-                            <option value="General Admission" {{ old('type') == 'General Admission' ? 'selected' : '' }} class="bg-white dark:bg-slate-900">General Admission</option>
-                            <option value="Festival" {{ old('type') == 'Festival' ? 'selected' : '' }} class="bg-white dark:bg-slate-900">Festival</option>
-                            <option value="VIP" {{ old('type') == 'VIP' ? 'selected' : '' }} class="bg-white dark:bg-slate-900">VIP</option>
-                            <option value="VVIP" {{ old('type') == 'VVIP' ? 'selected' : '' }} class="bg-white dark:bg-slate-900">VVIP</option>
+                            class="w-full pl-12 pr-4 py-4 bg-white/5  border border-black/5  rounded-2xl text-app-primary appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all cursor-pointer">
+                            <option value="General Admission" {{ old('type') == 'General Admission' ? 'selected' : '' }} class="bg-white ">General Admission</option>
+                            <option value="Festival" {{ old('type') == 'Festival' ? 'selected' : '' }} class="bg-white ">Festival</option>
+                            <option value="VIP" {{ old('type') == 'VIP' ? 'selected' : '' }} class="bg-white ">VIP</option>
+                            <option value="VVIP" {{ old('type') == 'VVIP' ? 'selected' : '' }} class="bg-white ">VVIP</option>
                         </select>
                         <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-500">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -102,14 +102,14 @@
                         </div>
                         <input type="hidden" name="price" id="real_price" value="{{ old('price', 0) }}">
                         <input type="text" id="display_price" value="{{ old('price', 0) }}" required
-                            class="w-full pl-12 pr-4 py-4 bg-white/5 dark:bg-black/20 border border-black/5 dark:border-white/5 rounded-2xl text-app-primary placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all"
+                            class="w-full pl-12 pr-4 py-4 bg-white/5  border border-black/5  rounded-2xl text-app-primary placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all"
                             placeholder="50.000">
                     </div>
                 </div>
             </div>
 
             <div class="pt-8 flex items-center justify-end gap-4">
-                <a href="{{ route('admin.tickets.index') }}" class="px-8 py-4 rounded-2xl border border-black/5 dark:border-white/10 text-app-secondary hover:text-app-primary hover:bg-black/5 dark:hover:bg-white/5 transition-all font-bold cursor-pointer">
+                <a href="{{ route('admin.tickets.index') }}" class="px-8 py-4 rounded-2xl border border-black/5  text-app-secondary hover:text-app-primary hover:bg-black/5  transition-all font-bold cursor-pointer">
                     Cancel
                 </a>
                 <button type="submit" class="flex-1 md:flex-none group relative flex items-center justify-center gap-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-4 px-10 rounded-2xl transition-all duration-300 shadow-xl shadow-indigo-600/20 cursor-pointer">

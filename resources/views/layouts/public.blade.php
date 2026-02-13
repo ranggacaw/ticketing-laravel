@@ -13,7 +13,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="min-h-screen bg-slate-950 text-slate-100 font-sans antialiased">
+<body class="min-h-screen bg-slate-50 text-slate-900 font-sans antialiased">
     <div class="drawer">
         <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
         <div class="drawer-content flex flex-col min-h-screen">
@@ -110,7 +110,7 @@
         </div>
         <div class="drawer-side z-50">
             <label for="my-drawer-3" aria-label="close sidebar" class="drawer-overlay"></label>
-            <ul class="menu p-4 w-80 min-h-full bg-slate-900 text-slate-100">
+            <ul class="menu p-4 w-80 min-h-full bg-slate-900 text-slate-900">
                 <!-- Sidebar content here -->
                 <li><a href="{{ route('events.index') }}"
                         class="{{ request()->routeIs('events.*') ? 'active' : '' }}">Browse Events</a></li>

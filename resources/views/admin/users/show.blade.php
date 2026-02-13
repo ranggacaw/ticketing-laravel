@@ -31,12 +31,12 @@
             <!-- User Info Sidebar -->
             <div class="lg:col-span-1 space-y-6">
                 <div
-                    class="glass-card p-6 sm:p-8 rounded-3xl border-black/5 dark:border-white/10 shadow-sm flex flex-col items-center text-center">
+                    class="glass-card p-6 sm:p-8 rounded-3xl border-black/5  shadow-sm flex flex-col items-center text-center">
                     <div
-                        class="w-24 h-24 rounded-full bg-indigo-500/10 flex items-center justify-center text-indigo-500 font-bold text-3xl ring-4 ring-white dark:ring-slate-800 mb-4">
+                        class="w-24 h-24 rounded-full bg-indigo-500/10 flex items-center justify-center text-indigo-500 font-bold text-3xl ring-4 ring-white  mb-4">
                         {{ substr($user->name, 0, 1) }}
                     </div>
-                    <h3 class="text-xl font-bold text-slate-900 dark:text-white">{{ $user->name }}</h3>
+                    <h3 class="text-xl font-bold text-slate-900 ">{{ $user->name }}</h3>
                     <p class="text-slate-500 text-sm">{{ $user->email }}</p>
                     <div class="mt-4">
                         @php
@@ -54,17 +54,17 @@
                     </div>
                 </div>
 
-                <div class="glass-card p-6 rounded-3xl border-black/5 dark:border-white/10 shadow-sm">
+                <div class="glass-card p-6 rounded-3xl border-black/5  shadow-sm">
                     <h4 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">Details</h4>
                     <div class="space-y-4">
                         <div>
                             <span class="text-xs text-slate-500 block mb-0.5">Joined</span>
-                            <p class="font-medium text-slate-900 dark:text-slate-200">
+                            <p class="font-medium text-slate-900 ">
                                 {{ $user->created_at->format('M d, Y') }}</p>
                         </div>
                         <div>
                             <span class="text-xs text-slate-500 block mb-0.5">Verified</span>
-                            <p class="font-medium text-slate-900 dark:text-slate-200">
+                            <p class="font-medium text-slate-900 ">
                                 @if($user->email_verified_at)
                                     <span class="text-emerald-500">Yes ({{ $user->email_verified_at->format('M d, Y') }})</span>
                                 @else
@@ -77,14 +77,14 @@
 
                 <!-- Recent Activity -->
                 <div
-                    class="glass-card rounded-3xl overflow-hidden border-black/5 dark:border-white/10 shadow-sm flex flex-col max-h-[500px]">
-                    <div class="p-6 border-b border-black/5 dark:border-white/5 shrink-0">
+                    class="glass-card rounded-3xl overflow-hidden border-black/5  shadow-sm flex flex-col max-h-[500px]">
+                    <div class="p-6 border-b border-black/5  shrink-0">
                         <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wider">Recent Activity</h3>
                     </div>
                     <div class="overflow-y-auto flex-1">
-                        <ul role="list" class="divide-y divide-black/5 dark:divide-white/5">
+                        <ul role="list" class="divide-y divide-black/5 ">
                             @forelse($activities as $activity)
-                                <li class="p-4 hover:bg-black/5 dark:hover:bg-white/5 transition-colors duration-200">
+                                <li class="p-4 hover:bg-black/5  transition-colors duration-200">
                                     <div class="flex-1 space-y-1">
                                         <div class="flex items-center justify-between">
                                             <span
@@ -92,7 +92,7 @@
                                             <span
                                                 class="text-[10px] text-slate-400">{{ $activity->created_at->diffForHumans() }}</span>
                                         </div>
-                                        <p class="text-xs text-slate-600 dark:text-slate-300 line-clamp-2">
+                                        <p class="text-xs text-slate-600  line-clamp-2">
                                             {{ $activity->description }}</p>
                                     </div>
                                 </li>
@@ -106,14 +106,14 @@
 
             <!-- Main Content (Tickets) -->
             <div class="lg:col-span-2 space-y-8">
-                <div class="glass-card rounded-3xl overflow-hidden border-black/5 dark:border-white/10 shadow-sm">
-                    <div class="p-6 border-b border-black/5 dark:border-white/5 flex items-center justify-between">
-                        <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-200">Ticket History</h3>
+                <div class="glass-card rounded-3xl overflow-hidden border-black/5  shadow-sm">
+                    <div class="p-6 border-b border-black/5  flex items-center justify-between">
+                        <h3 class="text-lg font-semibold text-slate-900 ">Ticket History</h3>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
-                                <tr class="border-b border-black/5 dark:border-white/5 bg-black/5 dark:bg-white/5">
+                                <tr class="border-b border-black/5  bg-black/5 ">
                                     <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-widest">
                                         Event</th>
                                     <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-widest">
@@ -129,23 +129,23 @@
                                         Date</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-black/5 dark:divide-white/5">
+                            <tbody class="divide-y divide-black/5 ">
                                 @forelse($tickets as $ticket)
-                                    <tr class="hover:bg-black/5 dark:hover:bg-white/5 transition-colors duration-200 group">
+                                    <tr class="hover:bg-black/5  transition-colors duration-200 group">
                                         <td class="px-6 py-5">
                                             <div class="flex flex-col">
                                                 <span
-                                                    class="text-slate-900 dark:text-slate-200 font-medium">{{ $ticket->event ? $ticket->event->name : 'Deleted Event' }}</span>
+                                                    class="text-slate-900  font-medium">{{ $ticket->event ? $ticket->event->name : 'Deleted Event' }}</span>
                                                 <span
                                                     class="text-xs text-indigo-400 font-mono mt-0.5">#{{ strtoupper(substr($ticket->uuid, 0, 8)) }}</span>
                                             </div>
                                         </td>
                                         <td class="px-6 py-5">
-                                            <span class="text-sm text-slate-600 dark:text-slate-300">{{ $ticket->type }}</span>
+                                            <span class="text-sm text-slate-600 ">{{ $ticket->type }}</span>
                                         </td>
                                         <td class="px-6 py-5 text-center">
                                             <span
-                                                class="inline-flex items-center justify-center px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-xs">
+                                                class="inline-flex items-center justify-center px-2 py-1 rounded bg-slate-100  text-slate-600  font-bold text-xs">
                                                 {{ $ticket->seat_number }}
                                             </span>
                                         </td>
@@ -174,7 +174,7 @@
                         </table>
                     </div>
                     @if($tickets->hasPages())
-                        <div class="p-6 border-t border-black/5 dark:border-white/5 flex justify-center">
+                        <div class="p-6 border-t border-black/5  flex justify-center">
                             <div class="glass px-4 py-2 rounded-2xl border-white/5">
                                 {{ $tickets->links() }}
                             </div>

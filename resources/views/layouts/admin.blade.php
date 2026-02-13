@@ -9,18 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script>
-        // Inline script to prevent FOUC (Flash of Unstyled Content)
-        (function () {
-            try {
-                const theme = localStorage.getItem('theme') || 'system';
-                const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-                document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
-            } catch (e) {
-                console.error('Theme initialization failed:', e);
-            }
-        })();
-    </script>
 </head>
 
 <body class="bg-base-100 text-base-content min-h-screen">
@@ -45,7 +33,7 @@
                                 d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
                         </svg>
                     </div>
-                    <h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Ticket<span
+                    <h1 class="text-xl font-bold tracking-tight text-slate-900">Ticket<span
                             class="gradient-text">Scan</span></h1>
                 </div>
 
@@ -210,33 +198,7 @@
                     </button>
                 </div>
                 <div class="flex items-center gap-2 sm:gap-4 ml-auto">
-                    <!-- Theme Switcher -->
-                    <div class="flex items-center gap-1 bg-base-200 rounded-full p-1 border border-base-300 shadow-sm">
-                        <button onclick="setTheme('light')" id="theme-light"
-                            class="btn btn-circle btn-xs btn-ghost theme-btn" title="Light Theme">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                        </button>
-                        <button onclick="setTheme('dark')" id="theme-dark"
-                            class="btn btn-circle btn-xs btn-ghost theme-btn" title="Dark Theme">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                            </svg>
-                        </button>
-                        <button onclick="setTheme('system')" id="theme-system"
-                            class="btn btn-circle btn-xs btn-ghost theme-btn" title="System Preference">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                            </svg>
-                        </button>
-                    </div>
+                    <!-- Theme Switcher Removed -->
 
                     <div class="hidden sm:block text-xs sm:text-sm text-base-content/60 font-medium">
                         {{ now()->format('D, M d, Y') }}
@@ -250,7 +212,7 @@
                         <div
                             class="glass-card bg-emerald-500/10 border-emerald-500/20 rounded-2xl p-4 flex items-center gap-3">
                             <div
-                                class="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                                class="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-600 ">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
                                     fill="currentColor">
                                     <path fill-rule="evenodd"
@@ -258,7 +220,7 @@
                                         clip-rule="evenodd" />
                                 </svg>
                             </div>
-                            <p class="text-emerald-600 dark:text-emerald-400 font-medium text-sm">{{ session('success') }}
+                            <p class="text-emerald-600  font-medium text-sm">{{ session('success') }}
                             </p>
                         </div>
                     </div>
@@ -270,62 +232,15 @@
     </div>
 
     <script>
-        // Theme logic
-        function setTheme(theme) {
-            if (theme === 'system') {
-                localStorage.removeItem('theme');
-            } else {
-                localStorage.setItem('theme', theme);
-            }
-            updateThemeUI();
-        }
-
-        function updateThemeUI() {
-            const theme = localStorage.getItem('theme') || 'system';
-            const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-
-            document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
-
-            // Update buttons
-            // Update buttons
-            document.querySelectorAll('.theme-btn').forEach(btn => {
-                btn.classList.remove('bg-base-100', 'shadow-sm', 'text-primary');
-                btn.classList.add('text-base-content/60');
-            });
-
-            const activeBtn = document.getElementById('theme-' + theme);
-            if (activeBtn) {
-                activeBtn.classList.remove('text-base-content/60');
-                activeBtn.classList.add('bg-base-100', 'shadow-sm', 'text-primary');
-            }
-        }
-
-        // Initialize UI
         document.addEventListener('DOMContentLoaded', function () {
-            updateThemeUI();
-
-            // Sidebar toggle logic
+            // Mobile sidebar logic
+            const sidebar = document.getElementById('sidebar');
             const toggle = document.getElementById('sidebar-toggle');
-            const sidebar = document.querySelector('.sidebar');
             const overlay = document.getElementById('sidebar-overlay');
 
             function toggleSidebar() {
-                const isOpen = !sidebar.classList.contains('-translate-x-full');
-                if (isOpen) {
-                    sidebar.classList.add('-translate-x-full');
-                    overlay.classList.add('hidden');
-                    overlay.classList.remove('opacity-100');
-                    overlay.classList.add('opacity-0');
-                    document.body.style.overflow = '';
-                } else {
-                    sidebar.classList.remove('-translate-x-full');
-                    overlay.classList.remove('hidden');
-                    setTimeout(() => {
-                        overlay.classList.add('opacity-100');
-                        overlay.classList.remove('opacity-0');
-                    }, 10);
-                    document.body.style.overflow = 'hidden';
-                }
+                sidebar.classList.toggle('-translate-x-full');
+                overlay.classList.toggle('hidden');
             }
 
             if (toggle && sidebar && overlay) {
@@ -338,13 +253,7 @@
                     }
                 });
             }
-
-            // Sync with system changes
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-                if (!localStorage.getItem('theme')) updateThemeUI();
-            });
         });
     </script>
 </body>
-
 </html>

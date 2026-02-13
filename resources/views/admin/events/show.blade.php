@@ -34,7 +34,7 @@
             </div>
             <div class="flex gap-3">
                 <a href="{{ route('events.show', $event) }}" target="_blank"
-                    class="inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 text-slate-700 dark:text-slate-200 font-semibold py-2.5 px-5 rounded-xl transition-all duration-300">
+                    class="inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200   text-slate-700  font-semibold py-2.5 px-5 rounded-xl transition-all duration-300">
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -56,28 +56,28 @@
             <!-- Main Content -->
             <div class="lg:col-span-2 space-y-8">
                 <!-- Details Card -->
-                <div class="glass-card p-6 sm:p-8 rounded-3xl border-black/5 dark:border-white/10 shadow-sm">
-                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">About Event</h3>
-                    <div class="prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-400">
+                <div class="glass-card p-6 sm:p-8 rounded-3xl border-black/5  shadow-sm">
+                    <h3 class="text-lg font-semibold text-slate-900  mb-4">About Event</h3>
+                    <div class="prose  max-w-none text-slate-600 ">
                         <p class="whitespace-pre-line">{{ $event->description }}</p>
                     </div>
                 </div>
 
                 <!-- Ticket Types Placeholder (Next Task) -->
                 <div
-                    class="glass-card p-6 sm:p-8 rounded-3xl border-black/5 dark:border-white/10 shadow-sm flex flex-col items-center justify-center min-h-[200px] text-center">
+                    class="glass-card p-6 sm:p-8 rounded-3xl border-black/5  shadow-sm flex flex-col items-center justify-center min-h-[200px] text-center">
                     <div
-                        class="w-12 h-12 bg-indigo-50 dark:bg-indigo-500/10 rounded-full flex items-center justify-center text-indigo-500 mb-3">
+                        class="w-12 h-12 bg-indigo-50  rounded-full flex items-center justify-center text-indigo-500 mb-3">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
                         </svg>
                     </div>
-                    <h3 class="text-lg font-medium text-slate-900 dark:text-slate-300">Ticket Types</h3>
+                    <h3 class="text-lg font-medium text-slate-900 ">Ticket Types</h3>
                     <p class="text-slate-500 text-sm mt-1 max-w-sm">Define pricing tiers and ticket availability.</p>
                     <div class="mt-4">
                         <a href="{{ route('admin.events.ticket-types.index', $event) }}"
-                            class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-colors">
+                            class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium bg-indigo-50 text-indigo-700   hover:bg-indigo-100  transition-colors">
                             Manage Ticket Types
                         </a>
                     </div>
@@ -87,7 +87,7 @@
             <!-- Sidebar -->
             <div class="lg:col-span-1 space-y-6">
                 <!-- Status Card -->
-                <div class="glass-card p-6 rounded-3xl border-black/5 dark:border-white/10 shadow-sm">
+                <div class="glass-card p-6 rounded-3xl border-black/5  shadow-sm">
                     <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">Status</h3>
                     @php
                         $statusClasses = match ($event->status) {
@@ -108,17 +108,17 @@
                 </div>
 
                 <!-- Organizer Card -->
-                <div class="glass-card p-6 rounded-3xl border-black/5 dark:border-white/10 shadow-sm">
+                <div class="glass-card p-6 rounded-3xl border-black/5  shadow-sm">
                     <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">Organizer</h3>
                     @if($event->organizer)
                         <div class="flex items-center gap-3">
                             <div
-                                class="w-10 h-10 rounded-full bg-indigo-500/10 flex items-center justify-center text-indigo-500 font-bold text-sm ring-2 ring-white dark:ring-slate-800">
+                                class="w-10 h-10 rounded-full bg-indigo-500/10 flex items-center justify-center text-indigo-500 font-bold text-sm ring-2 ring-white ">
                                 {{ substr($event->organizer->name, 0, 1) }}
                             </div>
                             <div>
                                 <a href="{{ route('admin.organizers.show', $event->organizer) }}"
-                                    class="font-medium text-slate-900 dark:text-slate-200 hover:text-indigo-500 transition-colors">
+                                    class="font-medium text-slate-900  hover:text-indigo-500 transition-colors">
                                     {{ $event->organizer->name }}
                                 </a>
                                 <p class="text-xs text-slate-500 truncate max-w-[150px]">{{ $event->organizer->email }}</p>
@@ -130,12 +130,12 @@
                 </div>
 
                 <!-- Venue Card -->
-                <div class="glass-card p-6 rounded-3xl border-black/5 dark:border-white/10 shadow-sm">
+                <div class="glass-card p-6 rounded-3xl border-black/5  shadow-sm">
                     <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">Venue</h3>
                     @if($event->venue)
                         <div>
                             <a href="{{ route('admin.venues.show', $event->venue) }}"
-                                class="font-medium text-slate-900 dark:text-slate-200 hover:text-indigo-500 transition-colors block mb-1">
+                                class="font-medium text-slate-900  hover:text-indigo-500 transition-colors block mb-1">
                                 {{ $event->venue->name }}
                             </a>
                             <p class="text-sm text-slate-500">{{ $event->venue->address }}</p>
@@ -143,26 +143,26 @@
                         </div>
                     @else
                         <div>
-                            <p class="font-medium text-slate-900 dark:text-slate-200">{{ $event->location }}</p>
+                            <p class="font-medium text-slate-900 ">{{ $event->location }}</p>
                             <p class="text-xs text-slate-500 mt-1">(Custom Location)</p>
                         </div>
                     @endif
                 </div>
 
                 <!-- Schedule Card -->
-                <div class="glass-card p-6 rounded-3xl border-black/5 dark:border-white/10 shadow-sm">
+                <div class="glass-card p-6 rounded-3xl border-black/5  shadow-sm">
                     <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">Schedule</h3>
                     <div class="space-y-4">
                         <div>
                             <span class="text-xs text-slate-500 block mb-0.5">Start</span>
-                            <p class="font-medium text-slate-900 dark:text-slate-200">
+                            <p class="font-medium text-slate-900 ">
                                 {{ $event->start_time?->format('D, M d Y') ?? 'Not Set' }}
                             </p>
                             <p class="text-sm text-slate-500">{{ $event->start_time?->format('h:i A') ?? '' }}</p>
                         </div>
-                        <div class="pt-3 border-t border-black/5 dark:border-white/5">
+                        <div class="pt-3 border-t border-black/5 ">
                             <span class="text-xs text-slate-500 block mb-0.5">End</span>
-                            <p class="font-medium text-slate-900 dark:text-slate-200">
+                            <p class="font-medium text-slate-900 ">
                                 {{ $event->end_time?->format('D, M d Y') ?? 'Not Set' }}
                             </p>
                             <p class="text-sm text-slate-500">{{ $event->end_time?->format('h:i A') ?? '' }}</p>

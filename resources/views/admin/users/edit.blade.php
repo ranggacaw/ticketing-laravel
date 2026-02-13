@@ -31,7 +31,7 @@
                             </svg>
                         </div>
                         <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}" required
-                            class="w-full pl-12 pr-4 py-4 bg-white/5 dark:bg-black/20 border border-black/5 dark:border-white/5 rounded-2xl text-app-primary placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all @error('name') border-rose-500/50 @enderror"
+                            class="w-full pl-12 pr-4 py-4 bg-white/5  border border-black/5  rounded-2xl text-app-primary placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all @error('name') border-rose-500/50 @enderror"
                             placeholder="e.g. Jane Smith">
                     </div>
                     @error('name') <p class="mt-1 text-xs text-rose-500">{{ $message }}</p> @enderror
@@ -47,7 +47,7 @@
                             </svg>
                         </div>
                         <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" required
-                            class="w-full pl-12 pr-4 py-4 bg-white/5 dark:bg-black/20 border border-black/5 dark:border-white/5 rounded-2xl text-app-primary placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all @error('email') border-rose-500/50 @enderror"
+                            class="w-full pl-12 pr-4 py-4 bg-white/5  border border-black/5  rounded-2xl text-app-primary placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all @error('email') border-rose-500/50 @enderror"
                             placeholder="jane@example.com">
                     </div>
                     @error('email') <p class="mt-1 text-xs text-rose-500">{{ $message }}</p> @enderror
@@ -63,10 +63,10 @@
                             </svg>
                         </div>
                         <select name="role" id="role" required
-                            class="w-full pl-12 pr-4 py-4 bg-white/5 dark:bg-black/20 border border-black/5 dark:border-white/5 rounded-2xl text-app-primary appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all cursor-pointer">
-                            <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }} class="bg-white dark:bg-slate-900">Admin (Full Access)</option>
-                            <option value="staff" {{ old('role', $user->role) == 'staff' ? 'selected' : '' }} class="bg-white dark:bg-slate-900">Staff (Everything except creating users)</option>
-                            <option value="volunteer" {{ old('role', $user->role) == 'volunteer' ? 'selected' : '' }} class="bg-white dark:bg-slate-900">Volunteer (Scan Only)</option>
+                            class="w-full pl-12 pr-4 py-4 bg-white/5  border border-black/5  rounded-2xl text-app-primary appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all cursor-pointer">
+                            <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }} class="bg-white ">Admin (Full Access)</option>
+                            <option value="staff" {{ old('role', $user->role) == 'staff' ? 'selected' : '' }} class="bg-white ">Staff (Everything except creating users)</option>
+                            <option value="volunteer" {{ old('role', $user->role) == 'volunteer' ? 'selected' : '' }} class="bg-white ">Volunteer (Scan Only)</option>
                         </select>
                         <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-500">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -86,7 +86,7 @@
                             </svg>
                         </div>
                         <input type="password" name="password" id="password"
-                            class="w-full pl-12 pr-4 py-4 bg-white/5 dark:bg-black/20 border border-black/5 dark:border-white/5 rounded-2xl text-app-primary placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all @error('password') border-rose-500/50 @enderror"
+                            class="w-full pl-12 pr-4 py-4 bg-white/5  border border-black/5  rounded-2xl text-app-primary placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all @error('password') border-rose-500/50 @enderror"
                             placeholder="Leave blank to keep current">
                     </div>
                     @error('password') <p class="mt-1 text-xs text-rose-500">{{ $message }}</p> @enderror
@@ -102,14 +102,14 @@
                             </svg>
                         </div>
                         <input type="password" name="password_confirmation" id="password_confirmation"
-                            class="w-full pl-12 pr-4 py-4 bg-white/5 dark:bg-black/20 border border-black/5 dark:border-white/5 rounded-2xl text-app-primary placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all"
+                            class="w-full pl-12 pr-4 py-4 bg-white/5  border border-black/5  rounded-2xl text-app-primary placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/40 transition-all"
                             placeholder="Leave blank to keep current">
                     </div>
                 </div>
             </div>
 
             <div class="pt-8 flex items-center justify-end gap-4">
-                <a href="{{ route('admin.users.index') }}" class="px-8 py-4 rounded-2xl border border-black/5 dark:border-white/10 text-app-secondary hover:text-app-primary hover:bg-black/5 dark:hover:bg-white/5 transition-all font-bold cursor-pointer">
+                <a href="{{ route('admin.users.index') }}" class="px-8 py-4 rounded-2xl border border-black/5  text-app-secondary hover:text-app-primary hover:bg-black/5  transition-all font-bold cursor-pointer">
                     Cancel
                 </a>
                 <button type="submit" class="flex-1 md:flex-none group relative flex items-center justify-center gap-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-4 px-10 rounded-2xl transition-all duration-300 shadow-xl shadow-indigo-600/20 cursor-pointer">

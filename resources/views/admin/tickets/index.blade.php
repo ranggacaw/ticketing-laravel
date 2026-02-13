@@ -15,11 +15,11 @@
         </a>
     </div>
 
-    <div class="glass-card rounded-3xl overflow-hidden border-black/5 dark:border-white/10 shadow-sm">
+    <div class="glass-card rounded-3xl overflow-hidden border-black/5  shadow-sm">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="border-b border-black/5 dark:border-white/5 bg-black/5 dark:bg-white/5">
+                    <tr class="border-b border-black/5  bg-black/5 ">
                         <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-widest">Ticket ID</th>
                         <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-widest">Guest Info</th>
                         <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-widest text-center">Seat</th>
@@ -29,9 +29,9 @@
                         <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-widest text-right">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-black/5 dark:divide-white/5">
+                <tbody class="divide-y divide-black/5 ">
                     @forelse($tickets as $ticket)
-                    <tr class="hover:bg-black/5 dark:hover:bg-white/5 transition-colors duration-200 group">
+                    <tr class="hover:bg-black/5  transition-colors duration-200 group">
                         <td class="px-6 py-5">
                             <div class="flex flex-col">
                                 <span class="text-indigo-400 font-mono text-sm font-semibold tracking-wider">#{{ strtoupper(substr($ticket->uuid, 0, 8)) }}</span>
@@ -40,12 +40,12 @@
                         </td>
                         <td class="px-6 py-5">
                             <div class="flex flex-col">
-                                <span class="text-slate-900 dark:text-slate-200 font-medium">{{ $ticket->user_name }}</span>
+                                <span class="text-slate-900  font-medium">{{ $ticket->user_name }}</span>
                                 <span class="text-xs text-slate-500">{{ $ticket->user_email }}</span>
                             </div>
                         </td>
                         <td class="px-6 py-5 text-center">
-                            <span class="inline-flex items-center justify-center px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-xs border border-black/5 dark:border-white/5">
+                            <span class="inline-flex items-center justify-center px-3 py-1 rounded-lg bg-slate-100  text-slate-600  font-bold text-xs border border-black/5 ">
                                 {{ $ticket->seat_number }}
                             </span>
                         </td>
@@ -74,7 +74,7 @@
                             @endif
                         </td>
                         <td class="px-6 py-5">
-                            <span class="text-slate-700 dark:text-slate-300 font-medium">Rp {{ number_format($ticket->price, 0, ',', '.') }}</span>
+                            <span class="text-slate-700  font-medium">Rp {{ number_format($ticket->price, 0, ',', '.') }}</span>
                         </td>
                         <td class="px-6 py-5 text-right">
                             <div class="flex items-center justify-end gap-3">
@@ -110,12 +110,12 @@
                     <tr>
                         <td colspan="7" class="px-6 py-20 text-center">
                             <div class="flex flex-col items-center">
-                                <div class="w-16 h-16 bg-black/5 dark:bg-white/5 rounded-2xl flex items-center justify-center text-slate-500 mb-4 glass">
+                                <div class="w-16 h-16 bg-black/5  rounded-2xl flex items-center justify-center text-slate-500 mb-4 glass">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                                     </svg>
                                 </div>
-                                <h3 class="text-lg font-medium text-slate-900 dark:text-slate-300">No tickets found</h3>
+                                <h3 class="text-lg font-medium text-slate-900 ">No tickets found</h3>
                                 <p class="text-slate-500 mt-1">Get started by generating your first event ticket.</p>
                                 <a href="{{ route('admin.tickets.create') }}" class="mt-4 text-indigo-400 hover:text-indigo-300 font-medium">Create Ticket &rarr;</a>
                             </div>
@@ -141,9 +141,9 @@
     <div class="absolute inset-0 bg-slate-950/60 backdrop-blur-sm transition-opacity duration-300"></div>
     <div class="absolute inset-0 flex items-center justify-center p-4">
         <div class="glass-card w-full max-w-2xl rounded-[2.5rem] shadow-2xl overflow-hidden transform transition-all duration-300 scale-95 opacity-0" id="modal-container">
-            <div class="p-8 border-b border-black/5 dark:border-white/5 flex items-center justify-between">
-                <h3 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Ticket <span class="gradient-text">Live Preview</span></h3>
-                <button onclick="closeModal()" class="p-2 rounded-xl text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-all">
+            <div class="p-8 border-b border-black/5  flex items-center justify-between">
+                <h3 class="text-xl font-bold tracking-tight text-slate-900 ">Ticket <span class="gradient-text">Live Preview</span></h3>
+                <button onclick="closeModal()" class="p-2 rounded-xl text-slate-400 hover:text-slate-900  hover:bg-black/5  transition-all">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>

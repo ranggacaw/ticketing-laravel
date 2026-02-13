@@ -26,11 +26,11 @@
             </a>
         </div>
 
-        <div class="glass-card rounded-3xl overflow-hidden border-black/5 dark:border-white/10 shadow-sm">
+        <div class="glass-card rounded-3xl overflow-hidden border-black/5  shadow-sm">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="border-b border-black/5 dark:border-white/5 bg-black/5 dark:bg-white/5">
+                        <tr class="border-b border-black/5  bg-black/5 ">
                             <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-widest">Name</th>
                             <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-widest">Price</th>
                             <th
@@ -45,18 +45,18 @@
                                 Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-black/5 dark:divide-white/5">
+                    <tbody class="divide-y divide-black/5 ">
                         @forelse($ticketTypes as $ticketType)
-                            <tr class="hover:bg-black/5 dark:hover:bg-white/5 transition-colors duration-200 group">
+                            <tr class="hover:bg-black/5  transition-colors duration-200 group">
                                 <td class="px-6 py-5">
-                                    <span class="text-slate-900 dark:text-slate-200 font-medium">{{ $ticketType->name }}</span>
+                                    <span class="text-slate-900  font-medium">{{ $ticketType->name }}</span>
                                     @if($ticketType->description)
                                         <p class="text-xs text-slate-500 mt-0.5 truncate max-w-xs">
                                             {{\Illuminate\Support\Str::limit($ticketType->description, 50)}}</p>
                                     @endif
                                 </td>
                                 <td class="px-6 py-5">
-                                    <span class="text-slate-700 dark:text-slate-300 font-bold">Rp
+                                    <span class="text-slate-700  font-bold">Rp
                                         {{ number_format($ticketType->price, 0, ',', '.') }}</span>
                                 </td>
                                 <td class="px-6 py-5 text-center">
@@ -74,11 +74,11 @@
                                 </td>
                                 <td class="px-6 py-5 text-center">
                                     <div class="flex flex-col items-center">
-                                        <span class="text-sm font-semibold text-slate-700 dark:text-slate-300">
+                                        <span class="text-sm font-semibold text-slate-700 ">
                                             {{ $ticketType->sold }} / {{ $ticketType->quantity }}
                                         </span>
                                         <div
-                                            class="w-24 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full mt-1 overflow-hidden">
+                                            class="w-24 h-1.5 bg-slate-200  rounded-full mt-1 overflow-hidden">
                                             @php
                                                 $percentage = $ticketType->quantity > 0 ? ($ticketType->sold / $ticketType->quantity) * 100 : 0;
                                             @endphp
@@ -128,14 +128,14 @@
                                 <td colspan="6" class="px-6 py-20 text-center">
                                     <div class="flex flex-col items-center">
                                         <div
-                                            class="w-16 h-16 bg-black/5 dark:bg-white/5 rounded-2xl flex items-center justify-center text-slate-500 mb-4 glass">
+                                            class="w-16 h-16 bg-black/5  rounded-2xl flex items-center justify-center text-slate-500 mb-4 glass">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none"
                                                 viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
                                             </svg>
                                         </div>
-                                        <h3 class="text-lg font-medium text-slate-900 dark:text-slate-300">No ticket types found
+                                        <h3 class="text-lg font-medium text-slate-900 ">No ticket types found
                                         </h3>
                                         <p class="text-slate-500 mt-1">Add ticket types to start selling tickets.</p>
                                         <a href="{{ route('admin.events.ticket-types.create', $event) }}"

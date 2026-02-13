@@ -15,20 +15,20 @@
     </div>
 
     <!-- Main Activity Info -->
-    <div class="glass-card p-6 md:p-8 rounded-3xl border-black/5 dark:border-white/5 space-y-8">
+    <div class="glass-card p-6 md:p-8 rounded-3xl border-black/5  space-y-8">
         <!-- Header Info -->
-        <div class="flex flex-col md:flex-row md:items-start justify-between gap-6 pb-6 border-b border-black/5 dark:border-white/5">
+        <div class="flex flex-col md:flex-row md:items-start justify-between gap-6 pb-6 border-b border-black/5 ">
             <div class="flex items-center gap-4">
                 <div class="w-12 h-12 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-500 font-bold text-lg">
                     {{ substr($activityLog->user->name ?? 'S', 0, 1) }}
                 </div>
                 <div>
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">{{ $activityLog->user->name ?? 'System' }}</h3>
+                    <h3 class="text-lg font-bold text-slate-900 ">{{ $activityLog->user->name ?? 'System' }}</h3>
                     <p class="text-sm text-slate-500">{{ $activityLog->user->email ?? 'System Action' }}</p>
                 </div>
             </div>
             <div class="flex flex-col items-end">
-                <span class="text-2xl font-mono font-bold text-slate-700 dark:text-slate-300">{{ $activityLog->created_at->format('H:i:s') }}</span>
+                <span class="text-2xl font-mono font-bold text-slate-700 ">{{ $activityLog->created_at->format('H:i:s') }}</span>
                 <span class="text-sm text-slate-500">{{ $activityLog->created_at->format('F d, Y') }}</span>
             </div>
         </div>
@@ -58,19 +58,19 @@
 
             <div class="space-y-1">
                 <label class="text-xs font-semibold text-slate-400 uppercase tracking-widest">IP Address</label>
-                <p class="text-base font-mono text-slate-700 dark:text-slate-300">{{ $activityLog->ip_address ?? 'N/A' }}</p>
+                <p class="text-base font-mono text-slate-700 ">{{ $activityLog->ip_address ?? 'N/A' }}</p>
             </div>
 
             <div class="space-y-1 md:col-span-2">
                 <label class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Description</label>
-                <p class="text-base text-slate-700 dark:text-slate-300">{{ $activityLog->description }}</p>
+                <p class="text-base text-slate-700 ">{{ $activityLog->description }}</p>
             </div>
 
             @if($activityLog->resource_type)
             <div class="space-y-1 md:col-span-2">
                 <label class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Target Resource</label>
                 <div class="flex items-center gap-2">
-                    <span class="px-3 py-1 rounded-lg bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 font-mono text-sm text-slate-600 dark:text-slate-400">
+                    <span class="px-3 py-1 rounded-lg bg-black/5  border border-black/10  font-mono text-sm text-slate-600 ">
                         {{ $activityLog->resource_type }} #{{ $activityLog->resource_id }}
                     </span>
                 </div>
@@ -85,7 +85,7 @@
 
         <!-- Metadata -->
         @if(!empty($activityLog->metadata))
-        <div class="pt-6 border-t border-black/5 dark:border-white/5">
+        <div class="pt-6 border-t border-black/5 ">
             <label class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-3 block">Metadata Payload</label>
             <div class="bg-slate-900 rounded-2xl p-4 overflow-x-auto shadow-inner border border-white/5">
 <pre class="text-xs md:text-sm font-mono text-emerald-400 leading-relaxed">

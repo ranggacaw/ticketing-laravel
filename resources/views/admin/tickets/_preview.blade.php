@@ -9,7 +9,7 @@
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                     <div>
                         <h4 class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-1">Attendee</h4>
-                        <p class="text-xl font-bold text-slate-900 dark:text-white leading-tight">
+                        <p class="text-xl font-bold text-slate-900  leading-tight">
                             {{ $ticket->user_name }}</p>
                         <p class="text-xs text-slate-400 mt-1 font-mono tracking-tighter opacity-70">{{ $ticket->uuid }}
                         </p>

@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('header')
-    <header class="bg-white dark:bg-slate-900 shadow">
+    <header class="bg-white  shadow">
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            <h2 class="font-semibold text-xl text-slate-800 dark:text-slate-200 leading-tight">
+            <h2 class="font-semibold text-xl text-slate-800  leading-tight">
                 {{ __('My History') }}
             </h2>
         </div>
@@ -13,18 +13,18 @@
 @section('content')
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-slate-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-slate-900 dark:text-slate-100">
-                    <h3 class="text-lg font-medium text-slate-900 dark:text-slate-200 mb-6">Activity Timeline</h3>
+            <div class="bg-white  overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-slate-900 ">
+                    <h3 class="text-lg font-medium text-slate-900  mb-6">Activity Timeline</h3>
 
                     <div
-                        class="relative space-y-8 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent dark:before:via-slate-700">
+                        class="relative space-y-8 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent ">
                         @forelse($activities as $activity)
                             <div
                                 class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
                                 <!-- Icon -->
                                 <div
-                                    class="flex items-center justify-center w-10 h-10 rounded-full border border-white dark:border-slate-900 bg-slate-50 dark:bg-slate-800 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
+                                    class="flex items-center justify-center w-10 h-10 rounded-full border border-white  bg-slate-50  shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
                                     @php
                                         $icon = match ($activity->action) {
                                             'LOGIN', 'LOGOUT' => '<svg class="w-5 h-5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" /></svg>',
@@ -38,14 +38,14 @@
 
                                 <!-- Card -->
                                 <div
-                                    class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm">
+                                    class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-xl border border-slate-200  bg-white  shadow-sm">
                                     <div class="flex items-center justify-between space-x-2 mb-1">
                                         <span
-                                            class="font-bold text-slate-900 dark:text-slate-100">{{ ucfirst(strtolower($activity->action)) }}</span>
+                                            class="font-bold text-slate-900 ">{{ ucfirst(strtolower($activity->action)) }}</span>
                                         <time
                                             class="font-caveat font-medium text-indigo-500 text-sm">{{ $activity->created_at->format('M d, H:i') }}</time>
                                     </div>
-                                    <div class="text-slate-500 dark:text-slate-400 text-sm">
+                                    <div class="text-slate-500  text-sm">
                                         {{ $activity->description }}
                                     </div>
                                 </div>

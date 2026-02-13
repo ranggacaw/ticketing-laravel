@@ -18,11 +18,11 @@
             </a>
         </div>
 
-        <div class="glass-card rounded-3xl overflow-hidden border-black/5 dark:border-white/10 shadow-sm">
+        <div class="glass-card rounded-3xl overflow-hidden border-black/5  shadow-sm">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="border-b border-black/5 dark:border-white/5 bg-black/5 dark:bg-white/5">
+                        <tr class="border-b border-black/5  bg-black/5 ">
                             <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-widest">Event Name
                             </th>
                             <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-widest">Date & Time
@@ -36,12 +36,12 @@
                                 Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-black/5 dark:divide-white/5">
+                    <tbody class="divide-y divide-black/5 ">
                         @forelse($events as $event)
-                            <tr class="hover:bg-black/5 dark:hover:bg-white/5 transition-colors duration-200 group">
+                            <tr class="hover:bg-black/5  transition-colors duration-200 group">
                                 <td class="px-6 py-5">
                                     <div class="flex flex-col">
-                                        <span class="text-slate-900 dark:text-slate-200 font-medium">{{ $event->name }}</span>
+                                        <span class="text-slate-900  font-medium">{{ $event->name }}</span>
                                         <span
                                             class="text-xs text-slate-500 mt-0.5 truncate max-w-xs">{{ $event->venue ? $event->venue->name : $event->location }}</span>
                                     </div>
@@ -49,7 +49,7 @@
                                 <td class="px-6 py-5">
                                     <div class="flex flex-col">
                                         <span
-                                            class="text-slate-700 dark:text-slate-300 text-sm font-medium">{{ $event->start_time?->format('M d, Y') ?? 'Not Set' }}</span>
+                                            class="text-slate-700  text-sm font-medium">{{ $event->start_time?->format('M d, Y') ?? 'Not Set' }}</span>
                                         <span
                                             class="text-xs text-slate-500">{{ $event->start_time?->format('h:i A') ?? '' }}</span>
                                     </div>
@@ -62,7 +62,7 @@
                                                 {{ substr($event->organizer->name, 0, 1) }}
                                             </div>
                                             <span
-                                                class="text-slate-600 dark:text-slate-400 text-sm">{{ $event->organizer->name }}</span>
+                                                class="text-slate-600  text-sm">{{ $event->organizer->name }}</span>
                                         </div>
                                     @else
                                         <span class="text-slate-400 text-xs italic">Unassigned</span>
@@ -126,14 +126,14 @@
                                 <td colspan="5" class="px-6 py-20 text-center">
                                     <div class="flex flex-col items-center">
                                         <div
-                                            class="w-16 h-16 bg-black/5 dark:bg-white/5 rounded-2xl flex items-center justify-center text-slate-500 mb-4 glass">
+                                            class="w-16 h-16 bg-black/5  rounded-2xl flex items-center justify-center text-slate-500 mb-4 glass">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none"
                                                 viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                             </svg>
                                         </div>
-                                        <h3 class="text-lg font-medium text-slate-900 dark:text-slate-300">No events found</h3>
+                                        <h3 class="text-lg font-medium text-slate-900 ">No events found</h3>
                                         <p class="text-slate-500 mt-1">Get started by creating your first event.</p>
                                         <a href="{{ route('admin.events.create') }}"
                                             class="mt-4 text-indigo-400 hover:text-indigo-300 font-medium">Create Event

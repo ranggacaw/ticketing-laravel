@@ -17,16 +17,16 @@
             </div>
         </div>
 
-        <div class="glass-card p-6 sm:p-8 rounded-3xl border-black/5 dark:border-white/10 shadow-sm">
+        <div class="glass-card p-6 sm:p-8 rounded-3xl border-black/5  shadow-sm">
 
             <!-- Tabs -->
-            <div class="flex gap-4 mb-6 border-b border-black/5 dark:border-white/5 pb-1">
+            <div class="flex gap-4 mb-6 border-b border-black/5  pb-1">
                 <button type="button" onclick="switchMode('single')" id="tab-single"
                     class="px-4 py-2 text-sm font-medium text-indigo-600 border-b-2 border-indigo-600 transition-colors">
                     Single Seat
                 </button>
                 <button type="button" onclick="switchMode('bulk')" id="tab-bulk"
-                    class="px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 border-b-2 border-transparent transition-colors">
+                    class="px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-700  border-b-2 border-transparent transition-colors">
                     Bulk Create (Row)
                 </button>
             </div>
@@ -40,9 +40,9 @@
                     <!-- Common Fields -->
                     <div>
                         <label for="section"
-                            class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Section</label>
+                            class="block text-sm font-medium text-slate-700  mb-1">Section</label>
                         <input type="text" name="section" id="section" value="{{ old('section') }}"
-                            class="w-full rounded-xl border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 focus:border-indigo-500 focus:ring-indigo-500 transition-colors"
+                            class="w-full rounded-xl border-slate-200  bg-white/50  focus:border-indigo-500 focus:ring-indigo-500 transition-colors"
                             placeholder="e.g. VIP Area, Balcony">
                         @error('section')
                             <p class="mt-1 text-sm text-rose-500">{{ $message }}</p>
@@ -51,9 +51,9 @@
 
                     <div>
                         <label for="row"
-                            class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Row</label>
+                            class="block text-sm font-medium text-slate-700  mb-1">Row</label>
                         <input type="text" name="row" id="row" value="{{ old('row') }}"
-                            class="w-full rounded-xl border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 focus:border-indigo-500 focus:ring-indigo-500 transition-colors"
+                            class="w-full rounded-xl border-slate-200  bg-white/50  focus:border-indigo-500 focus:ring-indigo-500 transition-colors"
                             placeholder="e.g. A, 1, Front">
                         @error('row')
                             <p class="mt-1 text-sm text-rose-500">{{ $message }}</p>
@@ -62,10 +62,10 @@
 
                     <!-- Single Mode Field -->
                     <div id="field-number" class="col-span-2 sm:col-span-1">
-                        <label for="number" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Seat
+                        <label for="number" class="block text-sm font-medium text-slate-700  mb-1">Seat
                             Number</label>
                         <input type="text" name="number" id="number" value="{{ old('number') }}"
-                            class="w-full rounded-xl border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 focus:border-indigo-500 focus:ring-indigo-500 transition-colors"
+                            class="w-full rounded-xl border-slate-200  bg-white/50  focus:border-indigo-500 focus:ring-indigo-500 transition-colors"
                             placeholder="e.g. 101">
                         @error('number')
                             <p class="mt-1 text-sm text-rose-500">{{ $message }}</p>
@@ -76,10 +76,10 @@
                     <div id="field-bulk" class="hidden col-span-2 grid grid-cols-2 gap-6">
                         <div>
                             <label for="number_start"
-                                class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Start
+                                class="block text-sm font-medium text-slate-700  mb-1">Start
                                 Number</label>
                             <input type="number" name="number_start" id="number_start" value="{{ old('number_start') }}"
-                                class="w-full rounded-xl border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 focus:border-indigo-500 focus:ring-indigo-500 transition-colors"
+                                class="w-full rounded-xl border-slate-200  bg-white/50  focus:border-indigo-500 focus:ring-indigo-500 transition-colors"
                                 placeholder="1">
                             @error('number_start')
                                 <p class="mt-1 text-sm text-rose-500">{{ $message }}</p>
@@ -87,9 +87,9 @@
                         </div>
                         <div>
                             <label for="number_end"
-                                class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">End Number</label>
+                                class="block text-sm font-medium text-slate-700  mb-1">End Number</label>
                             <input type="number" name="number_end" id="number_end" value="{{ old('number_end') }}"
-                                class="w-full rounded-xl border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 focus:border-indigo-500 focus:ring-indigo-500 transition-colors"
+                                class="w-full rounded-xl border-slate-200  bg-white/50  focus:border-indigo-500 focus:ring-indigo-500 transition-colors"
                                 placeholder="20">
                             @error('number_end')
                                 <p class="mt-1 text-sm text-rose-500">{{ $message }}</p>
@@ -99,10 +99,10 @@
 
                     <!-- Type & Status -->
                     <div>
-                        <label for="type" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Seat
+                        <label for="type" class="block text-sm font-medium text-slate-700  mb-1">Seat
                             Type</label>
                         <select name="type" id="type"
-                            class="w-full rounded-xl border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 focus:border-indigo-500 focus:ring-indigo-500 transition-colors">
+                            class="w-full rounded-xl border-slate-200  bg-white/50  focus:border-indigo-500 focus:ring-indigo-500 transition-colors">
                             <option value="standard" {{ old('type') == 'standard' ? 'selected' : '' }}>Standard</option>
                             <option value="vip" {{ old('type') == 'vip' ? 'selected' : '' }}>VIP</option>
                             <option value="accessible" {{ old('type') == 'accessible' ? 'selected' : '' }}>Accessible</option>
@@ -114,9 +114,9 @@
 
                     <div>
                         <label for="status"
-                            class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Initial Status</label>
+                            class="block text-sm font-medium text-slate-700  mb-1">Initial Status</label>
                         <select name="status" id="status"
-                            class="w-full rounded-xl border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 focus:border-indigo-500 focus:ring-indigo-500 transition-colors">
+                            class="w-full rounded-xl border-slate-200  bg-white/50  focus:border-indigo-500 focus:ring-indigo-500 transition-colors">
                             <option value="available" {{ old('status') == 'available' ? 'selected' : '' }}>Available</option>
                             <option value="blocked" {{ old('status') == 'blocked' ? 'selected' : '' }}>Blocked</option>
                             <option value="maintenance" {{ old('status') == 'maintenance' ? 'selected' : '' }}>Maintenance
@@ -130,7 +130,7 @@
 
                 <div class="flex items-center justify-end pt-4 gap-4">
                     <a href="{{ route('admin.venues.seats.index', $venue) }}"
-                        class="text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 font-medium transition-colors">Cancel</a>
+                        class="text-slate-500 hover:text-slate-700  font-medium transition-colors">Cancel</a>
                     <button type="submit"
                         class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-8 rounded-xl shadow-lg shadow-indigo-600/20 transition-all duration-300 transform hover:scale-[1.02] active:scale-95">
                         Save Seat(s)
