@@ -5,7 +5,7 @@
 <div class="flex items-center justify-center min-h-[calc(100vh-4rem)] bg-gray-100 dark:bg-gray-900 py-8">
     
     <!-- Phone Container -->
-    <div class="max-w-[390px] w-full bg-background-light dark:bg-background-dark min-h-[844px] shadow-2xl rounded-[3rem] border-[8px] border-slate-900 dark:border-slate-800 overflow-hidden flex flex-col relative">
+    <div class="max-w-97.5 w-full bg-background-light dark:bg-background-dark min-h-211 shadow-2xl rounded-[3rem] border-8 border-slate-900 dark:border-slate-800 overflow-hidden flex flex-col relative">
         
         <!-- Status Bar (Visual only) -->
         <div class="h-11 px-8 flex justify-between items-center bg-transparent select-none pointer-events-none">
