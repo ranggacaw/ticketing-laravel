@@ -26,7 +26,7 @@
         <a href="{{ route('user.dashboard') }}" class="flex items-center gap-3 group">
             <img src="{{ asset('tiketcaw-logo.png') }}" alt="Tiketcaw Logo" class="w-32 object-contain">
         </a>
-        <div class="flex items-center space-x-3">
+        <!-- <div class="flex items-center space-x-3">
             <a href="{{ route('profile.edit') }}"
                 class="flex items-center space-x-3 p-1 px-3 rounded-full bg-base-100 border border-base-300/50 hover:bg-base-200 transition-colors">
                 <span class="text-sm font-medium text-base-content/80">{{ auth()->user()->name }}</span>
@@ -45,7 +45,7 @@
                     </svg>
                 </button>
             </form>
-        </div>
+        </div> -->
     </header>
 
     <!-- Main Content -->

@@ -1,4 +1,4 @@
-@extends('layouts.public')
+@extends('user.layouts.app')
 
 @section('content')
     <div class="min-h-screen pb-24 bg-white  text-slate-900  font-display">
