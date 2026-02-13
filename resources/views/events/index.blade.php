@@ -4,21 +4,15 @@
     <div class="min-h-screen pb-24 bg-white  text-slate-900  font-display">
 
         <!-- Header -->
-        <header class="bg-white  px-6 pb-4 border-b border-slate-100  sticky top-0 z-40 transition-colors">
-            <div class="flex items-center space-x-4 mb-4 pt-4">
-                <button class="p-2 -ml-2 hover:bg-slate-100  rounded-full transition-colors">
-                    <span class="material-symbols-outlined block text-slate-900 ">arrow_back_ios_new</span>
-                </button>
-                <div class="flex-1">
-                    <h1 class="text-lg font-bold leading-tight text-slate-900 ">Events</h1>
-                    <p class="text-xs text-slate-500 ">Discover & Book</p>
-                </div>
+        <x-page-header title="Events" subtitle="Your necessary events">
+            <x-slot:action>
                 <button
                     class="w-10 h-10 flex items-center justify-center bg-slate-100  rounded-full hover:bg-slate-200  transition-colors">
                     <span class="material-symbols-outlined text-xl text-slate-900 ">tune</span>
                 </button>
-            </div>
-            <div class="flex space-x-2 overflow-x-auto no-scrollbar py-1">
+            </x-slot:action>
+
+            <x-slot:bottom>
                 <button
                     class="whitespace-nowrap px-4 py-2 bg-primary-ref text-white text-sm font-medium rounded-full shadow-sm shadow-red-200 ">
                     All Events
@@ -35,8 +29,9 @@
                     class="whitespace-nowrap px-4 py-2 bg-slate-100  text-slate-600  text-sm font-medium rounded-full border border-transparent hover:bg-slate-200 ">
                     Sports
                 </button>
-            </div>
-        </header>
+            </x-slot:bottom>
+        </x-page-header>
+
 
         <main class="p-6 space-y-6">
             @forelse($events as $event)

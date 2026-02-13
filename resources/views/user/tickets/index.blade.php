@@ -79,8 +79,7 @@
             </div>
             <h3 class="text-lg font-medium text-base-content mb-2">No tickets found</h3>
             <p class="text-base-content/60 mb-6">You haven't purchased any tickets yet.</p>
-            <a href="{{ route('events.index') }}"
-                class="btn btn-primary">
+            <a href="{{ route('events.index') }}" class="btn btn-primary">
                 Browse Events
             </a>
         </div>
