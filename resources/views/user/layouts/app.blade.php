@@ -10,6 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 
@@ -135,54 +137,10 @@
         </div>
     </main>
 
-    <!-- Mobile Bottom Nav -->
-    <nav
-        class="md:hidden fixed bottom-0 w-full glass z-30 border-t border-base-300 px-6 py-3 flex justify-between items-center">
-        <a href="{{ route('user.dashboard') }}"
-            class="flex flex-col items-center {{ request()->routeIs('user.dashboard') ? 'mobile-nav-active' : 'text-base-content/40' }}">
-            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
-                </path>
-            </svg>
-            <span class="text-xs">Home</span>
-        </a>
-        <a href="{{ route('events.index') }}"
-            class="flex flex-col items-center {{ request()->routeIs('events.*') ? 'mobile-nav-active' : 'text-base-content/40' }}">
-            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-            </svg>
-            <span class="text-xs">Events</span>
-        </a>
-        <a href="{{ route('user.tickets.index') }}"
-            class="flex flex-col items-center {{ request()->routeIs('user.tickets.*') ? 'mobile-nav-active' : 'text-base-content/40' }}">
-            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z">
-                </path>
-            </svg>
-            <span class="text-xs">Tickets</span>
-        </a>
-        <a href="{{ route('user.payments.index') }}"
-            class="flex flex-col items-center {{ request()->routeIs('user.payments.*') ? 'mobile-nav-active' : 'text-base-content/40' }}">
-            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
-            </svg>
-            <span class="text-xs">Pay</span>
-        </a>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
-        <button onclick="document.getElementById('logout-form').submit()"
-            class="flex flex-col items-center text-base-content/40 hover:text-error transition-colors">
-            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
-                </path>
-            </svg>
-            <span class="text-xs">Exit</span>
-        </button>
-    </nav>
+    <div class="md:hidden">
+        <x-bottom-navigation />
+    </div>
+
 
     @include('user.components.toast')
 
