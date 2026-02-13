@@ -13,6 +13,17 @@
         "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
         "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
         "Noto Color Emoji";
+    
+    --font-display: "Spline Sans", sans-serif;
+
+    --color-primary: #910309;
+    --color-primary-dark: #820308;
+    --color-primary-black: #212020;
+    --color-surface-light: #ffffff;
+    --color-card-bg: #ffffff;
+
+    --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.05);
+    --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 @layer components {
