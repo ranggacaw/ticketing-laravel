@@ -1,7 +1,7 @@
 @extends('user.layouts.app')
 
 @section('content')
-    <div class="min-h-screen -mx-4 md:-mx-8 font-display">
+    <div class="min-h-screen -mx-4 md:-mx-8 font-display px-6">
         <!-- Header -->
         <x-page-header title="Profile Settings" subtitle="Update your personal information and security settings">
             <x-slot:action>

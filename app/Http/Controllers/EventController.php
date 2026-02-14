@@ -14,11 +14,13 @@ class EventController extends Controller
 
     public function show(\App\Models\Event $event)
     {
-        abort_unless(
-            $event->status === 'published' ||
-            (auth()->check() && in_array(auth()->user()->role, ['admin', 'staff'])),
-            404
-        );
+        // Redirect admin/staff to admin area if they try to access user-side page
+        if (auth()->check() && in_array(auth()->user()->role, ['admin', 'staff'])) {
+            return redirect()->route('admin.events.show', $event);
+        }
+
+        abort_unless($event->status === 'published', 404);
+
         $event->load(['venue', 'ticketTypes', 'organizer']);
         return view('events.show', compact('event'));
     }

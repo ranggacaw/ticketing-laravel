@@ -1,7 +1,7 @@
 @extends('user.layouts.app')
 
 @section('content')
-    <div class="min-h-screen -mx-4 md:-mx-8 bg-white font-display">
+    <div class="min-h-screen -mx-4 md:-mx-8 bg-white font-display px-6">
         <!-- Header -->
         <x-page-header title="Ticket Details" subtitle="Event confirmation and your entry pass">
             <x-slot:action>

@@ -1,7 +1,7 @@
 @extends('user.layouts.app')
 
 @section('content')
-    <div class="min-h-screen pb-24 bg-white  text-slate-900  font-display">
+    <div class="min-h-screen pb-24 bg-white text-slate-900 font-display -mx-4 md:-mx-8 px-6">
 
         <!-- Header -->
         <x-page-header title="Events" subtitle="Your necessary events">
@@ -33,7 +33,7 @@
         </x-page-header>
 
 
-        <main class="p-6 space-y-6">
+        <main class="space-y-6">
             @forelse($events as $event)
                 <div
                     class="group bg-white  rounded-3xl overflow-hidden shadow-lg shadow-slate-200/50  hover:shadow-xl transition-all duration-300 border border-slate-100 ">

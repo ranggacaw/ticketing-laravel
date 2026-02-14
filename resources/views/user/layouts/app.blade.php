@@ -6,16 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Portal | Tiketcaw</title>
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-        rel="stylesheet">
+    <!-- No CDNs - all assets bundled via Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
 </head>
 
 <body class="min-h-screen bg-base-200 text-base-content">
@@ -44,9 +39,13 @@
 
     <!-- Main Content -->
     <main class="pt-24 min-h-screen pb-32">
-        <div class="px-4 md:px-8 max-w-7xl mx-auto">
-            @yield('content')
-        </div>
+        @yield('content-full')
+
+        @hasSection('content')
+            <div class="px-4 md:px-8 max-w-7xl mx-auto">
+                @yield('content')
+            </div>
+        @endif
     </main>
 
     <x-bottom-navigation />

@@ -29,6 +29,9 @@ class DashboardController extends Controller
         // Loyalty Points
         $loyaltyPoints = $user->loyaltyPoints()->sum('points');
 
-        return view('user.dashboard', compact('activeTicketsCount', 'pendingPaymentsCount', 'recentTickets', 'recentPayments', 'loyaltyPoints'));
+        // Latest Published Events
+        $latestEvents = \App\Models\Event::published()->with(['venue', 'organizer'])->latest()->take(5)->get();
+
+        return view('user.dashboard', compact('activeTicketsCount', 'pendingPaymentsCount', 'recentTickets', 'recentPayments', 'loyaltyPoints', 'latestEvents'));
     }
 }

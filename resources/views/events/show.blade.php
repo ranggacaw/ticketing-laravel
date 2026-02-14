@@ -1,209 +1,380 @@
-@extends('layouts.public')
+@extends('user.layouts.app')
 
-@section('content')
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Event Details (Left Column) -->
-        <div class="lg:col-span-2 space-y-8">
-            <!-- Hero / Image -->
-            <div
-                class="rounded-2xl overflow-hidden bg-slate-900 h-64 md:h-96 relative flex items-center justify-center border border-white/5 shadow-2xl group">
-                <!-- Placeholder -->
+@section('content-full')
+    <div class="relative h-[45vh] md:h-[55vh] w-full overflow-hidden -mt-24">
+        <!-- Event Image Background -->
+        <div class="absolute inset-0 bg-slate-900 border-b border-slate-100">
+            @if($event->image_url)
+                <img src="{{ $event->image_url }}" alt="{{ $event->name }}" class="w-full h-full object-cover">
+            @else
                 <div
-                    class="bg-gradient-to-br from-indigo-500/10 to-purple-500/10 absolute inset-0 group-hover:from-indigo-500/20 group-hover:to-purple-500/20 transition-all duration-700">
-                </div>
-                <h1
-                    class="text-4xl md:text-5xl font-bold text-white/5 select-none z-10 group-hover:scale-110 transition-transform duration-1000">
-                    {{ $event->name }}</h1>
-                @if($event->start_time)
-                    <div
-                        class="absolute top-6 left-6 px-4 py-2 bg-slate-900/80 backdrop-blur-md border border-white/10 rounded-xl text-xs font-bold text-white uppercase tracking-[0.2em]">
-                        {{ $event->start_time->format('M d, Y') }}
-                    </div>
-                @endif
-            </div>
-
-            <!-- Title & Basic Info -->
-            <div class="space-y-4">
-                <h1 class="text-3xl md:text-5xl font-bold text-white tracking-tight">{{ $event->name }}</h1>
-                <div class="flex flex-wrap gap-6 text-slate-400">
-                    @if($event->start_time)
-                        <div class="flex items-center gap-2">
-                            <div class="p-2 bg-indigo-500/10 rounded-lg text-indigo-400">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-                            <span class="font-medium">{{ $event->start_time->format('l, F j, Y • h:i A') }}</span>
-                        </div>
-                    @endif
-                    @if($event->venue || $event->location)
-                        <div class="flex items-center gap-2">
-                            <div class="p-2 bg-cyan-500/10 rounded-lg text-cyan-400">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
-                            </div>
-                            <span class="font-medium">
-                                @if($event->venue)
-                                    {{ $event->venue->address }}
-                                    @if($event->location)
-                                        ({{ $event->location }})
-                                    @endif
-                                @else
-                                    {{ $event->location }}
-                                @endif
-                            </span>
-                        </div>
-                    @endif
-                </div>
-            </div>
-
-            <!-- Description -->
-            <div class="bg-slate-800/30 backdrop-blur-md border border-white/5 rounded-2xl p-8">
-                <h3 class="text-xl font-bold text-white mb-4">About this Event</h3>
-                <div class="text-slate-400 leading-relaxed whitespace-pre-line">
-                    {{ $event->description }}
-                </div>
-            </div>
-
-            <!-- Organizer Info -->
-            @if($event->organizer)
-                <div
-                    class="bg-slate-800/20 border border-white/5 rounded-2xl p-6 flex flex-wrap items-center justify-between gap-4">
-                    <div class="flex items-center gap-4">
-                        <div
-                            class="w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl flex items-center justify-center text-white text-xl font-bold shadow-lg">
-                            {{ substr($event->organizer->name, 0, 1) }}
-                        </div>
-                        <div>
-                            <p class="text-xs text-slate-500 uppercase tracking-widest font-bold mb-1">Organized by</p>
-                            <p class="text-lg font-bold text-white">{{ $event->organizer->name }}</p>
-                        </div>
-                    </div>
-                    <button
-                        class="px-6 py-2 bg-white/5 hover:bg-white/10 text-white rounded-xl text-sm font-bold transition-all border border-white/5">
-                        Follow Organizer
-                    </button>
+                    class="w-full h-full bg-gradient-to-br from-primary-ref to-slate-900 flex items-center justify-center opacity-80">
+                    <span class="material-symbols-outlined text-9xl text-white/10">confirmation_number</span>
                 </div>
             @endif
+            <!-- Immersive Gradient Overlay - white-ish for the user portal feel -->
+            <div class="absolute inset-0 bg-gradient-to-t from-white via-white/10 to-transparent"></div>
         </div>
 
-        <!-- Ticket Selection (Right Column / Sticky Sidebar) -->
-        <div class="lg:col-span-1">
-            <div
-                class="bg-slate-800/50 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl sticky top-28 overflow-hidden">
-                <div class="p-6">
-                    <h2 class="text-2xl font-bold text-white mb-6">Get Tickets</h2>
+        <!-- Hero Content Overlay -->
+        <div class="absolute bottom-0 left-0 right-0 p-6 md:p-12">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex items-center gap-2 mb-4">
+                    <span
+                        class="px-3 py-1 bg-primary-ref text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-red-200">
+                        {{ $event->category ?? 'Event' }}
+                    </span>
+                    <div
+                        class="flex items-center gap-1.5 px-3 py-1 bg-white/90 backdrop-blur-md rounded-full shadow-sm border border-slate-100">
+                        <span class="material-symbols-outlined text-amber-500 text-sm">stars</span>
+                        <span class="text-xs font-black text-slate-800">4.9 (2.4k)</span>
+                    </div>
+                </div>
+                <h1 class="text-4xl md:text-6xl font-black text-slate-900 mb-3 leading-tight tracking-tighter">
+                    {{ $event->name }}
+                </h1>
+                <div class="flex items-center gap-2 text-slate-500 font-bold">
+                    <div class="w-8 h-8 rounded-full bg-primary-ref/10 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary-ref text-lg">location_on</span>
+                    </div>
+                    <span class="text-lg">{{ $event->venue ? $event->venue->name : $event->location }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
 
-                    @if($event->ticketTypes->isEmpty())
-                        <div class="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4 flex gap-3 text-amber-400">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                            </svg>
-                            <span class="text-sm font-medium">No tickets available yet.</span>
-                        </div>
+@section('content')
+    <div class="mt-12 pb-32">
+        <!-- Info Cards Grid - Matching User Dashboard Style -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <!-- Date -->
+            <div
+                class="bg-white rounded-3xl p-6 shadow-lg shadow-slate-200/50 border border-slate-100 flex flex-col items-center justify-center text-center group hover:shadow-xl transition-all">
+                <div
+                    class="w-12 h-12 bg-primary-ref/10 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-primary-ref">calendar_today</span>
+                </div>
+                <span class="text-[9px] text-slate-400 font-black uppercase tracking-[0.2em] mb-1">Date</span>
+                <span
+                    class="font-black text-slate-900 text-sm">{{ $event->start_time ? $event->start_time->format('M d, Y') : 'TBA' }}</span>
+            </div>
+
+            <!-- Time -->
+            <div
+                class="bg-white rounded-3xl p-6 shadow-lg shadow-slate-200/50 border border-slate-100 flex flex-col items-center justify-center text-center group hover:shadow-xl transition-all">
+                <div
+                    class="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-indigo-500">schedule</span>
+                </div>
+                <span class="text-[9px] text-slate-400 font-black uppercase tracking-[0.2em] mb-1">Time</span>
+                <span
+                    class="font-black text-slate-900 text-sm">{{ $event->start_time ? $event->start_time->format('h:i A') : 'TBA' }}</span>
+            </div>
+
+            <!-- Weather -->
+            <div
+                class="bg-white rounded-3xl p-6 shadow-lg shadow-slate-200/50 border border-slate-100 flex flex-col items-center justify-center text-center group hover:shadow-xl transition-all">
+                <div
+                    class="w-12 h-12 bg-cyan-50 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-cyan-500">thermostat</span>
+                </div>
+                <span class="text-[9px] text-slate-400 font-black uppercase tracking-[0.2em] mb-1">Weather</span>
+                <span class="font-black text-slate-900 text-sm">26°C</span>
+            </div>
+
+            <!-- Price -->
+            <div
+                class="bg-white rounded-3xl p-6 shadow-lg shadow-slate-200/50 border border-slate-100 flex flex-col items-center justify-center text-center group hover:shadow-xl transition-all">
+                <div
+                    class="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-emerald-500">payments</span>
+                </div>
+                <span class="text-[9px] text-slate-400 font-black uppercase tracking-[0.2em] mb-1">Starting At</span>
+                <span class="font-black text-slate-900 text-sm">
+                    @if(!$event->ticketTypes->isEmpty())
+                        Rp {{ number_format($event->ticketTypes->min('price'), 0, ',', '.') }}
                     @else
-                        <form action="{{ route('events.checkout', $event) }}" method="POST" class="space-y-6">
-                            @csrf
-                            @if($event->ticketTypes->count() > 1)
-                                <div class="space-y-2">
-                                    <label class="text-sm font-bold text-slate-400 block ml-1">Select Ticket Type</label>
-                                    <div class="relative">
-                                        <select
-                                            name="ticket_type_id"
-                                            required
-                                            class="w-full bg-slate-900 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all appearance-none">
-                                            <option value="" disabled selected>Choose a ticket type...</option>
-                                            @foreach($event->ticketTypes as $ticketType)
-                                                <option value="{{ $ticketType->id }}" {{ !$ticketType->isAvailable() ? 'disabled' : '' }}>
-                                                    {{ $ticketType->name }} - Rp {{ number_format($ticketType->price, 0, ',', '.') }}
-                                                    {{ !$ticketType->isAvailable() ? '(Sold Out)' : '' }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-slate-400">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                            </svg>
-                                        </div>
+                        -
+                    @endif
+                </span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 mt-12 pb-12">
+            <!-- Main Details -->
+            <div class="lg:col-span-2 space-y-12">
+                <!-- About Event -->
+                <section>
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center">
+                            <span class="material-symbols-outlined text-white text-xl">description</span>
+                        </div>
+                        <h2 class="text-2xl font-black text-slate-900 tracking-tight">About Event</h2>
+                    </div>
+                    <div x-data="{ expanded: false }"
+                        class="bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-lg shadow-slate-200/30 overflow-hidden group">
+                        <p class="text-slate-600 leading-relaxed text-lg font-medium"
+                            :class="expanded ? '' : 'line-clamp-6'">
+                            {{ $event->description }}
+                        </p>
+                        <button @click="expanded = !expanded"
+                            class="text-primary-ref font-black mt-6 flex items-center gap-1 hover:gap-2 transition-all uppercase tracking-widest text-xs">
+                            <span x-text="expanded ? 'Read Less' : 'Read Full Description'"></span>
+                            <span class="material-symbols-outlined text-xs">arrow_forward</span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Location & Map -->
+                <section>
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center">
+                                <span class="material-symbols-outlined text-white text-xl">map</span>
+                            </div>
+                            <h2 class="text-2xl font-black text-slate-900 tracking-tight">Location</h2>
+                        </div>
+                        <a href="https://maps.google.com/?q={{ urlencode($event->location) }}" target="_blank"
+                            class="text-xs font-black text-primary-ref uppercase tracking-widest hover:underline flex items-center gap-1">
+                            Open Maps <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+                        </a>
+                    </div>
+                    <div class="bg-white rounded-[2.5rem] p-4 border border-slate-100 shadow-lg shadow-slate-200/30">
+                        <div class="relative h-72 rounded-[2rem] overflow-hidden group">
+                            <div class="absolute inset-0 bg-slate-50 flex items-center justify-center">
+                                <span
+                                    class="material-symbols-outlined text-8xl text-primary-ref/10 animate-pulse">map_search</span>
+                            </div>
+                            <!-- Location Detail Overlay -->
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div
+                                    class="bg-white/90 backdrop-blur-xl p-6 rounded-3xl shadow-2xl border border-white flex items-center gap-5 max-w-[85%] transform group-hover:scale-105 transition-transform duration-500">
+                                    <div
+                                        class="w-14 h-14 bg-primary-ref rounded-2xl flex items-center justify-center shadow-lg shadow-red-200">
+                                        <span class="material-symbols-outlined text-white text-2xl">location_on</span>
+                                    </div>
+                                    <div class="overflow-hidden">
+                                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">
+                                            Official Venue</p>
+                                        <p class="font-black text-slate-900 text-lg leading-tight">
+                                            {{ $event->venue ? $event->venue->name : $event->location }}</p>
+                                        <p class="text-xs text-slate-500 mt-1 truncate">
+                                            {{ $event->venue->address ?? $event->location }}</p>
                                     </div>
                                 </div>
-                            @else
-                                <div class="space-y-3">
-                                    @foreach($event->ticketTypes as $ticketType)
-                                        <label class="block relative cursor-pointer group">
-                                            <input type="radio" name="ticket_type_id" value="{{ $ticketType->id }}" class="peer sr-only"
-                                                {{ !$ticketType->isAvailable() ? 'disabled' : '' }} required />
-                                            <div
-                                                class="p-4 bg-slate-900/50 border border-white/5 rounded-xl transition-all peer-checked:border-indigo-500 peer-checked:bg-indigo-500/10 hover:bg-slate-900 {{ !$ticketType->isAvailable() ? 'opacity-50 grayscale' : '' }}">
-                                                <div class="flex justify-between items-baseline mb-1">
-                                                    <span class="font-bold text-white">{{ $ticketType->name }}</span>
-                                                    <span
-                                                        class="font-bold text-indigo-400">Rp {{ number_format($ticketType->price, 0, ',', '.') }}</span>
-                                                </div>
-                                                <p
-                                                    class="text-xs text-slate-500 line-clamp-1 group-hover:line-clamp-none transition-all">
-                                                    {{ $ticketType->description }}</p>
-                                                @if(!$ticketType->isAvailable())
-                                                    <div class="mt-2 text-[10px] uppercase font-bold text-red-400">Sold Out</div>
-                                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
-                                                <!-- Checkmark icon for selected state -->
-                                                <div
-                                                    class="absolute top-4 right-4 text-indigo-500 opacity-0 peer-checked:opacity-100 transition-opacity">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
-                                                        fill="currentColor">
-                                                        <path fill-rule="evenodd"
-                                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                            clip-rule="evenodd" />
-                                                    </svg>
+                <!-- Gallery Carousel Style -->
+                <section>
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-black text-slate-900 tracking-tight">Gallery</h2>
+                        <button class="text-xs font-black text-primary-ref uppercase tracking-widest">View All</button>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-5">
+                        @for($i = 1; $i <= 3; $i++)
+                            <div
+                                class="aspect-square rounded-[2rem] bg-slate-100 border border-slate-100 overflow-hidden group relative">
+                                <div
+                                    class="w-full h-full bg-slate-100 flex items-center justify-center group-hover:scale-110 transition-all duration-700">
+                                    <span class="material-symbols-outlined text-slate-300 text-4xl">image</span>
+                                </div>
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-5">
+                                    <span class="text-[10px] text-white font-black uppercase tracking-widest">Event Photo
+                                        {{ $i }}</span>
+                                </div>
+                            </div>
+                        @endfor
+                    </div>
+                </section>
+            </div>
+
+            <!-- Sidebar Actions -->
+            <div class="lg:col-span-1">
+                <div class="sticky top-32 space-y-6">
+                    <!-- Ticket Selection Card -->
+                    <div
+                        class="bg-white rounded-[2.5rem] p-8 shadow-xl shadow-slate-200/50 border border-slate-100 relative overflow-hidden">
+                        <div class="absolute -right-12 -top-12 w-32 h-32 bg-primary-ref/5 rounded-full blur-2xl"></div>
+
+                        <div class="flex items-center gap-3 mb-8 relative z-10">
+                            <div class="w-10 h-10 bg-primary-ref/10 rounded-xl flex items-center justify-center">
+                                <span class="material-symbols-outlined text-primary-ref">confirmation_number</span>
+                            </div>
+                            <h3 class="text-xl font-black text-slate-900 tracking-tight">Select Tickets</h3>
+                        </div>
+
+                        @if($event->ticketTypes->isEmpty())
+                            <div
+                                class="bg-amber-50 rounded-2xl p-6 text-amber-700 font-bold text-sm flex items-center gap-3 border border-amber-100">
+                                <span class="material-symbols-outlined">event_busy</span>
+                                No tickets currently listed.
+                            </div>
+                        @else
+                            <form action="{{ route('events.checkout', $event) }}" method="POST" id="ticketForm"
+                                class="space-y-6">
+                                @csrf
+                                <div class="space-y-4">
+                                    @foreach($event->ticketTypes as $ticketType)
+                                        <label class="block relative group cursor-pointer">
+                                            <input type="radio" name="ticket_type_id" value="{{ $ticketType->id }}"
+                                                class="peer sr-only" {{ !$ticketType->isAvailable() ? 'disabled' : '' }}
+                                                @if($loop->first) checked @endif data-price="{{ $ticketType->price }}"
+                                                onchange="updateTotalPrice()" required />
+                                            <div
+                                                class="p-5 rounded-3xl border-2 border-slate-100 peer-checked:border-primary-ref peer-checked:bg-primary-ref/[0.02] hover:bg-slate-50 transition-all relative">
+                                                <div class="flex justify-between items-start mb-1">
+                                                    <span class="font-black text-slate-900 text-lg">{{ $ticketType->name }}</span>
+                                                    <span
+                                                        class="material-symbols-outlined text-primary-ref opacity-0 peer-checked:opacity-100 transition-opacity">check_circle</span>
                                                 </div>
+                                                <div class="flex justify-between items-baseline mb-2">
+                                                    <p class="text-[9px] text-slate-400 font-black uppercase tracking-widest">
+                                                        {{ $ticketType->description }}</p>
+                                                    <span class="text-primary-ref font-black">Rp
+                                                        {{ number_format($ticketType->price, 0, ',', '.') }}</span>
+                                                </div>
+
+                                                @if(!$ticketType->isAvailable())
+                                                    <div
+                                                        class="mt-3 text-[9px] font-black text-red-500 bg-red-50 inline-block px-2 py-0.5 rounded uppercase tracking-widest">
+                                                        Waitlist Only</div>
+                                                @endif
                                             </div>
                                         </label>
                                     @endforeach
                                 </div>
-                            @endif
 
-                            <div class="space-y-2">
-                                <label class="text-sm font-bold text-slate-400 block ml-1">Quantity</label>
-                                <select
-                                    class="w-full bg-slate-900 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all appearance-none"
-                                    name="quantity">
-                                    @for($i = 1; $i <= 5; $i++)
-                                        <option value="{{ $i }}">{{ $i }} {{ $i > 1 ? 'Tickets' : 'Ticket' }}</option>
-                                    @endfor
-                                </select>
-                            </div>
-
-                            @if(($event->end_time && $event->end_time->isPast()) || in_array($event->status, ['completed', 'cancelled']))
-                                <div class="w-full py-4 bg-amber-500/20 text-amber-500 font-bold rounded-xl border border-amber-500/20 text-center flex items-center justify-center gap-2 cursor-not-allowed">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                    </svg>
-                                    {{ $event->status === 'cancelled' ? 'Event Cancelled' : 'Sales Ended' }}
+                                <!-- Quantity Dropdown -->
+                                <div class="space-y-3 pt-2">
+                                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">How many
+                                        people?</label>
+                                    <div class="relative group">
+                                        <select name="quantity" id="quantity" onchange="updateTotalPrice()"
+                                            class="w-full appearance-none bg-slate-50 border-2 border-slate-100 rounded-3xl px-6 py-5 font-black text-slate-900 focus:border-primary-ref outline-none transition-all cursor-pointer group-hover:bg-slate-100">
+                                            @for($i = 1; $i <= 5; $i++)
+                                                <option value="{{ $i }}">{{ $i }} {{ $i > 1 ? 'Tickets' : 'Ticket' }}</option>
+                                            @endfor
+                                        </select>
+                                        <span
+                                            class="material-symbols-outlined absolute right-6 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none group-hover:text-primary-ref transition-colors">expand_more</span>
+                                    </div>
                                 </div>
-                            @else
-                                <button type="submit"
-                                    class="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/25 transition-all transform active:scale-[0.98]">
-                                    Buy Tickets Now
-                                </button>
-                            @endif
+                            </form>
+                        @endif
+                    </div>
 
-                            <p class="text-[10px] text-center text-slate-500">
-                                Secure checkout with encrypted payment processing.
-                            </p>
-                        </form>
+                    <!-- Host Details - Dark Style matching VIP card -->
+                    @if($event->organizer)
+                        <div
+                            class="bg-slate-900 rounded-[2.5rem] p-8 text-white group cursor-pointer relative overflow-hidden border border-white/5">
+                            <div
+                                class="absolute -right-8 -bottom-8 w-40 h-40 bg-primary-ref/20 rounded-full blur-3xl group-hover:bg-primary-ref/40 transition-all duration-700">
+                            </div>
+                            <div class="relative z-10">
+                                <div class="flex items-center gap-5 mb-6">
+                                    <div
+                                        class="w-16 h-16 bg-white/10 backdrop-blur-xl rounded-2xl flex items-center justify-center text-2xl font-black border border-white/10 group-hover:scale-110 transition-transform shadow-2xl">
+                                        {{ substr($event->organizer->name, 0, 1) }}
+                                    </div>
+                                    <div>
+                                        <p class="text-[9px] font-black text-primary-ref uppercase tracking-widest mb-1">
+                                            Official Host</p>
+                                        <p class="font-black text-xl group-hover:text-primary-ref transition-colors">
+                                            {{ $event->organizer->name }}</p>
+                                    </div>
+                                </div>
+                                <button
+                                    class="w-full py-4 bg-white/5 border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white/10 transition-all">Support
+                                    Organizer</button>
+                            </div>
+                        </div>
                     @endif
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Sticky Checkout Bar (Matching user dashboard buttons) -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-2xl border-t border-slate-100 pb-32 p-6 z-50">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-8">
+            <div class="hidden md:block">
+                <h4 class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Total to Pay</h4>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-4xl font-black text-slate-900" id="desktopTotalPrice">
+                        @if(!$event->ticketTypes->isEmpty())
+                            Rp {{ number_format($event->ticketTypes->first()->price, 0, ',', '.') }}
+                        @else
+                            -
+                        @endif
+                    </span>
+                    <span class="text-xs font-black text-primary-ref/60 italic tracking-tighter">no hidden fees</span>
+                </div>
+            </div>
+
+            <div class="flex-1 flex items-center gap-8">
+                <div class="md:hidden flex flex-col justify-center">
+                    <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Payable Amount</span>
+                    <span class="text-xl font-black text-slate-900" id="bottomTotalPrice">
+                        @if(!$event->ticketTypes->isEmpty())
+                            Rp {{ number_format($event->ticketTypes->first()->price, 0, ',', '.') }}
+                        @else
+                            -
+                        @endif
+                    </span>
+                </div>
+
+                @if(($event->end_time && $event->end_time->isPast()) || in_array($event->status, ['completed', 'cancelled']))
+                    <div
+                        class="flex-1 py-5 bg-slate-50 text-slate-300 font-black rounded-3xl flex items-center justify-center gap-3 border border-slate-100 cursor-not-allowed">
+                        <span class="material-symbols-outlined text-lg">event_busy</span>
+                        <span class="uppercase tracking-widest text-xs">Event Unavailable</span>
+                    </div>
+                @else
+                    <button onclick="document.getElementById('ticketForm').submit()"
+                        class="flex-1 py-2 bg-primary-ref text-white font-black rounded-3xl shadow-2xl shadow-red-200 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 uppercase tracking-widest text-sm group">
+                        Book
+                        <span
+                            class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                    </button>
+                @endif
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateTotalPrice() {
+            const form = document.getElementById('ticketForm');
+            if (!form) return;
+
+            const selectedTicket = form.querySelector('input[name="ticket_type_id"]:checked');
+            const quantity = parseInt(document.getElementById('quantity').value) || 1;
+
+            if (selectedTicket) {
+                const price = parseFloat(selectedTicket.dataset.price);
+                const total = price * quantity;
+                const formatted = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(total).replace('Rp', 'Rp ');
+
+                document.getElementById('bottomTotalPrice').innerText = formatted;
+                document.getElementById('desktopTotalPrice').innerText = formatted;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', updateTotalPrice);
+    </script>
+
+    <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
 @endsection

@@ -1,206 +1,220 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('user.layouts.app')
 
-<head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>User Activity Dashboard</title>
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+@section('content')
+    <div class="min-h-screen pb-24 font-display text-slate-900 -mx-4 md:-mx-8 px-6">
+        <!-- Header Section -->
+        <x-page-header :title="'Welcome back, ' . auth()->user()->name . '!'" :subtitle="now()->format('l, M d')">
+        </x-page-header>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    <style>
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        body {
-            min-height: max(884px, 100dvh);
-        }
-    </style>
-</head>
-
-<body
-    class="bg-surface-light text-primary-black font-display min-h-screen flex flex-col antialiased selection:bg-primary selection:text-white">
-    <header class="px-6 py-8 flex items-center justify-between sticky top-0 z-50 bg-surface-light/95 backdrop-blur-md">
-        <div class="flex flex-col">
-            <span class="text-sm text-gray-500 font-medium mb-1">{{ now()->format('l, M d') }}</span>
-            <h1 class="text-2xl font-bold tracking-tight text-primary-black">Welcome back, {{ auth()->user()->name }}!
-            </h1>
-        </div>
-        <div class="flex items-center gap-3">
-            <form method="POST" action="{{ route('logout') }}" class="inline">
-                @csrf
-                <button type="submit" class="p-2 text-gray-400 hover:text-primary transition-colors" title="Sign Out">
-                    <span class="material-icons">logout</span>
-                </button>
-            </form>
-            <div class="relative">
-                <a href="{{ route('profile.edit') }}"
-                    class="relative block rounded-full border-2 border-primary/30 p-0.5 overflow-hidden">
-                    <img alt="User Profile" class="w-10 h-10 rounded-full object-cover" data-alt="User avatar"
-                        src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=e61f27&color=fff" />
-                </a>
-                <span
-                    class="absolute top-0 right-0 w-3 h-3 bg-primary rounded-full border-2 border-surface-light"></span>
-            </div>
-        </div>
-    </header>
-    <main class="flex-1 px-6 pb-24 space-y-8 overflow-y-auto">
-        <section aria-label="Key Statistics">
-            <div class="grid grid-cols-3 gap-4">
-                <div
-                    class="flex flex-col items-center p-4 bg-card-bg rounded-xl shadow-card border border-gray-100 hover:shadow-card-hover transition-shadow">
-                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-3">
-                        <span class="material-icons text-primary">confirmation_number</span>
-                    </div>
-                    <span class="text-3xl font-bold text-gray-500 mb-1">{{ $activeTicketsCount }}</span>
-                    <span class="text-xs text-gray-500 text-center font-medium">Active<br />Tickets</span>
-                </div>
-                <div
-                    class="flex flex-col items-center p-4 bg-card-bg rounded-xl shadow-card border border-gray-100 hover:shadow-card-hover transition-shadow">
-                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-3">
-                        <span class="material-icons text-primary">credit_card</span>
-                    </div>
-                    <span class="text-3xl font-bold text-gray-500 mb-1">{{ $pendingPaymentsCount }}</span>
-                    <span class="text-xs text-gray-500 text-center font-medium">Pending<br />Payments</span>
-                </div>
-                <div
-                    class="flex flex-col items-center p-4 bg-card-bg rounded-xl shadow-card border border-gray-100 hover:shadow-card-hover transition-shadow">
-                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-3">
-                        <span class="material-icons text-primary">star</span>
-                    </div>
-                    <span class="text-3xl font-bold text-gray-500 mb-1">{{ number_format($loyaltyPoints) }}</span>
-                    <span class="text-xs text-gray-500 text-center font-medium">Loyalty<br />Points</span>
-                </div>
-            </div>
-        </section>
-        <section>
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="text-lg font-bold text-primary-black">Recent Activity</h2>
-                <a class="text-sm text-primary hover:text-primary-dark transition-colors"
-                    href="{{ route('user.tickets.index') }}">View All</a>
-            </div>
-            <div class="flex space-x-4 overflow-x-auto no-scrollbar pb-2 -mx-6 px-6 snap-x snap-mandatory">
-                @forelse($recentTickets as $ticket)
+        <main class="space-y-8 mt-3">
+            <!-- Key Statistics Section -->
+            <section aria-label="Key Statistics">
+                <div class="grid grid-cols-3 gap-4">
                     <div
-                        class="snap-center shrink-0 w-[85%] sm:w-[300px] flex flex-col bg-card-bg rounded-2xl overflow-hidden shadow-card border border-gray-100 relative group">
-                        <div class="h-32 bg-gray-200 relative">
-                            <!-- Placeholder image since we don't know if event has image -->
-                            <img alt="Event Image" class="w-full h-full object-cover"
-                                src="https://placehold.co/600x400/e61f27/ffffff?text={{ urlencode($ticket->type) }}" />
-                            @if($ticket->scanned_at)
-                                <div
-                                    class="absolute top-3 right-3 bg-gray-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
-                                    Used</div>
-                            @else
-                                <div
-                                    class="absolute top-3 right-3 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
-                                    Active</div>
-                            @endif
+                        class="flex flex-col items-center p-4 bg-white rounded-3xl shadow-lg shadow-slate-200/50 border border-slate-100 hover:shadow-xl transition-all duration-300">
+                        <div class="w-12 h-12 rounded-2xl bg-primary-ref/10 flex items-center justify-center mb-3">
+                            <span class="material-symbols-outlined text-primary-ref text-2xl">confirmation_number</span>
                         </div>
-                        <div class="p-5">
-                            <div class="flex justify-between items-start mb-2">
-                                <h3 class="font-bold text-lg leading-tight text-primary-black">
-                                    {{ $ticket->event->title ?? $ticket->type }}
-                                </h3>
+                        <span class="text-2xl font-black text-slate-900 mb-1">{{ $activeTicketsCount }}</span>
+                        <span class="text-[10px] text-slate-400 uppercase tracking-wider font-bold text-center">Active<br />Tickets</span>
+                    </div>
+                    <div
+                        class="flex flex-col items-center p-4 bg-white rounded-3xl shadow-lg shadow-slate-200/50 border border-slate-100 hover:shadow-xl transition-all duration-300">
+                        <div class="w-12 h-12 rounded-2xl bg-primary-ref/10 flex items-center justify-center mb-3">
+                            <span class="material-symbols-outlined text-primary-ref text-2xl">account_balance_wallet</span>
+                        </div>
+                        <span class="text-2xl font-black text-slate-900 mb-1">{{ $pendingPaymentsCount }}</span>
+                        <span class="text-[10px] text-slate-400 uppercase tracking-wider font-bold text-center">Pending<br />Payments</span>
+                    </div>
+                    <div
+                        class="flex flex-col items-center p-4 bg-white rounded-3xl shadow-lg shadow-slate-200/50 border border-slate-100 hover:shadow-xl transition-all duration-300">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-100 flex items-center justify-center mb-3">
+                            <span class="material-symbols-outlined text-amber-600 text-2xl">stars</span>
+                        </div>
+                        <span class="text-2xl font-black text-slate-900 mb-1">{{ number_format($loyaltyPoints) }}</span>
+                        <span class="text-[10px] text-slate-400 uppercase tracking-wider font-bold text-center">Loyalty<br />Points</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Browse Events Section -->
+            <section>
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-black text-slate-900">Explore Events</h2>
+                    <a class="text-sm font-bold text-primary-ref hover:text-red-700 transition-colors flex items-center gap-1"
+                        href="{{ route('events.index') }}">
+                        Browse All
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </a>
+                </div>
+                <div class="flex space-x-6 overflow-x-auto no-scrollbar pb-4 -mx-4 px-4 snap-x snap-mandatory">
+                    @forelse($latestEvents as $event)
+                        <div onclick="window.location='{{ route('events.show', $event) }}'"
+                            class="snap-center shrink-0 w-[13rem] bg-white rounded-3xl overflow-hidden shadow-lg shadow-slate-200/50 border border-slate-100 group transition-all duration-300 hover:shadow-xl cursor-pointer">
+                            <div class="h-32 bg-slate-900 relative overflow-hidden">
+                                <div class="absolute inset-0 bg-gradient-to-br from-primary-ref/80 to-slate-900"></div>
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-5xl text-white/20">event</span>
+                                </div>
+                                <div class="absolute top-3 right-3">
+                                    <span class="text-[9px] font-black text-white bg-primary-ref px-2 py-0.5 rounded-full uppercase tracking-wider">
+                                        {{ $event->start_time?->format('M d') ?? 'TBA' }}
+                                    </span>
+                                </div>
                             </div>
-                            <p class="text-sm text-gray-500 mb-4">{{ $ticket->event->location ?? 'Venue TBD' }}</p>
-                            <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-sm">
-                                <div class="flex flex-col">
-                                    <span class="text-xs text-gray-400 uppercase font-semibold">Type</span>
-                                    <span class="font-medium text-primary-black">{{ $ticket->type }}</span>
+                            <div class="p-5">
+                                <h3 class="font-bold text-slate-900 leading-tight mb-1 truncate">
+                                    {{ $event->name }}
+                                </h3>
+                                <p class="text-[10px] text-slate-500 mb-3 flex items-center">
+                                    <span class="material-symbols-outlined text-[12px] mr-1 opacity-70">location_on</span>
+                                    <span class="truncate">{{ $event->venue->name ?? 'Venue TBD' }}</span>
+                                </p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-black text-primary-ref">View Details</span>
+                                    <span class="material-symbols-outlined text-sm text-primary-ref group-hover:translate-x-1 transition-transform">arrow_forward</span>
                                 </div>
-                                <div class="flex flex-col">
-                                    <span class="text-xs text-gray-400 uppercase font-semibold">Seat</span>
-                                    <span class="font-medium text-primary-black">{{ $ticket->seat_number }}</span>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="w-full py-8 flex flex-col items-center justify-center bg-white rounded-3xl border border-dashed border-slate-200 text-center">
+                            <span class="material-symbols-outlined text-4xl text-slate-200 mb-3">event_busy</span>
+                            <p class="text-sm text-slate-400 font-medium">No events available right now.</p>
+                        </div>
+                    @endforelse
+                </div>
+            </section>
+
+            <!-- Recent Activity Section -->
+            <section>
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-black text-slate-900">Recent Activity</h2>
+                    <a class="text-sm font-bold text-primary-ref hover:text-red-700 transition-colors flex items-center gap-1"
+                        href="{{ route('user.tickets.index') }}">
+                        View All
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </a>
+                </div>
+                <div class="flex space-x-6 overflow-x-auto no-scrollbar pb-4 -mx-4 px-4 snap-x snap-mandatory">
+                    @forelse($recentTickets as $ticket)
+                        <div
+                            class="snap-center shrink-0 w-[280px] bg-white rounded-3xl overflow-hidden shadow-lg shadow-slate-200/50 border border-slate-100 group transition-all duration-300 hover:shadow-xl">
+                            <div class="h-32 bg-slate-900 relative overflow-hidden">
+                                <div class="absolute inset-0 opacity-40 bg-gradient-to-br from-primary-ref to-slate-900"></div>
+                                <div class="absolute inset-0 flex items-center justify-center opacity-10">
+                                    <span class="material-symbols-outlined text-8xl text-white">confirmation_number</span>
                                 </div>
-                                <div class="flex flex-col col-span-2 mt-2 pt-3 border-t border-gray-100">
-                                    <div class="flex justify-between items-center">
-                                        <span class="text-xs text-gray-400 uppercase font-semibold">Total Price</span>
-                                        <span
-                                            class="text-lg font-bold text-primary-black">${{ number_format($ticket->price, 2) }}</span>
+                                @if($ticket->scanned_at)
+                                    <div
+                                        class="absolute top-4 right-4 bg-slate-100/90 backdrop-blur-md text-slate-400 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider border border-slate-200">
+                                        Used</div>
+                                @else
+                                    <div
+                                        class="absolute top-4 right-4 bg-white/90 backdrop-blur-md text-primary-ref text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
+                                        Active</div>
+                                @endif
+                                <div class="absolute bottom-4 left-4">
+                                    <span class="text-white font-black text-[10px] bg-primary-ref px-2 py-1 rounded uppercase tracking-wider">
+                                        {{ $ticket->event?->start_time?->format('M d') ?? 'TBA' }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="p-5">
+                                <h3 class="font-bold text-slate-900 leading-tight mb-1 truncate">
+                                    {{ $ticket->event->name ?? $ticket->type }}
+                                </h3>
+                                <p class="text-xs text-slate-500 mb-4 flex items-center">
+                                    <span class="material-symbols-outlined text-xs mr-1 opacity-70">location_on</span>
+                                    <span class="truncate">{{ $ticket->event->venue->name ?? 'Venue TBD' }}</span>
+                                </p>
+                                <div class="flex items-center justify-between pt-4 border-t border-slate-50">
+                                    <div class="flex flex-col">
+                                        <span class="text-[9px] text-slate-400 uppercase font-black tracking-tighter">Seat</span>
+                                        <span class="font-bold text-slate-900 text-sm">{{ $ticket->seat_number }}</span>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-[9px] text-slate-400 uppercase font-black tracking-tighter block leading-none">Price</span>
+                                        <span class="text-base font-black text-slate-900">
+                                            Rp {{ number_format($ticket->price, 0, ',', '.') }}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @empty
-                    <div class="w-full p-4 text-center text-gray-500">
-                        No recent tickets found.
-                    </div>
-                @endforelse
-            </div>
-        </section>
-        <section class="grid gap-4">
-            <div class="bg-card-bg rounded-2xl p-5 shadow-card border border-gray-100">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="flex items-center gap-3">
-                        <div class="p-2 bg-primary/10 rounded-full">
-                            <span class="material-icons text-primary text-xl">receipt_long</span>
-                        </div>
-                        <h3 class="font-bold text-lg text-primary-black">Billing &amp; Payments</h3>
-                    </div>
-                    <a class="text-sm text-primary hover:text-primary-dark transition-colors"
-                        href="{{ route('user.payments.index') }}">View All</a>
-                </div>
-                <div class="space-y-4">
-                    @forelse($recentPayments as $payment)
-                        <div
-                            class="flex items-center justify-between py-2 {{ $loop->last ? '' : 'border-b border-gray-100' }}">
-                            <div class="flex flex-col">
-                                <span class="font-medium text-sm text-primary-black">Invoice #{{ $payment->id }}</span>
-                                <span class="text-xs text-gray-500">{{ $payment->created_at->format('M d, Y') }}</span>
-                            </div>
-                            <div class="text-right">
-                                <span
-                                    class="block font-bold {{ $payment->status == 'pending' ? 'text-primary' : 'text-gray-400' }}">${{ number_format($payment->amount, 2) }}</span>
-                                @if($payment->status == 'pending')
-                                    <span class="text-xs text-yellow-500 font-medium capitalize">{{ $payment->status }}</span>
-                                @elseif($payment->status == 'paid')
-                                    <span class="text-xs text-green-500 font-medium capitalize">{{ $payment->status }}</span>
-                                @else
-                                    <span class="text-xs text-gray-500 font-medium capitalize">{{ $payment->status }}</span>
-                                @endif
-                            </div>
-                        </div>
                     @empty
-                        <p class="text-sm text-center text-gray-500 py-2">No recent payments.</p>
+                        <div class="w-full py-12 flex flex-col items-center justify-center bg-white rounded-3xl border border-dashed border-slate-200 text-center">
+                            <span class="material-symbols-outlined text-4xl text-slate-200 mb-3">confirmation_number_off</span>
+                            <p class="text-sm text-slate-400 font-medium">No recent tickets found.</p>
+                        </div>
                     @endforelse
                 </div>
-            </div>
-            <div class="relative overflow-hidden rounded-2xl p-6 bg-gradient-to-br from-primary to-primary-black">
-                <div class="absolute -right-8 -top-8 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
-                <div class="relative z-10 flex items-center justify-between">
-                    <div>
-                        <h3 class="text-white font-bold text-lg mb-1">Upgrade to VIP</h3>
-                        <p class="text-white/80 text-xs mb-3 max-w-[180px]">Get exclusive access and 2x points on your
-                            next purchase.</p>
-                        <button
-                            class="bg-white text-primary text-xs font-bold px-4 py-2 rounded-full shadow-lg hover:bg-gray-100 transition-colors">Learn
-                            More</button>
+            </section>
+
+            <!-- Billing & VIP Section -->
+            <section class="grid md:grid-cols-2 gap-6">
+                <!-- Billing Card -->
+                <div class="bg-white rounded-3xl p-6 shadow-lg shadow-slate-200/50 border border-slate-100">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-primary-ref/10 rounded-xl flex items-center justify-center">
+                                <span class="material-symbols-outlined text-primary-ref">receipt_long</span>
+                            </div>
+                            <h3 class="font-black text-lg text-slate-900">Billing</h3>
+                        </div>
+                        <a class="text-xs font-bold text-primary-ref hover:text-red-700 transition-colors"
+                            href="{{ route('user.payments.index') }}">View All</a>
                     </div>
-                    <span class="material-icons text-white/20 text-6xl">diamond</span>
+                    <div class="space-y-4">
+                        @forelse($recentPayments as $payment)
+                            <div
+                                class="flex items-center justify-between group">
+                                <div class="flex flex-col">
+                                    <span class="font-bold text-sm text-slate-900 group-hover:text-primary-ref transition-colors">#{{ $payment->id }}</span>
+                                    <span class="text-[10px] text-slate-400 font-medium uppercase tracking-wider">{{ $payment->created_at->format('M d, Y') }}</span>
+                                </div>
+                                <div class="text-right">
+                                    <span
+                                        class="block font-black text-sm text-slate-900 leading-none mb-1">Rp {{ number_format($payment->amount, 0, ',', '.') }}</span>
+                                    @if($payment->status == 'pending')
+                                        <span class="text-[9px] text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full font-black uppercase tracking-wider border border-amber-100">{{ $payment->status }}</span>
+                                    @elseif($payment->status == 'paid')
+                                        <span class="text-[9px] text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full font-black uppercase tracking-wider border border-emerald-100">{{ $payment->status }}</span>
+                                    @else
+                                        <span class="text-[9px] text-slate-400 bg-slate-50 px-2 py-0.5 rounded-full font-black uppercase tracking-wider border border-slate-100">{{ $payment->status }}</span>
+                                    @endif
+                                </div>
+                            </div>
+                            @if(!$loop->last)
+                                <div class="h-px bg-slate-50"></div>
+                            @endif
+                        @empty
+                            <p class="text-sm text-center text-slate-400 py-4 font-medium italic">No recent payments.</p>
+                        @endforelse
+                    </div>
                 </div>
-            </div>
-        </section>
-    </main>
-    <x-bottom-navigation />
 
-
-</body>
-
-</html>
+                <!-- VIP Promo Card -->
+                <div class="relative overflow-hidden rounded-3xl p-8 bg-slate-900 group">
+                    <!-- Background Effects -->
+                    <div class="absolute -right-12 -top-12 w-48 h-48 bg-primary-ref/20 rounded-full blur-[64px] group-hover:bg-primary-ref/30 transition-colors duration-500"></div>
+                    <div class="absolute -left-12 -bottom-12 w-48 h-48 bg-primary-ref/10 rounded-full blur-[64px] group-hover:bg-primary-ref/20 transition-colors duration-500"></div>
+                    
+                    <div class="relative z-10 flex flex-col h-full justify-between">
+                        <div>
+                            <div class="inline-flex items-center gap-2 px-3 py-1 bg-primary-ref/20 rounded-full mb-4">
+                                <span class="material-symbols-outlined text-primary-ref text-sm">diamond</span>
+                                <span class="text-[10px] font-black text-primary-ref uppercase tracking-widest">Exclusive Offer</span>
+                            </div>
+                            <h3 class="text-white font-black text-2xl mb-2 leading-tight">Upgrade to <span class="text-primary-ref">VIP</span></h3>
+                            <p class="text-slate-400 text-sm mb-6 max-w-[200px] leading-relaxed">Get exclusive access and 2x points on your next purchase.</p>
+                        </div>
+                        <button
+                            class="w-full bg-white text-slate-900 font-black text-sm py-4 rounded-2xl shadow-xl hover:bg-primary-ref hover:text-white transition-all duration-300 transform group-hover:translate-y-[-2px]">
+                            Learn More
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+@endsection
