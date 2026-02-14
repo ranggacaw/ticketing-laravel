@@ -3,7 +3,7 @@
     'subtitle' => '',
 ])
 
-<header {{ $attributes->merge(['class' => 'bg-white px-6 pb-4 border-b border-slate-100 sticky top-0 z-40 transition-colors']) }}>
+<header {{ $attributes->merge(['class' => 'bg-white px-6 pb-4 border-b border-slate-100 z-40 transition-colors']) }}>
     <div class="flex items-center space-x-4 mb-4 pt-4">
         <div class="flex-1">
             <h1 class="text-lg font-bold leading-tight text-slate-900 ">{{ $title }}</h1>

@@ -1,4 +1,4 @@
-<nav class="fixed bottom-0 left-0 right-0 glass-card border-t border-slate-100 px-5 py-2 z-50 rounded-t-[2rem]">
+<nav class="fixed bottom-0 left-0 right-0 glass-card border-t border-slate-100 px-5 py-1 z-50 rounded-t-[2rem]">
     <div class="flex justify-between items-center max-w-md mx-auto relative">
         <a href="{{ route('user.dashboard') }}"
             class="flex flex-col items-center {{ request()->routeIs('user.dashboard') ? 'text-primary-ref' : 'text-slate-600 hover:text-slate-900' }} w-16 transition-colors">
@@ -14,7 +14,7 @@
             <span
                 class="text-[10px] {{ request()->routeIs('events.index') ? 'font-bold' : 'font-medium' }} mt-1">Explore</span>
         </a>
-        <div class="relative -top-10">
+        <div class="relative -top-8">
             <button
                 class="w-16 h-16 bg-primary-ref text-white rounded-full shadow-xl shadow-red-500/30 flex items-center justify-center ring-4 ring-white hover:bg-red-700 transition-colors transform active:scale-95">
                 <span class="material-symbols-outlined text-3xl">search</span>
