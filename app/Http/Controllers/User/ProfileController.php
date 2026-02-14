@@ -42,7 +42,16 @@ class ProfileController extends Controller
                     Storage::disk('public')->delete($user->avatar);
                 }
 
-                $path = $avatar->store('avatars', 'public');
+                // In some environments, getRealPath() might return false.
+                // Using getPathname() as a fallback to ensure we have a valid string path for fopen.
+                $tempPath = $avatar->getRealPath() ?: $avatar->getPathname();
+
+                $path = Storage::disk('public')->putFileAs(
+                    'avatars',
+                    $tempPath,
+                    $avatar->hashName()
+                );
+
                 if ($path) {
                     $user->avatar = $path;
                 }
