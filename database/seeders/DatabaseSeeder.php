@@ -15,6 +15,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call(BankSeeder::class);
+
         // User::factory(10)->create();
 
         User::updateOrCreate(
@@ -27,5 +29,9 @@ class DatabaseSeeder extends Seeder
         );
 
         \App\Models\Ticket::factory()->count(10)->create();
+
+        $this->call([
+            BankSeeder::class,
+        ]);
     }
 }

@@ -209,16 +209,15 @@
                         </div>
 
                         @if($event->ticketTypes->isEmpty())
-                            <div
-                                class="bg-amber-50 rounded-2xl p-6 text-amber-700 font-bold text-sm flex items-center gap-3 border border-amber-100">
+                            <div class="bg-amber-50 rounded-2xl p-6 text-amber-700 font-bold text-sm flex items-center gap-3 border border-amber-100">
                                 <span class="material-symbols-outlined">event_busy</span>
                                 No tickets currently listed.
                             </div>
                         @else
-                            <form action="{{ route('events.checkout', $event) }}" method="POST" id="ticketForm"
-                                class="space-y-6">
+                            <form action="{{ route('events.checkout', $event->slug) }}" method="POST" id="ticketForm" enctype="multipart/form-data" class="space-y-6">
                                 @csrf
                                 <div class="space-y-4">
+                                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Select Ticket Type</label>
                                     @foreach($event->ticketTypes as $ticketType)
                                         <label class="block relative group cursor-pointer">
                                             <input type="radio" name="ticket_type_id" value="{{ $ticketType->id }}"
@@ -260,8 +259,55 @@
                                                 <option value="{{ $i }}">{{ $i }} {{ $i > 1 ? 'Tickets' : 'Ticket' }}</option>
                                             @endfor
                                         </select>
-                                        <span
-                                            class="material-symbols-outlined absolute right-6 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none group-hover:text-primary-ref transition-colors">expand_more</span>
+                                        <span class="material-symbols-outlined absolute right-6 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none group-hover:text-primary-ref transition-colors">expand_more</span>
+                                    </div>
+                                </div>
+
+                                <!-- Payment Details Section -->
+                                <div class="pt-6 border-t border-slate-100 space-y-6">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <div class="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center">
+                                            <span class="material-symbols-outlined text-slate-400 text-sm">payments</span>
+                                        </div>
+                                        <h4 class="text-xs font-black text-slate-900 uppercase tracking-widest">Payment Details</h4>
+                                    </div>
+
+                                    <!-- Bank Selection -->
+                                    <div class="space-y-2">
+                                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Transfer To</label>
+                                        <div class="relative group">
+                                            <select name="bank_id" required class="w-full appearance-none bg-slate-50 border-2 border-slate-100 rounded-2xl px-5 py-4 font-bold text-sm text-slate-900 focus:border-primary-ref outline-none transition-all cursor-pointer hover:bg-slate-100">
+                                                <option value="" disabled selected>Select Bank Destination</option>
+                                                @foreach($banks as $bank)
+                                                    <option value="{{ $bank->id }}">{{ $bank->name }} - {{ $bank->account_number }} ({{ $bank->account_name }})</option>
+                                                @endforeach
+                                            </select>
+                                            <span class="material-symbols-outlined absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-sm">account_balance</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Sender Info -->
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div class="space-y-2">
+                                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Sender Name</label>
+                                            <input type="text" name="sender_account_name" required placeholder="Your Name" 
+                                                class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-5 py-4 font-bold text-sm text-slate-900 focus:border-primary-ref outline-none transition-all placeholder:text-slate-300 pointer-events-auto">
+                                        </div>
+                                        <div class="space-y-2">
+                                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Account No.</label>
+                                            <input type="text" name="sender_account_number" required placeholder="Your Account No." 
+                                                class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-5 py-4 font-bold text-sm text-slate-900 focus:border-primary-ref outline-none transition-all placeholder:text-slate-300 pointer-events-auto">
+                                        </div>
+                                    </div>
+
+                                    <!-- Proof Upload -->
+                                    <div class="space-y-2">
+                                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Payment Proof</label>
+                                        <div class="relative group">
+                                            <input type="file" name="payment_proof" required accept=".jpg,.jpeg,.png,.pdf"
+                                                class="w-full text-sm text-slate-500 file:mr-4 file:py-3 file:px-5 file:rounded-xl file:border-0 file:text-xs file:font-black file:uppercase file:tracking-widest file:bg-slate-100 file:text-slate-500 hover:file:bg-slate-200 transition-all cursor-pointer border-2 border-slate-100 rounded-2xl bg-slate-50 p-1">
+                                            <p class="text-[9px] text-slate-400 mt-2 ml-1">* Max 2MB (JPG, PNG, PDF)</p>
+                                        </div>
                                     </div>
                                 </div>
                             </form>

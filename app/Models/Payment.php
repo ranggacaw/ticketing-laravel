@@ -21,6 +21,10 @@ class Payment extends Model
         'confirmed_at',
         'confirmed_by',
         'notes',
+        'bank_id',
+        'sender_account_name',
+        'sender_account_number',
+        'rejection_reason',
     ];
 
     protected $casts = [
@@ -50,6 +54,17 @@ class Payment extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function bank(): BelongsTo
+    {
+        return $this->belongsTo(Bank::class);
+    }
+
+    public function tickets(): BelongsToMany
+    {
+        return $this->belongsToMany(Ticket::class, 'payment_tickets')
+            ->withTimestamps();
+    }
+
     /**
      * Get the admin who confirmed the payment.
      */
@@ -58,12 +73,5 @@ class Payment extends Model
         return $this->belongsTo(User::class, 'confirmed_by');
     }
 
-    /**
-     * The tickets associated with the payment.
-     */
-    public function tickets(): BelongsToMany
-    {
-        return $this->belongsToMany(Ticket::class, 'payment_tickets')
-            ->withTimestamps();
-    }
+
 }

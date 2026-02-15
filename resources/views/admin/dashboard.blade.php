@@ -234,14 +234,57 @@
             </div>
 
             <!-- Ticket Data Table -->
-            <div
-                class="lg:col-span-2 glass-card rounded-3xl overflow-hidden border-black/5  shadow-sm flex flex-col">
-                <div class="p-6 border-b border-black/5  flex items-center justify-between shrink-0">
-                    <h3 class="text-lg font-semibold text-slate-900 ">Recent Tickets</h3>
-                    <a href="{{ route('admin.tickets.index') }}"
-                        class="text-sm text-indigo-600  hover:text-indigo-500  font-medium transition-colors">Manage
-                        All &rarr;</a>
+            <div class="lg:col-span-2 glass-card rounded-3xl overflow-hidden border-black/5 shadow-sm flex flex-col">
+                <div class="p-6 border-b border-black/5 flex items-center justify-between shrink-0">
+                    <h3 class="text-lg font-semibold text-slate-900">Recent Tickets</h3>
+                    <a href="{{ route('admin.tickets.index') }}" class="text-sm text-indigo-600 hover:text-indigo-500 font-medium transition-colors">Manage All &rarr;</a>
                 </div>
+
+                <!-- Filters -->
+                <div class="p-4 bg-slate-50/50 border-b border-black/5">
+                    <form action="{{ route('admin.dashboard') }}" method="GET" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                        
+                        <!-- Search -->
+                        <div class="relative col-span-1 sm:col-span-2">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                                <span class="material-symbols-outlined text-[18px]">search</span>
+                            </span>
+                            <input type="text" name="search" value="{{ request('search') }}" placeholder="Search guest, email, UUID..." 
+                                class="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none bg-white">
+                        </div>
+
+                        <!-- Status -->
+                        <select name="status" class="py-2 px-3 rounded-xl border border-slate-200 text-sm focus:border-indigo-500 outline-none bg-white cursor-pointer" onchange="this.form.submit()">
+                            <option value="">All Status</option>
+                            <option value="scanned" {{ request('status') == 'scanned' ? 'selected' : '' }}>Scanned</option>
+                            <option value="unscanned" {{ request('status') == 'unscanned' ? 'selected' : '' }}>Unscanned</option>
+                        </select>
+
+                        <!-- Type -->
+                        <select name="type" class="py-2 px-3 rounded-xl border border-slate-200 text-sm focus:border-indigo-500 outline-none bg-white cursor-pointer" onchange="this.form.submit()">
+                            <option value="">All Types</option>
+                            <option value="VVIP" {{ request('type') == 'VVIP' ? 'selected' : '' }}>VVIP</option>
+                            <option value="VIP" {{ request('type') == 'VIP' ? 'selected' : '' }}>VIP</option>
+                            <option value="Festival" {{ request('type') == 'Festival' ? 'selected' : '' }}>Festival</option>
+                            <option value="General Admission" {{ request('type') == 'General Admission' ? 'selected' : '' }}>General Admission</option>
+                        </select>
+
+                        <!-- Date Range (Optional expansion) -->
+                        <div class="col-span-1 sm:col-span-2 flex gap-2">
+                            <input type="date" name="date_from" value="{{ request('date_from') }}" class="w-full py-2 px-3 rounded-xl border border-slate-200 text-sm focus:border-indigo-500 outline-none bg-white">
+                            <span class="flex items-center text-slate-400">-</span>
+                            <input type="date" name="date_to" value="{{ request('date_to') }}" class="w-full py-2 px-3 rounded-xl border border-slate-200 text-sm focus:border-indigo-500 outline-none bg-white">
+                        </div>
+
+                        <div class="col-span-1 sm:col-span-2 flex justify-end gap-2">
+                            <a href="{{ route('admin.dashboard') }}" class="px-4 py-2 text-sm text-slate-500 hover:text-slate-700 font-medium">Clear</a>
+                            <button type="submit" class="px-6 py-2 bg-indigo-600 text-white text-sm font-bold rounded-xl hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200">
+                                Filter
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>

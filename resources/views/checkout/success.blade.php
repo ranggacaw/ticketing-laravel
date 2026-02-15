@@ -2,24 +2,39 @@
 
 @section('content')
     <div class="flex flex-col items-center justify-center min-h-[70vh] py-12 font-display">
-        <!-- Success Animation/Icon Container -->
+        <!-- Animation/Icon Container -->
         <div class="relative mb-10">
-            <div class="absolute inset-0 bg-emerald-200 blur-3xl opacity-20 rounded-full animate-pulse"></div>
-            <div
-                class="relative w-24 h-24 bg-emerald-50 rounded-[2.5rem] flex items-center justify-center shadow-2xl shadow-emerald-100 border border-emerald-100 transform -rotate-6">
-                <span class="material-symbols-outlined text-emerald-500 text-5xl">check_circle</span>
-            </div>
+            @if($ticket->payment_status === 'pending')
+                <div class="absolute inset-0 bg-amber-200 blur-3xl opacity-20 rounded-full animate-pulse"></div>
+                <div class="relative w-24 h-24 bg-amber-50 rounded-[2.5rem] flex items-center justify-center shadow-2xl shadow-amber-100 border border-amber-100 transform -rotate-6">
+                    <span class="material-symbols-outlined text-amber-500 text-5xl">pending_actions</span>
+                </div>
+            @else
+                <div class="absolute inset-0 bg-emerald-200 blur-3xl opacity-20 rounded-full animate-pulse"></div>
+                <div class="relative w-24 h-24 bg-emerald-50 rounded-[2.5rem] flex items-center justify-center shadow-2xl shadow-emerald-100 border border-emerald-100 transform -rotate-6">
+                    <span class="material-symbols-outlined text-emerald-500 text-5xl">check_circle</span>
+                </div>
+            @endif
         </div>
 
-        <!-- Success Message -->
-        <div class="text-center mb-12">
-            <h1 class="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tighter">
-                Payment Success!
-            </h1>
-            <p class="text-slate-500 text-lg font-medium max-w-md mx-auto leading-relaxed px-4">
-                Thank you for your purchase. We've sent your digital ticket and receipt to
-                <span class="text-primary-ref font-bold">{{ $ticket->user_email }}</span>
-            </p>
+        <!-- Message -->
+        <div class="text-center mb-12 px-4">
+            @if($ticket->payment_status === 'pending')
+                <h1 class="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tighter">
+                    Payment Under Review
+                </h1>
+                <p class="text-slate-500 text-lg font-medium max-w-lg mx-auto leading-relaxed">
+                    We have received your payment proof. Please wait while our team verifies your transaction. Redirecting to your dashboard...
+                </p>
+            @else
+                <h1 class="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tighter">
+                    Payment Success!
+                </h1>
+                <p class="text-slate-500 text-lg font-medium max-w-md mx-auto leading-relaxed">
+                    Thank you for your purchase. We've sent your digital ticket and receipt to
+                    <span class="text-primary-ref font-bold">{{ $ticket->user_email }}</span>
+                </p>
+            @endif
         </div>
 
         <!-- Ticket Summary Card - Matching Dashboard App Card Style -->

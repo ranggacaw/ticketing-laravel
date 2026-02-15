@@ -31,27 +31,39 @@ class CheckoutTest extends TestCase
         $user = User::factory()->create();
         $event = Event::factory()->create(['status' => 'published']);
         $ticketType = TicketType::factory()->create(['event_id' => $event->id, 'quantity' => 10, 'sold' => 0]);
+        $bank = \App\Models\Bank::factory()->create();
 
         $this->actingAs($user);
 
         $response = $this->post(route('events.checkout', $event), [
             'ticket_type_id' => $ticketType->id,
             'quantity' => 2,
+            'bank_id' => $bank->id,
+            'sender_account_name' => 'John Doe',
+            'sender_account_number' => '1234567890',
+            'payment_proof' => \Illuminate\Http\UploadedFile::fake()->create('proof.jpg', 1024),
         ]);
 
-        // Should redirect to success
+        $response->assertSessionHasNoErrors();
         $response->assertRedirect();
-
-        // Follow redirect to check success page?
-        // Usually checkout redirects to route('checkout.success', uuid)
-        // We can assert database changes first.
 
         $this->assertDatabaseHas('ticket_types', [
             'id' => $ticketType->id,
             'sold' => 2,
         ]);
 
-        $this->assertCount(2, Ticket::where('user_id', $user->id)->get());
+        $this->assertDatabaseHas('payments', [
+            'user_id' => $user->id,
+            'amount' => $ticketType->price * 2,
+            'status' => 'pending',
+            'bank_id' => $bank->id,
+        ]);
+
+        $this->assertDatabaseHas('tickets', [
+            'user_id' => $user->id,
+            'status' => 'issued',
+            'payment_status' => 'pending',
+        ]);
     }
 
     public function test_cannot_purchase_unavailable_ticket()

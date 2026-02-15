@@ -19,7 +19,7 @@ class UserPortalTest extends TestCase
         $response = $this->actingAs($user)->get(route('user.dashboard'));
 
         $response->assertStatus(200);
-        $response->assertSee('My Dashboard');
+        $response->assertSee('Welcome back');
     }
 
     public function test_user_can_view_own_tickets()

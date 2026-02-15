@@ -45,12 +45,11 @@ class Ticket extends Model
             if (empty($ticket->uuid)) {
                 $ticket->uuid = (string) Str::uuid();
             }
+            if (empty($ticket->barcode_data)) {
+                $ticket->barcode_data = $ticket->uuid;
+            }
             if (empty($ticket->secure_token)) {
                 $ticket->secure_token = (string) Str::random(64);
-            }
-            if (empty($ticket->barcode_data)) {
-                // Initial barcode data could be the UUID or a more complex string
-                $ticket->barcode_data = $ticket->uuid;
             }
         });
     }

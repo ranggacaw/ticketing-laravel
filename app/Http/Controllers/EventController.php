@@ -22,6 +22,7 @@ class EventController extends Controller
         abort_unless($event->status === 'published', 404);
 
         $event->load(['venue', 'ticketTypes', 'organizer']);
-        return view('events.show', compact('event'));
+        $banks = \App\Models\Bank::active()->get();
+        return view('events.show', compact('event', 'banks'));
     }
 }

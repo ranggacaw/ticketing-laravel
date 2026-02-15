@@ -43,7 +43,7 @@ class TicketFactory extends Factory
                 return fake()->numberBetween(50000, 1000000);
             },
             'type' => fake()->randomElement(['VIP', 'General Admission']),
-            'barcode_data' => strtoupper(fake()->bothify('TICKET-####-####')),
+            // 'barcode_data' => strtoupper(fake()->bothify('TICKET-####-####')), // Let boot handle this
             'scanned_at' => null,
         ];
     }

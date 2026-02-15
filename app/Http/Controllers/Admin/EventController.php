@@ -60,6 +60,36 @@ class EventController extends Controller
         return view('admin.events.show', compact('event'));
     }
 
+    public function participants(Request $request, Event $event)
+    {
+        $query = $event->tickets()->with('user');
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('user_name', 'like', '%' . $search . '%')
+                  ->orWhere('user_email', 'like', '%' . $search . '%')
+                  ->orWhere('uuid', 'like', '%' . $search . '%');
+            });
+        }
+
+        if ($request->filled('status')) {
+            if ($request->status === 'scanned') {
+                $query->whereNotNull('scanned_at');
+            } elseif ($request->status === 'unscanned') {
+                $query->whereNull('scanned_at');
+            }
+        }
+
+        if ($request->filled('type')) {
+            $query->where('type', $request->type);
+        }
+
+        $participants = $query->latest()->paginate(20)->withQueryString();
+
+        return view('admin.events.participants', compact('event', 'participants'));
+    }
+
     public function edit(Event $event)
     {
         $venues = Venue::orderBy('name')->get();

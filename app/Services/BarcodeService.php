@@ -29,15 +29,7 @@ class BarcodeService
      */
     public function formatBarcodeData(array $details): string
     {
-        // Generate a shorter, cleaner code for the barcode
-        // Format: TICKET-XXXX-XXXX (derived from UUID checksum for determinism)
-        $uuid = $details['uuid'] ?? uniqid();
-        $hash = crc32($uuid);
-        
-        // Create an 8-digit string from the hash
-        $numericHash = sprintf("%08u", $hash);
-        $shortCode = substr($numericHash, -8);
-
-        return "TICKET-" . substr($shortCode, 0, 4) . "-" . substr($shortCode, 4, 4);
+        // Use the UUID simply as the barcode data to ensure global uniqueness
+        return $details['uuid'] ?? (string) \Illuminate\Support\Str::uuid();
     }
 }

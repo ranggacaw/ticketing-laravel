@@ -95,14 +95,21 @@ Route::middleware(['auth'])->group(function () {
 
     // Admin Only Area
     Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
+        // Payment Management
+        Route::get('payments', [\App\Http\Controllers\Admin\PaymentController::class, 'index'])->name('payments.index');
+        Route::get('payments/{payment}', [\App\Http\Controllers\Admin\PaymentController::class, 'show'])->name('payments.show');
+        Route::post('payments/{payment}/approve', [\App\Http\Controllers\Admin\PaymentController::class, 'approve'])->name('payments.approve');
+        Route::post('payments/{payment}/reject', [\App\Http\Controllers\Admin\PaymentController::class, 'reject'])->name('payments.reject');
+
         // User Management
         // User Management
         Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
 
-        // Master Data Management
         Route::resource('venues', \App\Http\Controllers\Admin\VenueController::class);
         Route::resource('venues.seats', \App\Http\Controllers\Admin\SeatController::class);
         Route::resource('organizers', \App\Http\Controllers\Admin\OrganizerController::class);
+        
+        Route::get('events/{event}/participants', [\App\Http\Controllers\Admin\EventController::class, 'participants'])->name('events.participants');
         Route::resource('events', \App\Http\Controllers\Admin\EventController::class);
         Route::resource('events.ticket-types', \App\Http\Controllers\Admin\TicketTypeController::class);
     });

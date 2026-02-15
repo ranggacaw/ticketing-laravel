@@ -86,6 +86,24 @@
 
             <!-- Sidebar -->
             <div class="lg:col-span-1 space-y-6">
+                
+                <!-- Attendees Action -->
+                <a href="{{ route('admin.events.participants', $event) }}" class="group block glass-card p-6 rounded-3xl border-black/5 hover:border-indigo-500/30 transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-24 h-24 bg-indigo-500/5 rounded-full blur-2xl group-hover:bg-indigo-500/10 transition-colors"></div>
+                    <div class="relative z-10 flex items-center justify-between">
+                        <div>
+                            <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-widest mb-1 group-hover:text-indigo-500 transition-colors">Attendees</h3>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-3xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">{{ $event->tickets->count() }}</span>
+                                <span class="text-xs text-slate-400 font-medium">Participants</span>
+                            </div>
+                        </div>
+                        <div class="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-500 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 shadow-sm group-hover:shadow-indigo-200">
+                             <span class="material-symbols-outlined">group</span>
+                        </div>
+                    </div>
+                </a>
+
                 <!-- Status Card -->
                 <div class="glass-card p-6 rounded-3xl border-black/5  shadow-sm">
                     <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">Status</h3>
