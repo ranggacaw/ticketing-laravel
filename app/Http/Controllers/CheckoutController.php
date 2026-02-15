@@ -43,7 +43,15 @@ class CheckoutController extends Controller
             $totalAmount = $ticketType->price * $quantity;
 
             // Handle File Upload
-            $proofPath = $request->file('payment_proof')->store('payment-proofs', 'public');
+            // Handle File Upload
+            $paymentProof = $request->file('payment_proof');
+            // Fix for ValueError: Path cannot be empty if getRealPath() fails
+            $tempPath = $paymentProof->getRealPath() ?: $paymentProof->getPathname();
+            $proofPath = Storage::disk('public')->putFileAs(
+                'payment-proofs',
+                $tempPath,
+                $paymentProof->hashName()
+            );
 
             $firstTicket = DB::transaction(function () use ($ticketType, $quantity, $event, $validated, $totalAmount, $proofPath) {
                 // Lock the ticket type row
@@ -60,7 +68,7 @@ class CheckoutController extends Controller
                     'invoice_number' => 'INV-' . date('Ymd') . '-' . strtoupper(Str::random(6)),
                     'amount' => $totalAmount,
                     'status' => 'pending',
-                    'payment_proof_url' => $proofPath, 
+                    'payment_proof_url' => $proofPath,
                     'sender_account_name' => $validated['sender_account_name'],
                     'sender_account_number' => $validated['sender_account_number'],
                 ]);
@@ -79,7 +87,7 @@ class CheckoutController extends Controller
                         'type' => $lockedType->name,
                         'seat_number' => 'General Admission', // Or iterate seat assignment if needed
                     ]);
-                    
+
                     // Link to Payment
                     $payment->tickets()->attach($ticket->id); // Payment model needs tickets relationship
 
