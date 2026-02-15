@@ -10,17 +10,6 @@ export default defineConfig({
         }),
         tailwindcss(),
     ],
-    css: {
-        postcss: {
-            plugins: [],
-        },
-    },
-    build: {
-        cssMinify: 'lightningcss',
-        cssMinifyOptions: {
-            errorRecovery: true,
-        },
-    },
     server: {
         watch: {
             ignored: ['**/storage/framework/views/**'],
