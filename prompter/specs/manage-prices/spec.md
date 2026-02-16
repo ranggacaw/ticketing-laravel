@@ -1,8 +1,11 @@
-## ADDED Requirements
+# manage-prices Specification
 
+## Purpose
+TBD - created by archiving change manage-event-ticket-prices. Update Purpose after archive.
+## Requirements
 ### Requirement: Manage Ticket Prices
 
-As an event organizer, I need to define and manage multiple ticket pricing tiers for my events to support different categories (e.g., VIP, General Admission).
+The system SHALL allow event organizers to define and manage multiple ticket pricing tiers for events to support different categories (e.g., VIP, General Admission).
 
 #### Scenario: Create a new ticket price tier
 
@@ -37,3 +40,4 @@ As an event organizer, I need to define and manage multiple ticket pricing tiers
 - **WHEN** I choose to delete "Obsolete Pass"
 - **AND** I confirm the deletion
 - **THEN** the ticket type "Obsolete Pass" should be removed from the event
+

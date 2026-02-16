@@ -106,9 +106,7 @@ Users SHALL be able to reset their password via email link.
 
 ---
 
-## MODIFIED Requirements
-
-### Requirement: Login Page Enhancement
+### Requirement: Login Page Registration Link
 
 The login page SHALL link to the registration page.
 
