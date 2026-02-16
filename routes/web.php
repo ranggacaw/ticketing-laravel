@@ -76,6 +76,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/tickets/validated', [TicketController::class, 'validated'])->name('tickets.validated');
     });
 
+    // Admin & Staff Area for manual actions from Filament
+    Route::middleware(['role:admin,staff'])->prefix('admin')->name('admin.')->group(function () {
+        Route::get('tickets/{ticket}/export', \App\Http\Controllers\Admin\TicketExportController::class)->name('tickets.export');
+    });
+
     /*
     // Admin & Staff Area
     Route::middleware(['role:admin,staff'])->prefix('admin')->name('admin.')->group(function () {

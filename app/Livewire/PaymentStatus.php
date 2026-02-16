@@ -31,7 +31,7 @@ class PaymentStatus extends Component
 
         $this->status = $this->ticket->payment_status; // pending, paid, failed, cancelled
 
-        if ($this->status === 'paid') {
+        if ($this->status === 'paid' || $this->status === 'confirmed') {
             $this->message = 'Payment Successful! Your tickets are ready.';
        
         } elseif ($this->status === 'failed') {

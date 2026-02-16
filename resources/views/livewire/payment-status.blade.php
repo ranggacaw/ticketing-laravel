@@ -9,7 +9,7 @@
                 <div class="relative w-24 h-24 bg-amber-50 rounded-[2.5rem] flex items-center justify-center shadow-2xl shadow-amber-100 border border-amber-100 transform -rotate-6">
                     <span class="material-symbols-outlined text-amber-500 text-5xl">pending_actions</span>
                 </div>
-            @elseif($status === 'paid' || $status === 'issued')
+            @elseif($status === 'paid' || $status === 'issued' || $status === 'confirmed')
                 <div class="absolute inset-0 bg-emerald-200 blur-3xl opacity-20 rounded-full animate-pulse"></div>
                 <div class="relative w-24 h-24 bg-emerald-50 rounded-[2.5rem] flex items-center justify-center shadow-2xl shadow-emerald-100 border border-emerald-100 transform -rotate-6">
                     <span class="material-symbols-outlined text-emerald-500 text-5xl">check_circle</span>
@@ -38,7 +38,7 @@
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
                 </div>
-            @elseif($status === 'paid' || $status === 'issued')
+            @elseif($status === 'paid' || $status === 'issued' || $status === 'confirmed')
                 <h1 class="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tighter">
                     Payment Confirmed!
                 </h1>
@@ -102,7 +102,7 @@
                     <div class="flex flex-col items-center">
                         <div class="p-4 bg-slate-50 rounded-3xl border border-slate-100 mb-3 group-hover:scale-105 transition-transform">
                              <!-- Show QR only if paid/issued -->
-                             @if($status === 'paid' || $status === 'issued')
+                             @if($status === 'paid' || $status === 'issued' || $status === 'confirmed')
                                  <div class="w-20 h-20 bg-white shadow-inner flex items-center justify-center relative overflow-hidden rounded-xl border border-slate-100">
                                      {!! QrCode::size(70)->generate($ticket->uuid) !!}
                                  </div>
