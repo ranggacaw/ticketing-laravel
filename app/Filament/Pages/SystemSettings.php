@@ -4,6 +4,8 @@ namespace App\Filament\Pages;
 
 use BackedEnum;
 use Filament\Pages\Page;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 
 class SystemSettings extends Page
 {
@@ -15,8 +17,17 @@ class SystemSettings extends Page
 
     protected static ?int $navigationSort = 1;
 
-    public function getView(): string
+    public function getTitle(): string
     {
-        return 'filament.pages.system-settings';
+        return 'System Settings';
+    }
+
+    public function content(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                Section::make('System Settings')
+                    ->description('System configuration and settings will appear here.'),
+            ]);
     }
 }
