@@ -28,6 +28,15 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+        User::updateOrCreate(
+            ['email' => 'budiharso@mail.com'],
+            [
+                'name' => 'Budiharso',
+                'password' => \Illuminate\Support\Facades\Hash::make('password'),
+                'role' => 'user', 
+            ]
+        );
+
         // \App\Models\Ticket::factory()->count(10)->create();
 
         // $this->call([
