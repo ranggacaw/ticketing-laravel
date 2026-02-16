@@ -19,13 +19,15 @@ class TicketType extends Model
         'quantity',
         'sold',
         'sale_start_date',
-        'sale_end_date'
+        'sale_end_date',
+        'is_active',
     ];
 
     protected $casts = [
         'price' => 'decimal:2',
         'sale_start_date' => 'datetime',
         'sale_end_date' => 'datetime',
+        'is_active' => 'boolean',
     ];
 
     public function event(): BelongsTo
@@ -40,6 +42,10 @@ class TicketType extends Model
 
     public function getIsAvailableAttribute(): bool
     {
+        if (!$this->is_active) {
+            return false;
+        }
+
         $now = now();
         if ($this->sale_start_date && $now->lt($this->sale_start_date))
             return false;

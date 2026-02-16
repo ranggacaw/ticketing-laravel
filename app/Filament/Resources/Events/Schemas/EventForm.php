@@ -34,9 +34,18 @@ class EventForm
                     ->searchable()
                     ->preload()
                     ->createOptionForm([
-                        TextInput::make('name')->required(),
-                        TextInput::make('address')->required(),
-                        TextInput::make('city')->required(),
+                        TextInput::make('name')
+                            ->required(),
+                        TextInput::make('address')
+                            ->required(),
+                        TextInput::make('city')
+                            ->required(),
+                        TextInput::make('state'),
+                        TextInput::make('country')
+                            ->required(),
+                        TextInput::make('postal_code'),
+                        TextInput::make('capacity')
+                            ->numeric(),
                     ])
                     ->required(),
                 Select::make('organizer_id')
