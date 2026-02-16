@@ -58,7 +58,7 @@ class AuthController extends Controller
 
             // Direct admin roles to admin dashboard
             if ($user->hasRole(User::ROLE_ADMIN) || $user->hasRole(User::ROLE_STAFF)) {
-                return redirect()->intended(route('admin.dashboard'));
+                return redirect()->intended(route('filament.admin.pages.dashboard'));
             }
 
             // Volunteers go to scan page

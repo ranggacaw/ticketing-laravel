@@ -20,9 +20,12 @@ class ScanTickets extends Page
 
     public ?string $manualCode = null;
 
+    public ?array $scannedResult = null;
+
     #[On('scan-success')]
     public function handleScan(string $code): void
     {
+        \Illuminate\Support\Facades\Log::info('ScanTickets: handleScan called with code: ' . $code);
         $this->checkCode($code);
     }
 
@@ -44,6 +47,13 @@ class ScanTickets extends Page
             ->first();
 
         if (!$ticket) {
+            $this->scannedResult = [
+                'status' => 'error',
+                'title' => 'Invalid Ticket',
+                'message' => "No ticket found with code: {$code}",
+                'code' => $code,
+            ];
+
             Notification::make()
                 ->title('Invalid Ticket')
                 ->body("No ticket found with code: {$code}")
@@ -57,10 +67,18 @@ class ScanTickets extends Page
         }
 
         // Check if already scanned?
-        // Typically invalid if scanned before, or just warning.
-        // User didn't specify strict rule, but "scanned_at" exists in model implies tracking.
-
         if ($ticket->scanned_at) {
+            $this->scannedResult = [
+                'status' => 'warning',
+                'title' => 'Already Scanned',
+                'message' => "Ticket for {$ticket->user_name} was already scanned at {$ticket->scanned_at->format('H:i d/m/Y')}.",
+                'ticket' => [
+                    'user_name' => $ticket->user_name,
+                    'type' => $ticket->ticketType->name ?? 'General',
+                ],
+                'code' => $code,
+            ];
+
             Notification::make()
                 ->title('Already Scanned')
                 ->body("Ticket for {$ticket->user_name} was already scanned at {$ticket->scanned_at->format('H:i d/m/Y')}.")
@@ -79,6 +97,17 @@ class ScanTickets extends Page
         ]);
 
         $typeName = $ticket->ticketType->name ?? 'General';
+
+        $this->scannedResult = [
+            'status' => 'success',
+            'title' => 'Scan Successful',
+            'message' => "Valid ticket for {$ticket->user_name} ({$typeName}).",
+            'ticket' => [
+                'user_name' => $ticket->user_name,
+                'type' => $typeName,
+            ],
+            'code' => $code,
+        ];
 
         Notification::make()
             ->title('Scanned Successfully')
