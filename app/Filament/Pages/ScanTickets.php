@@ -49,8 +49,9 @@ class ScanTickets extends Page
                 ->body("No ticket found with code: {$code}")
                 ->danger()
                 ->persistent() // Keep it visible so they see it
-                ->play('danger') // If sound is enabled/supported
                 ->send();
+
+            $this->dispatch('scan-completed', success: false);
 
             return;
         }
@@ -66,6 +67,8 @@ class ScanTickets extends Page
                 ->warning()
                 ->persistent()
                 ->send();
+
+            $this->dispatch('scan-completed', success: false);
             return;
         }
 

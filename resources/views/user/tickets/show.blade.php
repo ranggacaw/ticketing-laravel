@@ -47,7 +47,7 @@
                             @else
                                 <span
                                     class="inline-block px-3 py-1 bg-emerald-500 text-white text-[10px] font-black uppercase tracking-widest rounded-full mb-3 shadow-lg shadow-emerald-500/10">
-                                    Ticket Available
+                                    Ticket Pending
                                 </span>
                             @endif
                             <h2 class="text-3xl md:text-4xl font-black text-white leading-tight">
@@ -148,10 +148,9 @@
                                 <span class="font-bold text-slate-900">{{ auth()->user()->name }}</span>
                             </div>
                             <div class="flex justify-between items-center text-sm py-1 border-b border-slate-50 pb-3">
-                                <span class="text-slate-500 font-bold uppercase text-[10px] tracking-widest">Ticket
-                                    ID</span>
+                                <span class="text-slate-500 font-bold uppercase text-[10px] tracking-widest">Ticket ID</span>
                                 <span
-                                    class="font-mono text-xs font-bold text-slate-900 bg-slate-50 px-2 py-1 rounded">#{{ \Illuminate\Support\Str::limit($ticket->uuid, 12, '') }}</span>
+                                    class="font-mono text-xs font-bold text-slate-900 bg-slate-50 px-2 py-1 rounded">{{ $ticket->uuid }}</span>
                             </div>
                             <div class="flex justify-between items-center text-sm py-1 border-b border-slate-50 pb-3">
                                 <span class="text-slate-500 font-bold uppercase text-[10px] tracking-widest">Event
@@ -168,7 +167,7 @@
                                 @elseif($ticket->payment_status === 'pending')
                                     <span class="font-bold text-amber-600 px-2 py-1 bg-amber-50 rounded-full text-xs">Pending</span>
                                 @else
-                                    <span class="font-bold text-emerald-600 px-2 py-1 bg-emerald-50 rounded-full text-xs">Available</span>
+                                    <span class="font-bold text-emerald-600 px-2 py-1 bg-emerald-50 rounded-full text-xs">Pending</span>
                                 @endif
                             </div>
                             <div class="flex justify-between items-center text-lg pt-2">
