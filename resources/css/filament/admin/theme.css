@@ -1,0 +1,9 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@source '../../../../app/Filament/**/*';
+@source '../../../../resources/views/filament/**/*';
+
+@theme {
+    --color-primary-500: #6366f1;
+    --color-danger-500: #e61f27;
+}

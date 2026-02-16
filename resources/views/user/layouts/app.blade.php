@@ -8,12 +8,11 @@
     <!-- Fonts -->
     <!-- No CDNs - all assets bundled via Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-
-
+    @livewireStyles
 </head>
 
 <body class="min-h-screen bg-base-200 text-base-content">
+
 
     <!-- Global Header -->
     <header x-data="{ scrolled: false }" x-init="scrolled = (window.scrollY > 20)"
@@ -53,6 +52,7 @@
 
     @include('user.components.toast')
 
+    @livewireScripts
 </body>
 
 </html>

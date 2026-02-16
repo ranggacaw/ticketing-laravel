@@ -28,10 +28,10 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        \App\Models\Ticket::factory()->count(10)->create();
+        // \App\Models\Ticket::factory()->count(10)->create();
 
-        $this->call([
-            BankSeeder::class,
-        ]);
+        // $this->call([
+        //     BankSeeder::class,
+        // ]);
     }
 }

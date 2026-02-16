@@ -46,7 +46,7 @@ Route::middleware(['auth'])->group(function () {
         } elseif (auth()->user()->role === 'user') {
             return redirect()->route('user.dashboard');
         }
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('filament.admin.pages.dashboard');
     })->name('home');
 
     Route::get('/my/history', [\App\Http\Controllers\MyHistoryController::class, 'index'])->name('my.history');
@@ -76,43 +76,21 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/tickets/validated', [TicketController::class, 'validated'])->name('tickets.validated');
     });
 
+    /*
     // Admin & Staff Area
     Route::middleware(['role:admin,staff'])->prefix('admin')->name('admin.')->group(function () {
         Route::get('dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
-
-        // Ticket Management
-        // Admin & Staff can create/edit.
-        // Volunteers are excluded here.
-        Route::resource('tickets', \App\Http\Controllers\Admin\TicketController::class);
-        Route::get('tickets/{ticket}/export', [\App\Http\Controllers\Admin\TicketController::class, 'export'])->name('tickets.export');
-        Route::get('tickets/{ticket}/preview', [\App\Http\Controllers\Admin\TicketController::class, 'preview'])->name('tickets.preview');
-
-        // Activity History
-        Route::get('history', [\App\Http\Controllers\Admin\HistoryController::class, 'index'])->name('history.index');
-        Route::get('history/export', [\App\Http\Controllers\Admin\HistoryController::class, 'export'])->name('history.export');
-        Route::get('history/{id}', [\App\Http\Controllers\Admin\HistoryController::class, 'show'])->name('history.show');
+        // ... (routes hidden)
     });
+    */
 
+    /*
     // Admin Only Area
     Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
         // Payment Management
-        Route::get('payments', [\App\Http\Controllers\Admin\PaymentController::class, 'index'])->name('payments.index');
-        Route::get('payments/{payment}', [\App\Http\Controllers\Admin\PaymentController::class, 'show'])->name('payments.show');
-        Route::post('payments/{payment}/approve', [\App\Http\Controllers\Admin\PaymentController::class, 'approve'])->name('payments.approve');
-        Route::post('payments/{payment}/reject', [\App\Http\Controllers\Admin\PaymentController::class, 'reject'])->name('payments.reject');
-
-        // User Management
-        // User Management
-        Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
-
-        Route::resource('venues', \App\Http\Controllers\Admin\VenueController::class);
-        Route::resource('venues.seats', \App\Http\Controllers\Admin\SeatController::class);
-        Route::resource('organizers', \App\Http\Controllers\Admin\OrganizerController::class);
-        
-        Route::get('events/{event}/participants', [\App\Http\Controllers\Admin\EventController::class, 'participants'])->name('events.participants');
-        Route::resource('events', \App\Http\Controllers\Admin\EventController::class);
-        Route::resource('events.ticket-types', \App\Http\Controllers\Admin\TicketTypeController::class);
+        // ... (routes hidden)
     });
+    */
 
 });
 
