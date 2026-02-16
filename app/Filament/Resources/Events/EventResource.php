@@ -22,9 +22,13 @@ class EventResource extends Resource
 {
     protected static ?string $model = Event::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-calendar-days';
 
     protected static ?string $recordTitleAttribute = 'title';
+
+    protected static string|\UnitEnum|null $navigationGroup = 'Master Data';
+
+    protected static ?int $navigationSort = 1;
 
     public static function form(Schema $schema): Schema
     {

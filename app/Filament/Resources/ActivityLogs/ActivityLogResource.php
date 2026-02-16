@@ -19,8 +19,10 @@ class ActivityLogResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-clock';
 
     protected static string|\UnitEnum|null $navigationGroup = 'System';
-    
+
     protected static ?string $navigationLabel = 'Activity Logs';
+
+    protected static ?int $navigationSort = 2;
 
     public static function table(Table $table): Table
     {
