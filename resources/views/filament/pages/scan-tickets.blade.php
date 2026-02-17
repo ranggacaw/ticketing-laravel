@@ -54,15 +54,21 @@
                 this.scanComplete = false;
                 this.lastScanned = code;
 
-                console.log('Calling Livewire handleScan...');
-                $wire.handleScan(code)
+                console.log('Auto-captured TicketID:', code);
+                
+                // Replicate manual mechanism: set the code in manualCode input and call checkManualCode
+                $wire.set('manualCode', code)
                     .then(() => {
-                        console.log('Livewire call handled');
+                        console.log('Triggering manual verification for:', code);
+                        return $wire.checkManualCode();
+                    })
+                    .then(() => {
+                        console.log('Verification completed');
                         this.isProcessing = false;
                         this.scanComplete = true;
                     })
                     .catch(err => {
-                        console.error('Livewire call failed:', err);
+                        console.error('Verification failed:', err);
                         this.isProcessing = false;
                     });
                 
@@ -143,10 +149,26 @@
                 Position the QR code within the frame to scan.
             </p>
 
-            <div x-show="lastScanned" class="mt-2 text-center text-sm text-gray-600 bg-gray-50 p-2 rounded">
-                Scanned: <span x-text="lastScanned" class="font-mono font-bold"></span>
-                <span x-show="isProcessing" class="text-indigo-600 ml-2 animate-pulse">Processing...</span>
-                <span x-show="scanComplete && !isProcessing" class="text-green-600 ml-2">Done!</span>
+            <div x-show="lastScanned" class="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                <div class="text-center">
+                    <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">Captured Ticket ID</p>
+                    <p x-text="lastScanned" class="font-mono font-bold text-lg text-gray-800 bg-white px-3 py-2 rounded border border-gray-300 inline-block"></p>
+                </div>
+                <div class="mt-2 text-center">
+                    <span x-show="isProcessing" class="inline-flex items-center gap-1 text-indigo-600 text-sm">
+                        <svg class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Verifying ticket...
+                    </span>
+                    <span x-show="scanComplete && !isProcessing" class="inline-flex items-center gap-1 text-green-600 text-sm font-medium">
+                        <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        Verification complete
+                    </span>
+                </div>
             </div>
 
             @if($scannedResult)
