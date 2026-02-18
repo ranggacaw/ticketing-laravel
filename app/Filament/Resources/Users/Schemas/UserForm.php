@@ -39,6 +39,7 @@ class UserForm
                     ->maxLength(255),
                 FileUpload::make('avatar')
                     ->avatar()
+                    ->disk('public')
                     ->directory('avatars')
                     ->visibility('public'),
             ]);

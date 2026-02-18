@@ -97,7 +97,8 @@
                             </div>
                             <div class="flex items-center text-xs text-slate-500 font-medium">
                                 <span class="material-symbols-outlined text-lg mr-1.5 text-primary-ref">groups</span>
-                                All Ages
+                                {{ number_format($event->ticketTypes->sum('quantity') - $event->ticketTypes->sum('sold')) }}
+                                Tickets Left
                             </div>
                         </div>
 

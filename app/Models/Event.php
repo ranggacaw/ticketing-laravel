@@ -43,6 +43,9 @@ class Event extends Model
         'end_time',
         'venue_id',
         'organizer_id',
+        'banner',
+        'latitude',
+        'longitude',
         'status',
     ];
 

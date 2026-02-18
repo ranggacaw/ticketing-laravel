@@ -4,7 +4,9 @@
     <div class="relative h-[45vh] md:h-[55vh] w-full overflow-hidden -mt-24">
         <!-- Event Image Background -->
         <div class="absolute inset-0 bg-slate-900 border-b border-slate-100">
-            @if($event->image_url)
+            @if($event->banner)
+                <img src="{{ Storage::url($event->banner) }}" alt="{{ $event->name }}" class="w-full h-full object-cover">
+            @elseif($event->image_url)
                 <img src="{{ $event->image_url }}" alt="{{ $event->name }}" class="w-full h-full object-cover">
             @else
                 <div
@@ -116,7 +118,7 @@
                         class="bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-lg shadow-slate-200/30 overflow-hidden group">
                         <p class="text-slate-600 leading-relaxed text-lg font-medium"
                             :class="expanded ? '' : 'line-clamp-6'">
-                            {{ $event->description }}
+                            {!! $event->description !!}
                         </p>
                         <button @click="expanded = !expanded"
                             class="text-primary-ref font-black mt-6 flex items-center gap-1 hover:gap-2 transition-all uppercase tracking-widest text-xs">
@@ -135,17 +137,37 @@
                             </div>
                             <h2 class="text-2xl font-black text-slate-900 tracking-tight">Location</h2>
                         </div>
-                        <a href="https://maps.google.com/?q={{ urlencode($event->location) }}" target="_blank"
+                        <a href="{{ $event->latitude && $event->longitude ? 'https://www.google.com/maps/search/?api=1&query=' . $event->latitude . ',' . $event->longitude : 'https://maps.google.com/?q=' . urlencode($event->location) }}" target="_blank"
                             class="text-xs font-black text-primary-ref uppercase tracking-widest hover:underline flex items-center gap-1">
                             Open Maps <span class="material-symbols-outlined text-[14px]">open_in_new</span>
                         </a>
                     </div>
                     <div class="bg-white rounded-[2.5rem] p-4 border border-slate-100 shadow-lg shadow-slate-200/30">
                         <div class="relative h-72 rounded-[2rem] overflow-hidden group">
-                            <div class="absolute inset-0 bg-slate-50 flex items-center justify-center">
-                                <span
-                                    class="material-symbols-outlined text-8xl text-primary-ref/10 animate-pulse">map_search</span>
-                            </div>
+                            @if($event->latitude && $event->longitude)
+                                <div id="event-map" class="w-full h-full z-0"></div>
+                                <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+                                <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        var map = L.map('event-map', {
+                                            zoomControl: false,
+                                            scrollWheelZoom: false,
+                                            dragging: false
+                                        }).setView([{{ $event->latitude }}, {{ $event->longitude }}], 15);
+                                        
+                                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                            attribution: '&copy; OpenStreetMap contributors'
+                                        }).addTo(map);
+                                        
+                                        L.marker([{{ $event->latitude }}, {{ $event->longitude }}]).addTo(map);
+                                    });
+                                </script>
+                            @else
+                                <div class="absolute inset-0 bg-slate-50 flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-8xl text-primary-ref/10 animate-pulse">map_search</span>
+                                </div>
+                            @endif
                             <!-- Location Detail Overlay -->
                             <div class="absolute inset-0 flex items-center justify-center">
                                 <div

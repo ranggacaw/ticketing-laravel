@@ -22,7 +22,9 @@ class BankForm
                     ->maxLength(255),
                 FileUpload::make('logo_url')
                     ->image()
-                    ->directory('banks'),
+                    ->disk('public')
+                    ->directory('banks')
+                    ->visibility('public'),
                 TextInput::make('account_name')
                     ->required()
                     ->maxLength(255),
