@@ -74,10 +74,15 @@
                         <div
                             class="snap-center shrink-0 w-[280px] bg-white rounded-3xl overflow-hidden shadow-lg shadow-slate-200/50 border border-slate-100 group transition-all duration-300 hover:shadow-xl">
                             <div class="h-32 bg-slate-900 relative overflow-hidden">
-                                <div class="absolute inset-0 opacity-40 bg-gradient-to-br from-primary-ref to-slate-900"></div>
-                                <div class="absolute inset-0 flex items-center justify-center opacity-10">
-                                    <span class="material-symbols-outlined text-8xl text-white">confirmation_number</span>
-                                </div>
+                                @if($ticket->event?->banner_url)
+                                    <img src="{{ $ticket->event->banner_url }}" alt="{{ $ticket->event->name }}" class="absolute inset-0 w-full h-full object-cover opacity-60">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent"></div>
+                                @else
+                                    <div class="absolute inset-0 opacity-40 bg-gradient-to-br from-primary-ref to-slate-900"></div>
+                                    <div class="absolute inset-0 flex items-center justify-center opacity-10">
+                                        <span class="material-symbols-outlined text-8xl text-white">confirmation_number</span>
+                                    </div>
+                                @endif
                                 @if($ticket->scanned_at)
                                     <div
                                         class="absolute top-4 right-4 bg-slate-100/90 backdrop-blur-md text-slate-400 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider border border-slate-200">
