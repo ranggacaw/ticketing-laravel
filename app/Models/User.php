@@ -10,6 +10,7 @@ use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Traits\LogsActivity;
 
 class User extends Authenticatable implements FilamentUser
@@ -97,6 +98,11 @@ class User extends Authenticatable implements FilamentUser
     public function loyaltyPoints(): HasMany
     {
         return $this->hasMany(LoyaltyPoint::class);
+    }
+
+    public function favorites(): BelongsToMany
+    {
+        return $this->belongsToMany(Event::class, 'favorites')->withTimestamps();
     }
 
     public function canAccessPanel(Panel $panel): bool

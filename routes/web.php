@@ -16,6 +16,11 @@ Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::get('/events/{event:slug}', [EventController::class, 'show'])->name('events.show');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/favorites', [\App\Http\Controllers\FavoriteController::class, 'index'])->name('favorites.index');
+    Route::post('/favorites/{event}', [\App\Http\Controllers\FavoriteController::class, 'toggle'])->name('favorites.toggle');
+});
+
+Route::middleware('auth')->group(function () {
     Route::post('/events/{event:slug}/checkout', [CheckoutController::class, 'store'])->name('events.checkout');
     Route::get('/tickets/{ticket:uuid}/success', [CheckoutController::class, 'success'])->name('checkout.success');
 });

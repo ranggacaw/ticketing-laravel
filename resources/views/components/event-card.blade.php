@@ -23,10 +23,13 @@
         </div>
 
         <!-- Favorite Button -->
-        <button
-            class="absolute top-4 left-4 bg-white/20 backdrop-blur-md p-2 rounded-full text-white hover:bg-white/30 transition-colors">
-            <span class="material-symbols-outlined text-xl">favorite</span>
-        </button>
+        <form action="{{ route('favorites.toggle', $event) }}" method="POST" class="absolute top-4 left-4 z-10">
+            @csrf
+            <button type="submit"
+                class="bg-white/20 backdrop-blur-md px-2 py-1 rounded-full {{ auth()->user()?->favorites->contains('id', $event->id) ? 'text-red-500 bg-white/80' : 'text-white' }} hover:bg-white/30 transition-colors flex items-center justify-center">
+                <span class="material-symbols-outlined text-xl">favorite</span>
+            </button>
+        </form>
 
         <!-- Date Tag -->
         <div

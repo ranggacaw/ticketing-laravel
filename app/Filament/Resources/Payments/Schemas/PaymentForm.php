@@ -21,7 +21,8 @@ class PaymentForm
                     ->required(),
                 TextInput::make('amount')
                     ->required()
-                    ->numeric(),
+                    ->numeric()
+                    ->prefix('Rp'),
                 Select::make('status')
                     ->options(['pending' => 'Pending', 'confirmed' => 'Confirmed', 'cancelled' => 'Cancelled'])
                     ->default('pending')

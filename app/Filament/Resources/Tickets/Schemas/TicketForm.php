@@ -36,7 +36,7 @@ class TicketForm
                 TextInput::make('price')
                     ->required()
                     ->numeric()
-                    ->prefix('$'),
+                    ->prefix('Rp'),
                 TextInput::make('type'),
                 TextInput::make('payment_status')
                     ->required()

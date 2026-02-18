@@ -7,18 +7,18 @@
             <span
                 class="text-[10px] {{ request()->routeIs('user.dashboard') ? 'font-bold' : 'font-medium' }} mt-1">Dashboard</span>
         </a>
-        <a href="{{ route('events.index') }}"
-            class="flex flex-col items-center {{ request()->routeIs('events.index') ? 'text-primary-ref' : 'text-slate-600 hover:text-slate-900' }} w-16 transition-colors">
+        <a href="{{ route('favorites.index') }}"
+            class="flex flex-col items-center {{ request()->routeIs('favorites.index') ? 'text-primary-ref' : 'text-slate-600 hover:text-slate-900' }} w-16 transition-colors">
             <span
-                class="material-symbols-outlined {{ request()->routeIs('events.index') ? 'fill-current' : '' }}">explore</span>
+                class="material-symbols-outlined {{ request()->routeIs('favorites.index') ? 'fill-current' : '' }}">favorite</span>
             <span
-                class="text-[10px] {{ request()->routeIs('events.index') ? 'font-bold' : 'font-medium' }} mt-1">Explore</span>
+                class="text-[10px] {{ request()->routeIs('favorites.index') ? 'font-bold' : 'font-medium' }} mt-1">Wishlist</span>
         </a>
         <div class="relative -top-8">
-            <button
+            <a href="{{ route('events.index') }}"
                 class="w-16 h-16 bg-primary-ref text-white rounded-full shadow-xl shadow-red-500/30 flex items-center justify-center ring-4 ring-white hover:bg-red-700 transition-colors transform active:scale-95">
-                <span class="material-symbols-outlined text-3xl">search</span>
-            </button>
+                <span class="material-symbols-outlined text-3xl">explore</span>
+            </a>
         </div>
         <a href="{{ route('user.tickets.index') }}"
             class="flex flex-col items-center {{ request()->routeIs('user.tickets.*') ? 'text-primary-ref' : 'text-slate-600 hover:text-slate-900' }} w-16 transition-colors">

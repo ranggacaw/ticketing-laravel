@@ -22,7 +22,8 @@
                             <tr class="hover:bg-white/5 transition-colors">
                                 <td class="px-6 py-4 font-mono text-sm text-white">{{ $payment->invoice_number }}</td>
                                 <td class="px-6 py-4 text-sm text-slate-300">{{ $payment->created_at->format('M d, Y') }}</td>
-                                <td class="px-6 py-4 text-sm font-medium text-white">${{ number_format($payment->amount, 2) }}</td>
+                                <td class="px-6 py-4 text-sm font-medium text-white">Rp
+                                    {{ number_format($payment->amount, 0, ',', '.') }}</td>
                                 <td class="px-6 py-4">
                                     @if($payment->status === 'confirmed')
                                         <span class="px-2 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">Confirmed</span>

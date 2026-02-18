@@ -32,7 +32,7 @@ class TicketTypesRelationManager extends RelationManager
                     ->maxLength(255),
                 TextInput::make('price')
                     ->numeric()
-                    ->prefix('$')
+                    ->prefix('Rp')
                     ->required(),
                 TextInput::make('quantity')
                     ->numeric()
@@ -56,7 +56,7 @@ class TicketTypesRelationManager extends RelationManager
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('price')
-                    ->money('USD')
+                    ->money('IDR')
                     ->sortable(),
                 TextColumn::make('quantity')
                     ->label('Inventory')

@@ -31,7 +31,7 @@ class TicketInfolist
                 TextEntry::make('seat_number')
                     ->placeholder('-'),
                 TextEntry::make('price')
-                    ->money(),
+                    ->money('IDR'),
                 TextEntry::make('type')
                     ->placeholder('-'),
                 TextEntry::make('payment_status'),

@@ -29,12 +29,12 @@
                     @foreach($payment->tickets as $ticket)
                         <div class="flex justify-between items-center text-sm">
                             <span class="text-slate-300">Ticket - {{ $ticket->type }} (Seat {{ $ticket->seat_number }})</span>
-                            <span class="text-white font-medium">${{ number_format($ticket->price, 2) }}</span>
+                            <span class="text-white font-medium">Rp {{ number_format($ticket->price, 0, ',', '.') }}</span>
                         </div>
                     @endforeach
                     <div class="border-t border-white/5 pt-3 flex justify-between items-center text-lg font-bold">
                         <span class="text-white">Total</span>
-                        <span class="text-white">${{ number_format($payment->amount, 2) }}</span>
+                        <span class="text-white">Rp {{ number_format($payment->amount, 0, ',', '.') }}</span>
                     </div>
                 </div>
             </div>

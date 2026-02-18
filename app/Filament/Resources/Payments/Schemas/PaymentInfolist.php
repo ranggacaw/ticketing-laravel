@@ -17,19 +17,19 @@ class PaymentInfolist
                     ->label('User'),
                 TextEntry::make('invoice_number'),
                 TextEntry::make('amount')
-                    ->numeric(),
+                    ->money('IDR'),
                 TextEntry::make('status')
                     ->badge(),
                 TextEntry::make('payment_proof_url')
                     ->label('Payment Proof (Link)')
-                    ->formatStateUsing(fn ($state) => $state ? 'View Proof (' . strtoupper(pathinfo($state, PATHINFO_EXTENSION)) . ')' : 'No Proof')
+                    ->formatStateUsing(fn($state) => $state ? 'View Proof (' . strtoupper(pathinfo($state, PATHINFO_EXTENSION)) . ')' : 'No Proof')
                     ->icon('heroicon-m-document-text')
-                    ->url(fn ($record) => $record->payment_proof_url ? asset('storage/' . $record->payment_proof_url) : null)
+                    ->url(fn($record) => $record->payment_proof_url ? asset('storage/' . $record->payment_proof_url) : null)
                     ->openUrlInNewTab()
                     ->color('primary'),
                 ImageEntry::make('payment_proof_url')
                     ->label('Payment Proof')
-                    ->visible(fn ($record) => $record->payment_proof_url && in_array(strtolower(pathinfo($record->payment_proof_url, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'webp', 'gif', 'bmp', 'svg']))
+                    ->visible(fn($record) => $record->payment_proof_url && in_array(strtolower(pathinfo($record->payment_proof_url, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'webp', 'gif', 'bmp', 'svg']))
                     ->disk('public'),
                 TextEntry::make('confirmed_at')
                     ->dateTime()
