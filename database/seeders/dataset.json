@@ -1,0 +1,143 @@
+{
+  "organizers": [
+    {
+      "id": 1,
+      "name": "Global Beats Productions",
+      "email": "contact@globalbeats.com",
+      "phone": "+1-555-010-1001",
+      "website": "https://globalbeats.com",
+      "description": "Premier organizer of electronic and world music festivals across the globe."
+    },
+    {
+      "id": 2,
+      "name": "TechSummit Global",
+      "email": "events@techsummit.io",
+      "phone": "+1-555-020-2002",
+      "website": "https://techsummit.io",
+      "description": "Connecting tech leaders, developers, and innovators through world-class conferences."
+    },
+    {
+      "id": 3,
+      "name": "Community Arts Collective",
+      "email": "hello@communityarts.org",
+      "phone": "+1-555-030-3003",
+      "website": "https://communityarts.org",
+      "description": "A non-profit dedicated to promoting local artists and cultural workshops."
+    }
+  ],
+  "venues": [
+    {
+      "id": 1,
+      "name": "The Grand Arena",
+      "address": "100 Stadium Drive",
+      "city": "Metropolis",
+      "state": "NY",
+      "country": "USA",
+      "postal_code": "10001",
+      "capacity": 50000,
+      "description": "A massive open-air stadium suitable for large-scale concerts and sporting events."
+    },
+    {
+      "id": 2,
+      "name": "Innovation Hub Center",
+      "address": "42 Tech Valley Rd",
+      "city": "San Francisco",
+      "state": "CA",
+      "country": "USA",
+      "postal_code": "94016",
+      "capacity": 3000,
+      "description": "Modern conference facility with multiple auditoriums and breakout rooms."
+    },
+    {
+      "id": 3,
+      "name": "Riverside Park",
+      "address": "500 scenic Blvd",
+      "city": "Austin",
+      "state": "TX",
+      "country": "USA",
+      "postal_code": "73301",
+      "capacity": 15000,
+      "description": "Beautiful outdoor park venue by the river, perfect for festivals and community gatherings."
+    }
+  ],
+  "events": [
+    {
+      "name": "Summer Sound Festival 2026",
+      "slug": "summer-sound-festival-2026",
+      "description": "The biggest electronic music festival of the summer featuring top DJs from around the world.",
+      "start_time": "2026-07-15 14:00:00",
+      "end_time": "2026-07-17 23:00:00",
+      "location": "Riverside Park, Austin, TX",
+      "venue_id": 3,
+      "organizer_id": 1,
+      "status": "published",
+      "banner": "https://images.unsplash.com/photo-1459749411177-287ce3276854?w=1200",
+      "ticket_types": [
+        { "name": "General Admission", "price": 150.00, "quantity": 10000 },
+        { "name": "VIP Pass", "price": 450.00, "quantity": 500 }
+      ]
+    },
+    {
+      "name": "Future of AI Summit",
+      "slug": "future-of-ai-summit-2026",
+      "description": "Join industry leaders to discuss the next generation of Artificial Intelligence and Machine Learning.",
+      "start_time": "2026-09-10 09:00:00",
+      "end_time": "2026-09-12 17:00:00",
+      "location": "Innovation Hub Center, San Francisco, CA",
+      "venue_id": 2,
+      "organizer_id": 2,
+      "status": "published",
+      "banner": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=1200",
+      "ticket_types": [
+        { "name": "Standard Entry", "price": 299.00, "quantity": 2000 },
+        { "name": "Workshop Bundle", "price": 499.00, "quantity": 200 }
+      ]
+    },
+    {
+      "name": "Jazz at the Park",
+      "slug": "jazz-at-the-park-2026",
+      "description": "An evening of smooth jazz under the stars.",
+      "start_time": "2026-05-20 18:00:00",
+      "end_time": "2026-05-20 22:00:00",
+      "location": "Riverside Park, Austin, TX",
+      "venue_id": 3,
+      "organizer_id": 1,
+      "status": "published",
+      "banner": "https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=1200",
+      "ticket_types": [
+        { "name": "Free Entry", "price": 0.00, "quantity": 5000 },
+        { "name": "Reserved Seating", "price": 25.00, "quantity": 200 }
+      ]
+    },
+    {
+      "name": "Web3 & Blockchain Conference",
+      "slug": "web3-blockchain-conference",
+      "description": "Exploring decentralization, crypto, and the future of the internet.",
+      "start_time": "2026-11-05 09:00:00",
+      "end_time": "2026-11-06 18:00:00",
+      "location": "Innovation Hub Center, San Francisco, CA",
+      "venue_id": 2,
+      "organizer_id": 2,
+      "status": "draft",
+      "banner": "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1200",
+      "ticket_types": [
+        { "name": "Early Bird", "price": 199.00, "quantity": 500 }
+      ]
+    },
+    {
+      "name": "Abstract Art Workshop",
+      "slug": "abstract-art-workshop",
+      "description": "Hands-on workshop learning abstract painting techniques.",
+      "start_time": "2026-04-12 10:00:00",
+      "end_time": "2026-04-12 14:00:00",
+      "location": "Innovation Hub Center (Small Room) - San Francisco, CA",
+      "venue_id": 2,
+      "organizer_id": 3,
+      "status": "published",
+      "banner": "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=1200",
+      "ticket_types": [
+        { "name": "Participant", "price": 75.00, "quantity": 30 }
+      ]
+    }
+  ]
+}
