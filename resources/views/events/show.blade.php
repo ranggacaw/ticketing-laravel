@@ -5,7 +5,7 @@
         <!-- Event Image Background -->
         <div class="absolute inset-0 bg-slate-900 border-b border-slate-100">
             @if($event->banner)
-                <img src="{{ Storage::url($event->banner) }}" alt="{{ $event->name }}" class="w-full h-full object-cover">
+                <img src="{{ \Illuminate\Support\Facades\Storage::url($event->banner) }}" alt="{{ $event->name }}" class="w-full h-full object-cover">
             @elseif($event->image_url)
                 <img src="{{ $event->image_url }}" alt="{{ $event->name }}" class="w-full h-full object-cover">
             @else

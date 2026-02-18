@@ -49,33 +49,7 @@
                 </div>
                 <div class="flex space-x-6 overflow-x-auto no-scrollbar pb-4 -mx-4 px-4 snap-x snap-mandatory">
                     @forelse($latestEvents as $event)
-                        <div onclick="window.location='{{ route('events.show', $event) }}'"
-                            class="snap-center shrink-0 w-[13rem] bg-white rounded-3xl overflow-hidden shadow-lg shadow-slate-200/50 border border-slate-100 group transition-all duration-300 hover:shadow-xl cursor-pointer">
-                            <div class="h-32 bg-slate-900 relative overflow-hidden">
-                                <div class="absolute inset-0 bg-gradient-to-br from-primary-ref/80 to-slate-900"></div>
-                                <div class="absolute inset-0 flex items-center justify-center">
-                                    <span class="material-symbols-outlined text-5xl text-white/20">event</span>
-                                </div>
-                                <div class="absolute top-3 right-3">
-                                    <span class="text-[9px] font-black text-white bg-primary-ref px-2 py-0.5 rounded-full uppercase tracking-wider">
-                                        {{ $event->start_time?->format('M d') ?? 'TBA' }}
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="p-5">
-                                <h3 class="font-bold text-slate-900 leading-tight mb-1 truncate">
-                                    {{ $event->name }}
-                                </h3>
-                                <p class="text-[10px] text-slate-500 mb-3 flex items-center">
-                                    <span class="material-symbols-outlined text-[12px] mr-1 opacity-70">location_on</span>
-                                    <span class="truncate">{{ $event->venue->name ?? 'Venue TBD' }}</span>
-                                </p>
-                                <div class="flex items-center justify-between">
-                                    <span class="text-xs font-black text-primary-ref">View Details</span>
-                                    <span class="material-symbols-outlined text-sm text-primary-ref group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                                </div>
-                            </div>
-                        </div>
+<x-event-card :event="$event" :show-price="false" class="snap-center shrink-0 w-80 cursor-pointer" onclick="window.location='{{ route('events.show', $event) }}'" />
                     @empty
                         <div class="w-full py-8 flex flex-col items-center justify-center bg-white rounded-3xl border border-dashed border-slate-200 text-center">
                             <span class="material-symbols-outlined text-4xl text-slate-200 mb-3">event_busy</span>
