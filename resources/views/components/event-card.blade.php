@@ -4,8 +4,8 @@
     <div class="relative h-56">
         <!-- Image -->
         <div class="w-full h-full bg-slate-200 relative overflow-hidden">
-            @if($event->banner)
-                <img src="{{ \Illuminate\Support\Facades\Storage::url($event->banner) }}" alt="{{ $event->name }}"
+            @if($event->banner_url)
+                <img src="{{ $event->banner_url }}" alt="{{ $event->name }}"
                     class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
             @else
                 <div class="absolute inset-0 flex items-center justify-center text-slate-400 bg-slate-800">

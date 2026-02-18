@@ -31,11 +31,21 @@ class EventForm
                     ->unique(ignoreRecord: true),
                 RichEditor::make('description')
                     ->columnSpanFull(),
-                FileUpload::make('banner')
-                    ->image()
-                    ->disk('public')
-                    ->directory('event-banners')
-                    ->visibility('public'),
+                Section::make('Event Banner')
+                    ->description('Upload a banner image or provide an external URL. External URL takes precedence if provided.')
+                    ->schema([
+                        FileUpload::make('banner')
+                            ->label('Upload Banner')
+                            ->image()
+                            ->disk('public')
+                            ->directory('event-banners')
+                            ->visibility('public'),
+                        TextInput::make('external_banner_url')
+                            ->label('Or External Banner URL')
+                            ->placeholder('https://example.com/image.jpg')
+                            ->url()
+                            ->maxLength(255),
+                    ]),
                 Section::make('Location Details')
                     ->schema([
                         TextInput::make('location')

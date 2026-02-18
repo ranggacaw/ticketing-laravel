@@ -44,10 +44,27 @@ class Event extends Model
         'venue_id',
         'organizer_id',
         'banner',
+        'external_banner_url',
         'latitude',
         'longitude',
         'status',
     ];
+
+    public function getBannerUrlAttribute()
+    {
+        if ($this->external_banner_url) {
+            return $this->external_banner_url;
+        }
+
+        if ($this->banner) {
+            if (str_starts_with($this->banner, 'http')) {
+                return $this->banner;
+            }
+            return asset('storage/' . $this->banner);
+        }
+
+        return null;
+    }
 
     protected $casts = [
         'start_time' => 'datetime',

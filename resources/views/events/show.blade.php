@@ -4,10 +4,8 @@
     <div class="relative h-[45vh] md:h-[55vh] w-full overflow-hidden -mt-24">
         <!-- Event Image Background -->
         <div class="absolute inset-0 bg-slate-900 border-b border-slate-100">
-            @if($event->banner)
-                <img src="{{ \Illuminate\Support\Facades\Storage::url($event->banner) }}" alt="{{ $event->name }}" class="w-full h-full object-cover">
-            @elseif($event->image_url)
-                <img src="{{ $event->image_url }}" alt="{{ $event->name }}" class="w-full h-full object-cover">
+            @if($event->banner_url)
+                <img src="{{ $event->banner_url }}" alt="{{ $event->name }}" class="w-full h-full object-cover">
             @else
                 <div
                     class="w-full h-full bg-gradient-to-br from-primary-ref to-slate-900 flex items-center justify-center opacity-80">
