@@ -49,7 +49,7 @@
                 </div>
                 <div class="flex space-x-6 overflow-x-auto no-scrollbar pb-4 -mx-4 px-4 snap-x snap-mandatory">
                     @forelse($latestEvents as $event)
-<x-event-card :event="$event" :show-price="false" class="snap-center shrink-0 w-80 cursor-pointer" onclick="window.location='{{ route('events.show', $event) }}'" />
+                    <x-event-card :event="$event" :show-price="false" class="snap-center shrink-0 w-80 cursor-pointer" onclick="window.location='{{ route('events.show', $event) }}'" />
                     @empty
                         <div class="w-full py-8 flex flex-col items-center justify-center bg-white rounded-3xl border border-dashed border-slate-200 text-center">
                             <span class="material-symbols-outlined text-4xl text-slate-200 mb-3">event_busy</span>

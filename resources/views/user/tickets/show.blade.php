@@ -21,10 +21,15 @@
                     <!-- Event Header -->
                     <div class="relative h-48 md:h-64">
                         <div class="absolute inset-0 bg-slate-900">
-                            <div class="absolute inset-0 opacity-40 bg-gradient-to-br from-primary-ref to-slate-900"></div>
-                            <div class="absolute inset-0 flex items-center justify-center opacity-10">
-                                <span class="material-symbols-outlined text-[12rem] text-white">confirmation_number</span>
-                            </div>
+                            @if ($ticket->event?->banner_url)
+                                <img src="{{ $ticket->event->banner_url }}" alt="{{ $ticket->event->name }}"
+                                    class="w-full h-full object-cover">
+                            @else
+                                <div class="absolute inset-0 opacity-40 bg-gradient-to-br from-primary-ref to-slate-900"></div>
+                                <div class="absolute inset-0 flex items-center justify-center opacity-10">
+                                    <span class="material-symbols-outlined text-[12rem] text-white">confirmation_number</span>
+                                </div>
+                            @endif
                             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                         </div>
 
