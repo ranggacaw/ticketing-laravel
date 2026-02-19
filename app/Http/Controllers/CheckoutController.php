@@ -102,7 +102,7 @@ class CheckoutController extends Controller
                             'user_name' => auth()->user()->name,
                             'user_email' => auth()->user()->email,
                             'type' => $lockedType->name,
-                            'seat_number' => $lockedType->seat_label ?? 'General Admission',
+                            'seat_number' => $lockedType->resolveSeatNumber($i),
                         ]);
 
                         // Link to Payment

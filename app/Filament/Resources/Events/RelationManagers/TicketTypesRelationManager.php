@@ -16,6 +16,8 @@ use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Grid;
 
 class TicketTypesRelationManager extends RelationManager
 {
@@ -37,13 +39,31 @@ class TicketTypesRelationManager extends RelationManager
                 TextInput::make('quantity')
                     ->numeric()
                     ->required()
-                    ->label('Total Inventory'),
-                TextInput::make('seat_label')
-                    ->label('Seat Label')
-                    ->placeholder('e.g. General Admission, VIP Row A, Block B')
-                    ->helperText('This label will appear as the "Seat" on every ticket of this type.')
-                    ->maxLength(100)
-                    ->nullable(),
+                    ->label('Total Seats / Inventory'),
+
+                // ── Seat Configuration ──────────────────────────────────────
+                Section::make('Seat Configuration')
+                    ->description('Choose ONE mode: Auto-Numbered seats OR a Static label. If both are filled, Auto-Numbered takes priority.')
+                    ->schema([
+                        Grid::make(2)
+                            ->schema([
+                                TextInput::make('seat_prefix')
+                                    ->label('🔢 Auto-Numbered Prefix (Recommended)')
+                                    ->placeholder('e.g.  A  or  VIP-  or  B')
+                                    ->helperText('Seats are assigned automatically in order: A1, A2, A3 … up to your inventory. Leave blank to use a static label instead.')
+                                    ->maxLength(20)
+                                    ->nullable()
+                                    ->live(),
+                                TextInput::make('seat_label')
+                                    ->label('🏷️ Static Label (fallback)')
+                                    ->placeholder('e.g. General Admission')
+                                    ->helperText('Used only when no prefix is set. All tickets of this type will show the same label.')
+                                    ->maxLength(100)
+                                    ->nullable()
+                                    ->disabled(fn($get) => !empty($get('seat_prefix'))),
+                            ]),
+                    ]),
+
                 Textarea::make('description')
                     ->columnSpanFull(),
                 DateTimePicker::make('sale_start_date'),
@@ -61,20 +81,31 @@ class TicketTypesRelationManager extends RelationManager
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('seat_label')
-                    ->label('Seat Label')
-                    ->default('General Admission')
+
+                // Shows seat_prefix if set, else seat_label, else 'General Admission'
+                TextColumn::make('seat_prefix')
+                    ->label('Seat Mode')
+                    ->formatStateUsing(function ($state, $record) {
+                        if (!empty($record->seat_prefix)) {
+                            $max = $record->quantity;
+                            return strtoupper(trim($record->seat_prefix)) . '1 → '
+                                . strtoupper(trim($record->seat_prefix)) . $max
+                                . ' (auto)';
+                        }
+                        return $record->seat_label ?: 'General Admission';
+                    })
                     ->badge()
-                    ->color('gray'),
+                    ->color(fn($record) => !empty($record->seat_prefix) ? 'success' : 'gray'),
+
+                TextColumn::make('sold')
+                    ->label('Assigned')
+                    ->formatStateUsing(fn($state, $record) => $state . ' / ' . $record->quantity)
+                    ->sortable(),
+
                 TextColumn::make('price')
                     ->money('IDR')
                     ->sortable(),
-                TextColumn::make('quantity')
-                    ->label('Inventory')
-                    ->sortable(),
-                TextColumn::make('tickets_count')
-                    ->counts('tickets')
-                    ->label('Sold'),
+
                 ToggleColumn::make('is_active')
                     ->label('Active?'),
             ])

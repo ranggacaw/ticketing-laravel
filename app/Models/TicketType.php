@@ -22,6 +22,7 @@ class TicketType extends Model
         'sale_end_date',
         'is_active',
         'seat_label',
+        'seat_prefix',
     ];
 
     protected $casts = [
@@ -60,5 +61,29 @@ class TicketType extends Model
     public function isAvailable(): bool
     {
         return $this->is_available;
+    }
+
+    /**
+     * Resolve the seat number to assign for a ticket.
+     *
+     * @param  int  $seatIndex  0-based index within the current purchase batch
+     *                          (used when buying multiple of the same type at once)
+     * @return string  The seat number string, e.g. "A3", "VIP-7", "General Admission"
+     */
+    public function resolveSeatNumber(int $seatIndex = 0): string
+    {
+        // Auto-numbered mode: seat_prefix + sequential number
+        if (!empty($this->seat_prefix)) {
+            // $this->sold is the count BEFORE this batch (locked row in transaction)
+            $nextNumber = $this->sold + $seatIndex + 1;
+            return strtoupper(trim($this->seat_prefix)) . $nextNumber;
+        }
+
+        // Static label mode
+        if (!empty($this->seat_label)) {
+            return $this->seat_label;
+        }
+
+        return 'General Admission';
     }
 }
