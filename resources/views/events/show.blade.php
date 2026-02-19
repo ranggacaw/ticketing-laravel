@@ -237,50 +237,57 @@
                             <form action="{{ route('events.checkout', $event->slug) }}" method="POST" id="ticketForm" enctype="multipart/form-data" class="space-y-6">
                                 @csrf
                                 <div class="space-y-4">
-                                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider ml-1">Select Ticket Type</label>
+                                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider ml-1">Select Tickets</label>
                                     @foreach($event->ticketTypes as $ticketType)
-                                        <label class="block relative group cursor-pointer">
-                                            <input type="radio" name="ticket_type_id" value="{{ $ticketType->id }}"
-                                                class="peer sr-only" {{ !$ticketType->isAvailable() ? 'disabled' : '' }}
-                                                @if($loop->first) checked @endif data-price="{{ $ticketType->price }}"
-                                                onchange="updateTotalPrice()" required />
-                                            <div
-                                                class="p-5 rounded-3xl border-2 border-slate-100 peer-checked:border-primary-ref peer-checked:bg-primary-ref/[0.02] hover:bg-slate-50 transition-all relative">
-                                                <div class="flex justify-between items-start mb-1">
-                                                    <span class="font-black text-slate-900 text-lg">{{ $ticketType->name }}</span>
-                                                    <span
-                                                        class="material-symbols-outlined text-primary-ref opacity-0 peer-checked:opacity-100 transition-opacity">check_circle</span>
-                                                </div>
-                                                <div class="flex justify-between items-baseline mb-2">
-                                                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
-                                                        {{ $ticketType->description }}</p>
-                                                    <span class="text-primary-ref font-black">Rp
-                                                        {{ number_format($ticketType->price, 0, ',', '.') }}</span>
-                                                </div>
-
+                                        <div class="p-5 rounded-3xl border-2 border-slate-100 hover:bg-slate-50 transition-all relative flex flex-col gap-3">
+                                            <div class="flex justify-between items-start">
+                                                <span class="font-black text-slate-900 text-lg">{{ $ticketType->name }}</span>
                                                 @if(!$ticketType->isAvailable())
-                                                    <div
-                                                        class="mt-3 text-[10px] font-bold text-red-500 bg-red-50 inline-block px-2 py-0.5 rounded uppercase tracking-wider">
-                                                        Waitlist Only</div>
+                                                    <span class="text-[10px] font-bold text-red-500 bg-red-50 px-2 py-0.5 rounded uppercase tracking-wider">
+                                                        Waitlist Only
+                                                    </span>
                                                 @endif
                                             </div>
-                                        </label>
-                                    @endforeach
-                                </div>
+                                            
+                                            <div class="flex justify-between items-center">
+                                                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+                                                    {{ $ticketType->description }}
+                                                </p>
+                                                <span class="text-primary-ref font-black">
+                                                    Rp {{ number_format($ticketType->price, 0, ',', '.') }}
+                                                </span>
+                                            </div>
 
-                                <!-- Quantity Dropdown -->
-                                <div class="space-y-3 pt-2">
-                                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider ml-1">How many
-                                        people?</label>
-                                    <div class="relative group">
-                                        <select name="quantity" id="quantity" onchange="updateTotalPrice()"
-                                            class="w-full appearance-none bg-slate-50 border-2 border-slate-100 rounded-3xl px-6 py-5 font-black text-slate-900 focus:border-primary-ref outline-none transition-all cursor-pointer group-hover:bg-slate-100">
-                                            @for($i = 1; $i <= 5; $i++)
-                                                <option value="{{ $i }}">{{ $i }} {{ $i > 1 ? 'Tickets' : 'Ticket' }}</option>
-                                            @endfor
-                                        </select>
-                                        <span class="material-symbols-outlined absolute right-6 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none group-hover:text-primary-ref transition-colors">expand_more</span>
-                                    </div>
+                                            @if($ticketType->isAvailable())
+                                                <div class="flex items-center justify-between border-t border-slate-100 pt-3 mt-1">
+                                                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Quantity</span>
+                                                    <div class="flex items-center gap-3">
+                                                        <button type="button" 
+                                                            onclick="adjustQuantity('{{ $ticketType->id }}', -1)"
+                                                            class="w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-colors">
+                                                            <span class="material-symbols-outlined text-sm">remove</span>
+                                                        </button>
+                                                        
+                                                        <input type="number" 
+                                                            name="tickets[{{ $ticketType->id }}]" 
+                                                            id="ticket_{{ $ticketType->id }}"
+                                                            value="0" 
+                                                            min="0" 
+                                                            max="{{ min($ticketType->quantity - $ticketType->sold, 10) }}" 
+                                                            data-price="{{ $ticketType->price }}"
+                                                            class="w-12 text-center bg-transparent font-black text-slate-900 outline-none"
+                                                            readonly>
+
+                                                        <button type="button" 
+                                                            onclick="adjustQuantity('{{ $ticketType->id }}', 1)"
+                                                            class="w-8 h-8 rounded-xl bg-primary-ref/10 hover:bg-primary-ref/20 text-primary-ref flex items-center justify-center transition-colors">
+                                                            <span class="material-symbols-outlined text-sm">add</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    @endforeach
                                 </div>
 
                                 <!-- Payment Details Section -->
@@ -372,11 +379,7 @@
                 <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Total to Pay</h4>
                 <div class="flex items-baseline gap-2">
                     <span class="text-4xl font-black text-slate-900" id="desktopTotalPrice">
-                        @if(!$event->ticketTypes->isEmpty())
-                            Rp {{ number_format($event->ticketTypes->first()->price, 0, ',', '.') }}
-                        @else
-                            -
-                        @endif
+                        Rp 0
                     </span>
                     <span class="text-xs font-black text-primary-ref/60 italic tracking-tighter">no hidden fees</span>
                 </div>
@@ -386,11 +389,7 @@
                 <div class="md:hidden flex flex-col justify-center">
                     <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Payable Amount</span>
                     <span class="text-xl font-black text-slate-900" id="bottomTotalPrice">
-                        @if(!$event->ticketTypes->isEmpty())
-                            Rp {{ number_format($event->ticketTypes->first()->price, 0, ',', '.') }}
-                        @else
-                            -
-                        @endif
+                        Rp 0
                     </span>
                 </div>
 
@@ -403,7 +402,7 @@
                 @else
                     <button onclick="document.getElementById('ticketForm').submit()"
                         class="flex-1 py-2 bg-primary-ref text-white font-black rounded-3xl shadow-2xl shadow-red-200 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 uppercase tracking-widest text-sm group">
-                        Book
+                        Book Now
                         <span
                             class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
                     </button>
@@ -413,21 +412,34 @@
     </div>
 
     <script>
-        function updateTotalPrice() {
-            const form = document.getElementById('ticketForm');
-            if (!form) return;
+        function adjustQuantity(ticketTypeId, change) {
+            const input = document.getElementById('ticket_' + ticketTypeId);
+            if (!input) return;
 
-            const selectedTicket = form.querySelector('input[name="ticket_type_id"]:checked');
-            const quantity = parseInt(document.getElementById('quantity').value) || 1;
+            let newValue = parseInt(input.value) + change;
+            const max = parseInt(input.getAttribute('max'));
+            const min = parseInt(input.getAttribute('min'));
 
-            if (selectedTicket) {
-                const price = parseFloat(selectedTicket.dataset.price);
-                const total = price * quantity;
-                const formatted = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(total).replace('Rp', 'Rp ');
-
-                document.getElementById('bottomTotalPrice').innerText = formatted;
-                document.getElementById('desktopTotalPrice').innerText = formatted;
+            if (newValue >= min && newValue <= max) {
+                input.value = newValue;
+                updateTotalPrice();
             }
+        }
+
+        function updateTotalPrice() {
+            const inputs = document.querySelectorAll('input[name^="tickets["]');
+            let total = 0;
+
+            inputs.forEach(input => {
+                const quantity = parseInt(input.value) || 0;
+                const price = parseFloat(input.dataset.price) || 0;
+                total += quantity * price;
+            });
+
+            const formatted = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(total).replace('Rp', 'Rp ');
+
+            document.getElementById('bottomTotalPrice').innerText = formatted;
+            document.getElementById('desktopTotalPrice').innerText = formatted;
         }
 
         document.addEventListener('DOMContentLoaded', updateTotalPrice);

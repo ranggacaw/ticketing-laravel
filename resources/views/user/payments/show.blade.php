@@ -108,7 +108,7 @@
                                     <div class="flex justify-between items-center">
                                         <span class="text-sm font-black text-slate-500 uppercase tracking-widest">Total
                                             Amount</span>
-                                        <span class="text-2xl font-black text-primary-ref">
+                                        <span class="text-lg font-black text-primary-ref">
                                             Rp {{ number_format($payment->amount, 0, ',', '.') }}
                                         </span>
                                     </div>

@@ -17,35 +17,48 @@ class CheckoutController extends Controller
     public function store(Request $request, Event $event)
     {
         $validated = $request->validate([
-            'ticket_type_id' => [
-                'required',
-                'exists:ticket_types,id',
-                function ($attribute, $value, $fail) use ($event) {
-                    $type = TicketType::find($value);
-                    if ($type->event_id !== $event->id) {
-                        $fail('The selected ticket type does not belong to this event.');
-                    }
-                    if (!$type->isAvailable()) {
-                        $fail('This ticket type is no longer available.');
-                    }
-                },
-            ],
-            'quantity' => 'required|integer|min:1|max:10',
+            'tickets' => 'required|array',
+            'tickets.*' => 'integer|min:0',
             'bank_id' => 'required|exists:banks,id',
             'sender_account_name' => 'required|string|max:255',
             'sender_account_number' => 'required|string|max:50',
             'payment_proof' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
 
+        // Filter out tickets with 0 quantity
+        $selectedTickets = array_filter($validated['tickets'], function ($quantity) {
+            return $quantity > 0;
+        });
+
+        if (empty($selectedTickets)) {
+            return back()->with('error', 'Please select at least one ticket.');
+        }
+
         try {
-            $ticketType = TicketType::findOrFail($validated['ticket_type_id']);
-            $quantity = $validated['quantity'];
-            $totalAmount = $ticketType->price * $quantity;
+            // Calculate total amount and validate tickets
+            $totalAmount = 0;
+            $ticketTypesToProcess = [];
+
+            foreach ($selectedTickets as $ticketTypeId => $quantity) {
+                $ticketType = TicketType::find($ticketTypeId);
+
+                if (!$ticketType || $ticketType->event_id !== $event->id) {
+                    throw new \Exception("Invalid ticket type selected.");
+                }
+
+                if (!$ticketType->isAvailable()) {
+                    throw new \Exception("Ticket type '{$ticketType->name}' is no longer available.");
+                }
+
+                $totalAmount += $ticketType->price * $quantity;
+                $ticketTypesToProcess[$ticketTypeId] = [
+                    'type' => $ticketType,
+                    'quantity' => $quantity
+                ];
+            }
 
             // Handle File Upload
-            // Handle File Upload
             $paymentProof = $request->file('payment_proof');
-            // Fix for ValueError: Path cannot be empty if getRealPath() fails
             $tempPath = $paymentProof->getRealPath() ?: $paymentProof->getPathname();
             $proofPath = Storage::disk('public')->putFileAs(
                 'payment-proofs',
@@ -53,13 +66,7 @@ class CheckoutController extends Controller
                 $paymentProof->hashName()
             );
 
-            $firstTicket = DB::transaction(function () use ($ticketType, $quantity, $event, $validated, $totalAmount, $proofPath) {
-                // Lock the ticket type row
-                $lockedType = TicketType::where('id', $ticketType->id)->lockForUpdate()->first();
-
-                if ($lockedType->sold + $quantity > $lockedType->quantity) {
-                    throw new \Exception('Not enough tickets available.');
-                }
+            $firstTicket = DB::transaction(function () use ($ticketTypesToProcess, $event, $validated, $totalAmount, $proofPath) {
 
                 // Create Payment Record
                 $payment = Payment::create([
@@ -73,31 +80,42 @@ class CheckoutController extends Controller
                     'sender_account_number' => $validated['sender_account_number'],
                 ]);
 
-                $tickets = [];
-                for ($i = 0; $i < $quantity; $i++) {
-                    $ticket = Ticket::create([
-                        'event_id' => $event->id,
-                        'ticket_type_id' => $lockedType->id,
-                        'user_id' => auth()->id(),
-                        'price' => $lockedType->price,
-                        'status' => 'issued',
-                        'payment_status' => 'pending', // Pending admin approval
-                        'user_name' => auth()->user()->name,
-                        'user_email' => auth()->user()->email,
-                        'type' => $lockedType->name,
-                        'seat_number' => 'General Admission', // Or iterate seat assignment if needed
-                    ]);
+                $allCreatedTickets = [];
 
-                    // Link to Payment
-                    $payment->tickets()->attach($ticket->id); // Payment model needs tickets relationship
+                foreach ($ticketTypesToProcess as $item) {
+                    $quantity = $item['quantity'];
+                    // Lock the ticket type row to ensure inventory consistency
+                    $lockedType = TicketType::where('id', $item['type']->id)->lockForUpdate()->first();
 
-                    $tickets[] = $ticket;
+                    if ($lockedType->sold + $quantity > $lockedType->quantity) {
+                        throw new \Exception("Not enough tickets available for '{$lockedType->name}'.");
+                    }
+
+                    for ($i = 0; $i < $quantity; $i++) {
+                        $ticket = Ticket::create([
+                            'event_id' => $event->id,
+                            'ticket_type_id' => $lockedType->id,
+                            'user_id' => auth()->id(),
+                            'price' => $lockedType->price,
+                            'status' => 'issued',
+                            'payment_status' => 'pending', // Pending admin approval
+                            'user_name' => auth()->user()->name,
+                            'user_email' => auth()->user()->email,
+                            'type' => $lockedType->name,
+                            'seat_number' => 'General Admission',
+                        ]);
+
+                        // Link to Payment
+                        $payment->tickets()->attach($ticket->id);
+                        $allCreatedTickets[] = $ticket;
+                    }
+
+                    // Update sold count
+                    $lockedType->sold += $quantity;
+                    $lockedType->save();
                 }
 
-                $lockedType->sold += $quantity;
-                $lockedType->save();
-
-                return $tickets[0];
+                return $allCreatedTickets[0];
             });
 
             return redirect()->route('checkout.success', ['ticket' => $firstTicket->uuid])
