@@ -38,6 +38,12 @@ class TicketTypesRelationManager extends RelationManager
                     ->numeric()
                     ->required()
                     ->label('Total Inventory'),
+                TextInput::make('seat_label')
+                    ->label('Seat Label')
+                    ->placeholder('e.g. General Admission, VIP Row A, Block B')
+                    ->helperText('This label will appear as the "Seat" on every ticket of this type.')
+                    ->maxLength(100)
+                    ->nullable(),
                 Textarea::make('description')
                     ->columnSpanFull(),
                 DateTimePicker::make('sale_start_date'),
@@ -55,6 +61,11 @@ class TicketTypesRelationManager extends RelationManager
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('seat_label')
+                    ->label('Seat Label')
+                    ->default('General Admission')
+                    ->badge()
+                    ->color('gray'),
                 TextColumn::make('price')
                     ->money('IDR')
                     ->sortable(),

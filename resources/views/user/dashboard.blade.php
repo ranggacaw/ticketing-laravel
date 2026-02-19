@@ -109,7 +109,7 @@
                                 <div class="flex items-center justify-between pt-4 border-t border-slate-50">
                                     <div class="flex flex-col">
                                         <span class="text-[9px] text-slate-400 uppercase font-black tracking-tighter">Seat</span>
-                                        <span class="font-bold text-slate-900 text-sm">{{ $ticket->seat_number }}</span>
+                                        <span class="font-bold text-slate-900 text-sm">{{ $ticket->seat_number ?? 'General Admission' }}</span>
                                     </div>
                                     <div class="text-right">
                                         <span class="text-[9px] text-slate-400 uppercase font-black tracking-tighter block leading-none">Price</span>

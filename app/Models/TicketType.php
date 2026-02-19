@@ -21,6 +21,7 @@ class TicketType extends Model
         'sale_start_date',
         'sale_end_date',
         'is_active',
+        'seat_label',
     ];
 
     protected $casts = [

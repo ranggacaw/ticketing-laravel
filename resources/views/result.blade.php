@@ -22,8 +22,7 @@
                         <h1 class="text-4xl font-black text-emerald-500 tracking-tight mb-2 uppercase">Valid Ticket</h1>
                         <p class="text-slate-500  font-medium mb-8">Access Granted</p>
 
-                        <div
-                            class="w-full bg-black/5  rounded-2xl p-6 mb-8 backdrop-blur-sm border border-black/5 ">
+                        <div class="w-full bg-black/5  rounded-2xl p-6 mb-8 backdrop-blur-sm border border-black/5 ">
                             <div class="flex flex-col gap-1 mb-4">
                                 <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Guest Name</span>
                                 <span class="text-2xl font-bold text-slate-900 ">{{ $ticket->user_name }}</span>
@@ -39,12 +38,11 @@
                                     <span
                                         class="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-1">Seat</span>
                                     <span
-                                        class="text-lg font-semibold text-slate-700 ">{{ $ticket->seat_number }}</span>
+                                        class="text-lg font-semibold text-slate-700 ">{{ $ticket->seat_number ?? 'General Admission' }}</span>
                                 </div>
                             </div>
 
-                            <div
-                                class="mt-4 pt-4 border-t border-black/5  flex justify-between items-center">
+                            <div class="mt-4 pt-4 border-t border-black/5  flex justify-between items-center">
                                 <span
                                     class="text-xs font-mono text-slate-400">#{{ strtoupper(substr($ticket->uuid, 0, 8)) }}</span>
                                 <span class="text-xs text-emerald-500 font-bold flex items-center gap-1">
@@ -68,8 +66,7 @@
                         <h1 class="text-4xl font-black text-amber-500 tracking-tight mb-2 uppercase">Already Scanned</h1>
                         <p class="text-slate-500  font-medium mb-8">Access Warning</p>
 
-                        <div
-                            class="w-full bg-black/5  rounded-2xl p-6 mb-8 backdrop-blur-sm border border-amber-500/20">
+                        <div class="w-full bg-black/5  rounded-2xl p-6 mb-8 backdrop-blur-sm border border-amber-500/20">
                             <div class="flex flex-col gap-1 mb-4">
                                 <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Original Scan</span>
                                 <span
@@ -79,8 +76,7 @@
 
                             <div class="flex flex-col gap-1 mb-4 pt-4 border-t border-black/5 ">
                                 <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Guest Name</span>
-                                <span
-                                    class="text-xl font-bold text-slate-700 ">{{ $ticket->user_name }}</span>
+                                <span class="text-xl font-bold text-slate-700 ">{{ $ticket->user_name }}</span>
                             </div>
 
                             <div class="mt-2 text-xs font-mono text-slate-400">
@@ -101,8 +97,7 @@
                         <h1 class="text-4xl font-black text-rose-500 tracking-tight mb-2 uppercase">Invalid Ticket</h1>
                         <p class="text-slate-500  font-medium mb-8">Access Denied</p>
 
-                        <div
-                            class="w-full bg-black/5  rounded-2xl p-6 mb-8 backdrop-blur-sm border border-rose-500/20">
+                        <div class="w-full bg-black/5  rounded-2xl p-6 mb-8 backdrop-blur-sm border border-rose-500/20">
                             <p class="text-slate-600  font-medium">The scanned code does not match any valid
                                 ticket.</p>
                             <p class="text-xs font-mono text-slate-400 mt-2">Code: {{ $code ?? 'N/A' }}</p>

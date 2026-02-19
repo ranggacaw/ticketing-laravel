@@ -63,7 +63,7 @@
                                         </h3>
                                         <p class="text-sm text-slate-500 flex items-center">
                                             <span class="material-symbols-outlined text-sm mr-1">chair</span>
-                                            Seat {{ $ticket->seat_number }}
+                                            Seat {{ $ticket->seat_number ?? 'General Admission' }}
                                         </p>
                                     </div>
                                     <div>
