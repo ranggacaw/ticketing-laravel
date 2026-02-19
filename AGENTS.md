@@ -1,14 +1,17 @@
 <!-- PROMPTER:START -->
+
 # Prompter Instructions
 
 These instructions are for AI assistants working in this project.
 
 Always open `@/prompter/AGENTS.md` when the request:
+
 - Mentions planning or proposals (words like proposal, spec, change, plan)
 - Introduces new capabilities, breaking changes, architecture shifts, or big performance/security work
 - Sounds ambiguous and you need the authoritative spec before coding
 
 Use `@/prompter/AGENTS.md` to learn:
+
 - How to create and apply change proposals
 - Spec format and conventions
 - Project structure and guidelines
@@ -82,11 +85,12 @@ Use `@/prompter/AGENTS.md` to learn:
 ## 5. 🔑 Core Business Logic & Domain Rules
 
 - **Ticket Purchase:**
+    - **Multi-Ticket:** Users can buy multiple ticket types (with varying quantities) in one transaction.
     - Transactions are atomic.
     - Inventory is locked (`lockForUpdate`) during checkout.
     - Tickets are generated with a unique UUID on purchase.
     - **Pricing:** Dynamic ticket pricing supported (e.g. Early Bird, VIP).
-    - **Currency:** IDR (Indonesian Rupiah).
+    - **Currency:** IDR (Indonesian Rupiah) - Integer formatting (no decimals).
 - **Access Control:**
     - **Admin:** Full system access (Filament Panel).
     - **Staff:** Manage events/tickets, view history.
@@ -94,6 +98,7 @@ Use `@/prompter/AGENTS.md` to learn:
     - **User:** Browse events, buy tickets, view history, wishlist events.
 - **Ticket Validation:**
     - **Methods:** QR Scan (Auto) or Manual Input (Ticket ID).
+    - **Seat Labels:** Tickets display `seat_label` from TicketType (e.g., "Table 5") or "General Admission" fallback.
     - **Status:** Tickets move from `pending` -> `scanned`.
     - **Validation:** Records timestamp and validator ID.
 - **Rate Limiting:**
@@ -103,9 +108,9 @@ Use `@/prompter/AGENTS.md` to learn:
 ## 6. 🗂️ Data Models / Entities
 
 - **User**: Authentication entity + `role` (admin/staff/volunteer/user).
-- **Event**: Core entity. Has `slug`, `title`, `venue`, `dates`, `status`, `banner`, `latitude`, `longitude`.
-- **TicketType**: Defines pricing and inventory for an Event.
-- **Ticket**: The issued credential. Belongs to Event, User, and TicketType. Has `uuid`, `status`, `scanned_at`, `secure_token`.
+- **Event**: Core entity. Has `slug`, `title`, `venue`, `dates`, `status`, `banner`, `latitude`, `longitude`, `category`.
+- **TicketType**: Defines pricing and inventory for an Event. Has `seat_label` (optional override for seat number).
+- **Ticket**: The issued credential. Belongs to Event, User, and TicketType. Has `uuid`, `status`, `scanned_at`, `secure_token`, `seat_number` (computed).
 - **Payment**: Records transaction details.
 - **Organizer**: Entity managing events.
 - **Venue**: Location data for events.
@@ -139,6 +144,7 @@ Use `@/prompter/AGENTS.md` to learn:
     - Dynamic Event Banners.
     - Interactive Maps (Leaflet/Google Maps integration).
     - Toast notifications.
+    - Wishlist / Favorites.
 - **Font:** Plus Jakarta Sans (General), Spline Sans (Dashboards).
 
 ## 10. 🔒 Security / Privacy Rules

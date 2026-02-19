@@ -81,7 +81,7 @@
             resetScan() {
                 this.scanComplete = false;
                 this.lastScanned = null;
-                $wire.set('scannedResult', null);
+                $wire.resetScanner();
             }
         }" 
         x-init="
@@ -172,43 +172,99 @@
             </div>
 
             @if($scannedResult)
-                <div
-                    class="mt-6 p-4 rounded-xl border {{ $scannedResult['status'] === 'success' ? 'bg-green-50 border-green-200' : ($scannedResult['status'] === 'warning' ? 'bg-yellow-50 border-yellow-200' : 'bg-red-50 border-red-200') }}">
-                    <div class="flex items-center gap-3">
-                        <div class="flex-shrink-0">
-                            @if($scannedResult['status'] === 'success')
-                                <x-heroicon-m-check-circle class="w-8 h-8 text-green-500" />
-                            @elseif($scannedResult['status'] === 'warning')
-                                <x-heroicon-m-exclamation-triangle class="w-8 h-8 text-yellow-500" />
-                            @else
-                                <x-heroicon-m-x-circle class="w-8 h-8 text-red-500" />
-                            @endif
+                <div class="mt-6 space-y-6">
+                    <!-- Status Banner -->
+                    <div class="p-4 rounded-xl border {{ $scannedResult['status'] === 'success' ? 'bg-green-50 border-green-200' : ($scannedResult['status'] === 'warning' ? 'bg-yellow-50 border-yellow-200' : 'bg-red-50 border-red-200') }}">
+                        <div class="flex items-center gap-3">
+                            <div class="flex-shrink-0">
+                                @if($scannedResult['status'] === 'success')
+                                    <x-heroicon-m-check-circle class="w-8 h-8 text-green-500" />
+                                @elseif($scannedResult['status'] === 'warning')
+                                    <x-heroicon-m-exclamation-triangle class="w-8 h-8 text-yellow-500" />
+                                @else
+                                    <x-heroicon-m-x-circle class="w-8 h-8 text-red-500" />
+                                @endif
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg {{ $scannedResult['status'] === 'success' ? 'text-green-800' : ($scannedResult['status'] === 'warning' ? 'text-yellow-800' : 'text-red-800') }}">
+                                    {{ $scannedResult['title'] }}
+                                </h3>
+                                <p class="text-sm {{ $scannedResult['status'] === 'success' ? 'text-green-700' : ($scannedResult['status'] === 'warning' ? 'text-yellow-700' : 'text-red-700') }}">
+                                    {{ $scannedResult['message'] }}
+                                </p>
+                            </div>
                         </div>
-                        <div>
-                            <h3
-                                class="font-bold text-lg {{ $scannedResult['status'] === 'success' ? 'text-green-800' : ($scannedResult['status'] === 'warning' ? 'text-yellow-800' : 'text-red-800') }}">
-                                {{ $scannedResult['title'] }}
-                            </h3>
-                            <p
-                                class="text-sm {{ $scannedResult['status'] === 'success' ? 'text-green-700' : ($scannedResult['status'] === 'warning' ? 'text-yellow-700' : 'text-red-700') }}">
-                                {{ $scannedResult['message'] }}
-                            </p>
-                            @if(isset($scannedResult['ticket']))
-                                <div
-                                    class="mt-2 text-sm font-semibold {{ $scannedResult['status'] === 'success' ? 'text-green-900' : ($scannedResult['status'] === 'warning' ? 'text-yellow-900' : 'text-red-900') }}">
-                                    User: {{ $scannedResult['ticket']['user_name'] ?? 'Unknown' }}
-                                    <br>
-                                    Type: {{ $scannedResult['ticket']['type'] ?? 'Unknown' }}
+                    </div>
+
+                    @if($scannedTicket)
+                        <!-- Detailed Ticket Info -->
+                        <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-xl shadow-gray-200/40">
+                            <div class="flex items-center space-x-3 mb-6">
+                                <div class="w-10 h-10 rounded-2xl bg-indigo-50 flex items-center justify-center">
+                                    <x-heroicon-m-ticket class="w-6 h-6 text-indigo-600" />
                                 </div>
-                            @endif
+                                <h3 class="text-xl font-black text-gray-900">Ticket Details</h3>
+                            </div>
+
+                            <!-- Main Event Info -->
+                            <div class="flex flex-col md:flex-row gap-6 mb-8 pb-8 border-b border-gray-100">
+                                @if($scannedTicket->event && $scannedTicket->event->banner_url)
+                                    <img src="{{ $scannedTicket->event->banner_url }}" alt="{{ $scannedTicket->event->name }}" class="w-full md:w-32 h-32 object-cover rounded-xl shadow-sm">
+                                @endif
+                                <div class="flex-1 space-y-2">
+                                    <h2 class="text-2xl font-black text-gray-900 leading-tight">{{ $scannedTicket->event->name ?? 'Unknown Event' }}</h2>
+                                    <div class="flex items-center text-gray-500 gap-2 text-sm">
+                                        <x-heroicon-m-calendar class="w-4 h-4" />
+                                        <span>{{ $scannedTicket->event->start_time?->format('d M, Y • h:i A') }}</span>
+                                    </div>
+                                    <div class="flex items-center text-gray-500 gap-2 text-sm">
+                                        <x-heroicon-m-map-pin class="w-4 h-4" />
+                                        <span>{{ $scannedTicket->event->location ?? 'Unknown Location' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Fields Grid -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="flex justify-between items-center text-sm py-2 border-b border-gray-50">
+                                    <span class="text-gray-500 font-bold uppercase text-[10px] tracking-widest">Holder</span>
+                                    <span class="font-bold text-gray-900">{{ $scannedTicket->user->name ?? $scannedTicket->user_name }}</span>
+                                </div>
+                                <div class="flex justify-between items-center text-sm py-2 border-b border-gray-50">
+                                    <span class="text-gray-500 font-bold uppercase text-[10px] tracking-widest">Ticket ID</span>
+                                    <span class="font-mono text-xs font-bold text-gray-900 bg-gray-100 px-2 py-1 rounded">{{ $scannedTicket->uuid }}</span>
+                                </div>
+                                <div class="flex justify-between items-center text-sm py-2 border-b border-gray-50">
+                                    <span class="text-gray-500 font-bold uppercase text-[10px] tracking-widest">Type</span>
+                                    <span class="font-bold text-indigo-600 px-2 py-1 bg-indigo-50 rounded-full text-xs">{{ $scannedTicket->ticketType->name ?? $scannedTicket->type }}</span>
+                                </div>
+                                <div class="flex justify-between items-center text-sm py-2 border-b border-gray-50">
+                                    <span class="text-gray-500 font-bold uppercase text-[10px] tracking-widest">Seat</span>
+                                    <span class="font-bold text-gray-900">{{ $scannedTicket->seat_number ?? 'General Admission' }}</span>
+                                </div>
+                                <div class="flex justify-between items-center text-sm py-2 border-b border-gray-50">
+                                    <span class="text-gray-500 font-bold uppercase text-[10px] tracking-widest">Status</span>
+                                    @if($scannedTicket->scanned_at || $scannedTicket->status === 'used')
+                                        <span class="font-bold text-gray-600 px-2 py-1 bg-gray-100 rounded-full text-xs">Used / Scanned</span>
+                                    @elseif($scannedTicket->status === 'cancelled')
+                                        <span class="font-bold text-red-600 px-2 py-1 bg-red-100 rounded-full text-xs">Cancelled</span>
+                                    @else
+                                        <span class="font-bold text-emerald-600 px-2 py-1 bg-emerald-100 rounded-full text-xs">Valid</span>
+                                    @endif
+                                </div>
+                                <div class="flex justify-between items-center text-sm py-2 border-b border-gray-50">
+                                    <span class="text-gray-500 font-bold uppercase text-[10px] tracking-widest">Paid</span>
+                                    <span class="font-black text-gray-900">Rp {{ number_format($scannedTicket->price, 0, ',', '.') }}</span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="mt-4">
-                        <button @click="resetScan()"
-                            class="w-full py-2 bg-white border border-gray-300 rounded shadow-sm text-sm font-medium hover:bg-gray-50">
-                            Scan Next
-                        </button>
-                    </div>
+                    @endif
+
+                    <!-- Action Button -->
+                    <button @click="resetScan()" class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-lg rounded-2xl shadow-xl shadow-indigo-200 transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2">
+                        <x-heroicon-m-qr-code class="w-6 h-6"/>
+                        <span>{{ isset($scannedTicket) ? 'Scan Next Ticket' : 'Try Again' }}</span>
+                    </button>
                 </div>
             @endif
 

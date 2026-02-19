@@ -22,6 +22,15 @@ class ScanTickets extends Page
 
     public ?array $scannedResult = null;
 
+    public ?Ticket $scannedTicket = null;
+
+    public function resetScanner(): void
+    {
+        $this->scannedResult = null;
+        $this->scannedTicket = null;
+        $this->manualCode = null;
+    }
+
     #[On('scan-success')]
     public function handleScan(string $code): void
     {
@@ -42,7 +51,8 @@ class ScanTickets extends Page
     protected function checkCode(string $code): void
     {
         // Simple search by barcode_data or uuid (the barcode_data defaults to uuid)
-        $ticket = Ticket::where('barcode_data', $code)
+        $ticket = Ticket::with(['event', 'ticketType', 'user', 'seat', 'testimonial'])
+            ->where('barcode_data', $code)
             ->orWhere('uuid', $code)
             ->first();
 
@@ -66,8 +76,10 @@ class ScanTickets extends Page
             return;
         }
 
+
         // Check if already scanned?
         if ($ticket->scanned_at) {
+            $this->scannedTicket = $ticket;
             $this->scannedResult = [
                 'status' => 'warning',
                 'title' => 'Already Scanned',
@@ -98,6 +110,7 @@ class ScanTickets extends Page
 
         $typeName = $ticket->ticketType->name ?? 'General';
 
+        $this->scannedTicket = $ticket;
         $this->scannedResult = [
             'status' => 'success',
             'title' => 'Scan Successful',

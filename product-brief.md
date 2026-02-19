@@ -104,20 +104,23 @@ Role enforcement is via custom `RoleMiddleware` supporting comma-separated roles
 ### 2. Event Discovery
 
 - **Public Event Listing**: Paginated grid (9 per page) of published events
-- **Event Detail Page**: Full event info with venue, organizer, available ticket types
-- **Visibility Control**: Only `published` events shown publicly; admin/staff can preview unpublished
+- **Event Detail Page**: Full event info with venue, organizer, available ticket types, dynamic banner, and map location
+- **Search & Filter**: Search events by title and filter by category
+- **Visibility**: Only `published` events shown publicly; admin/staff can preview unpublished
 
-> **Not implemented**: Search/filter by category, date, price range, location. No autocomplete. No sorting options.
+> **Not implemented**: Sort by date/price range (sorting), autocomplete.
 
 ### 3. Checkout / Ticket Purchase
 
-- **Ticket Type Selection**: Choose from available ticket types (e.g., VIP, Standard, GA)
-- **Quantity Selection**: Purchase 1–10 tickets per transaction
+- **Multi-Ticket Purchase**: Buy multiple ticket types in a single transaction
+- **Ticket Type Selection**: Choose from available ticket types (e.g., VIP, Standard, GA) with dynamic quantity selectors
+- **Dynamic Seat Labels**: Tickets use specific seat labels (e.g., "Table 1", "VIP A") or fallback to "General Admission"
+- **Currency**: IDR (Indonesian Rupiah) with integer formatting (no decimals)
 - **Pessimistic Locking**: `lockForUpdate()` prevents overselling during concurrent purchases
 - **Immediate Confirmation**: Tickets issued with `status=issued`, `payment_status=confirmed` (no actual payment gateway)
 - **Success Page**: Displays purchased ticket details with UUID
 
-> **Not implemented**: Step-by-step wizard, seat selection during checkout, promo codes, payment gateway, booking expiration timer
+> **Not implemented**: Step-by-step wizard, interactive seat map selection, promo codes, payment gateway, booking expiration timer
 
 ### 4. User Portal (Dashboard)
 
@@ -127,7 +130,7 @@ Role enforcement is via custom `RoleMiddleware` supporting comma-separated roles
 - **My Payments**: Payment list (paginated 10) + detail view
 - **Profile Management**: Edit name, email, phone, avatar (1MB max). Password change with current password verification.
 - **Testimonials**: Submit rating (1–5) + comment for past events. Awards 10 loyalty points. One review per event per user.
-- **Wishlist**: View favorite events (managed via `FavoriteController`).
+- **Wishlist**: Add/remove events to favorites. Accessible via bottom nav (mobile) or sidebar.
 - **Activity History**: View own activity logs with filters (action type, date range), paginated (25)
 
 > **Not implemented**: E-ticket PDF download from user side, booking cancellation, saved passengers, notification preferences, payment method management
@@ -172,11 +175,11 @@ Powered by **Filament v3**, providing a robust CRUD interface for:
 | Table             | Key Columns                                                                                                 | Purpose                                         |
 | ----------------- | ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
 | `users`           | name, email, password, role, phone, avatar, email_verified_at                                               | All user accounts (admin/staff/volunteer/user)  |
-| `events`          | name, slug, description, start_time, end_time, status, venue_id, organizer_id, image                        | Event definitions                               |
+| `events`          | name, slug, description, start_time, end_time, status, venue_id, organizer_id, image, latitude, longitude   | Event definitions                               |
 | `venues`          | name, description, address, city, state, country, postal_code, capacity                                     | Event locations                                 |
 | `seats`           | venue_id, section, row, number, type, status                                                                | Individual seats within venues                  |
 | `organizers`      | user_id, name, email, phone, website, description                                                           | Event organizer profiles                        |
-| `ticket_types`    | event_id, name, description, price, quantity, sold, sale_start_date, sale_end_date                          | Ticket pricing tiers per event                  |
+| `ticket_types`    | event_id, name, description, price, quantity, sold, sale_start_date, sale_end_date, seat_label              | Ticket pricing tiers & seat labeling            |
 | `tickets`         | uuid, secure_token, user_id, event_id, ticket_type_id, seat_id, barcode, status, payment_status, scanned_at | Individual issued tickets                       |
 | `payments`        | user_id, amount, status, payment_method, transaction_id                                                     | Payment records                                 |
 | `payment_tickets` | payment_id, ticket_id                                                                                       | Many-to-many pivot                              |
@@ -319,7 +322,6 @@ resources/views/
 ### High Priority
 
 - Payment gateway integration (Stripe/Midtrans/Xendit)
-- Event search, filtering, and sorting
 - Email notifications (booking confirmation, reminders)
 - E-ticket PDF download from user portal
 - Booking cancellation and refund flow
@@ -381,7 +383,7 @@ resources/views/
 ### MVP Limitations
 
 - No real payment processing (immediate confirmation)
-- No search/filter/sort on event listing
+- Sorting options limited on event listing
 - No email notifications sent
 - Limited test coverage (~20%)
 - No API layer
