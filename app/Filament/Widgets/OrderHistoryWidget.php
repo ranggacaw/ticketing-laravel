@@ -38,12 +38,12 @@ class OrderHistoryWidget extends BaseWidget
                     ->searchable(),
                 Tables\Columns\TextColumn::make('amount')
                     ->label('Total Amount')
-                    ->money('IDR')
+                    ->formatStateUsing(fn($state) => Number::idr($state))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->label('Payment Status')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'confirmed' => 'success',
                         'pending' => 'warning',
                         'cancelled' => 'danger',

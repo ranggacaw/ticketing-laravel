@@ -11,6 +11,7 @@ use Illuminate\Auth\Events\Failed;
 use App\Listeners\LogSuccessfulLogin;
 use App\Listeners\LogSuccessfulLogout;
 use App\Listeners\LogFailedLogin;
+use Illuminate\Support\Number;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,5 +31,9 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(Login::class, LogSuccessfulLogin::class);
         Event::listen(Logout::class, LogSuccessfulLogout::class);
         Event::listen(Failed::class, LogFailedLogin::class);
+
+        Number::macro('idr', function ($amount) {
+            return 'IDR ' . number_format($amount, 0, '.', ',');
+        });
     }
 }

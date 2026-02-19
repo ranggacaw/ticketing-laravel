@@ -17,6 +17,7 @@ use App\Models\Payment;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Number;
 
 class PaymentsTable
 {
@@ -33,7 +34,7 @@ class PaymentsTable
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('amount')
-                    ->money('IDR')
+                    ->formatStateUsing(fn($state) => Number::idr($state))
                     ->sortable(),
                 TextColumn::make('bank.name')
                     ->label('Bank')
@@ -45,7 +46,7 @@ class PaymentsTable
                     ->visibility('private'),
                 TextColumn::make('status')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'confirmed' => 'success',
                         'cancelled' => 'danger',
                         'pending' => 'warning',
@@ -71,7 +72,7 @@ class PaymentsTable
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
                     ->requiresConfirmation()
-                    ->visible(fn (Payment $record) => $record->status === 'pending')
+                    ->visible(fn(Payment $record) => $record->status === 'pending')
                     ->action(function (Payment $record) {
                         DB::transaction(function () use ($record) {
                             $record->update([
@@ -82,7 +83,7 @@ class PaymentsTable
                             // Update tickets status
                             $record->tickets()->update(['payment_status' => 'confirmed']);
                         });
-                        
+
                         Notification::make()
                             ->title('Payment Approved')
                             ->success()
@@ -98,14 +99,14 @@ class PaymentsTable
                             ->label('Rejection Reason')
                             ->required(),
                     ])
-                    ->visible(fn (Payment $record) => $record->status === 'pending')
+                    ->visible(fn(Payment $record) => $record->status === 'pending')
                     ->action(function (Payment $record, array $data) {
                         DB::transaction(function () use ($record, $data) {
                             $record->update([
                                 'status' => 'cancelled',
                                 'rejection_reason' => $data['rejection_reason'],
                             ]);
-                            
+
                             $record->tickets()->update([
                                 'payment_status' => 'cancelled',
                                 'status' => 'cancelled' // Cancel ticket usage
@@ -136,8 +137,9 @@ class PaymentsTable
                         ->action(function (Collection $records) {
                             $count = 0;
                             foreach ($records as $record) {
-                                if ($record->status !== 'pending') continue;
-                                
+                                if ($record->status !== 'pending')
+                                    continue;
+
                                 DB::transaction(function () use ($record) {
                                     $record->update([
                                         'status' => 'confirmed',

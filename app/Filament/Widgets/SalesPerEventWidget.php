@@ -20,7 +20,7 @@ class SalesPerEventWidget extends BaseWidget
                 Event::query()
                     ->withCount('tickets')
                     ->withSum('tickets as revenue', 'price')
-                    ->withCount(['tickets as tickets_validated' => fn ($q) => $q->whereNotNull('scanned_at')])
+                    ->withCount(['tickets as tickets_validated' => fn($q) => $q->whereNotNull('scanned_at')])
                     ->orderByDesc('tickets_count')
             )
             ->columns([
@@ -44,7 +44,7 @@ class SalesPerEventWidget extends BaseWidget
                     ->color('success'),
                 Tables\Columns\TextColumn::make('revenue')
                     ->label('Revenue')
-                    ->money('IDR')
+                    ->formatStateUsing(fn($state) => Number::idr($state))
                     ->sortable()
                     ->badge()
                     ->color('success'),

@@ -27,7 +27,7 @@ class StatsOverviewWidget extends BaseWidget
                 ->color('primary')
                 ->columnSpan(1),
 
-            Stat::make('Total Revenue', Number::currency($totalRevenue, 'IDR'))
+            Stat::make('Total Revenue', Number::idr($totalRevenue))
                 ->description('From all ticket sales')
                 ->descriptionIcon('heroicon-m-banknotes')
                 ->color('success')

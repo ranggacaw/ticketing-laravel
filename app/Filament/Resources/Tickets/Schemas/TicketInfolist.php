@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Tickets\Schemas;
 
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Number;
 
 class TicketInfolist
 {
@@ -31,7 +32,7 @@ class TicketInfolist
                 TextEntry::make('seat_number')
                     ->placeholder('-'),
                 TextEntry::make('price')
-                    ->money('IDR'),
+                    ->formatStateUsing(fn($state) => Number::idr($state)),
                 TextEntry::make('type')
                     ->placeholder('-'),
                 TextEntry::make('payment_status'),

@@ -16,6 +16,7 @@ use App\Models\Ticket;
 use App\Models\TicketType;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Exports\TicketExporter;
+use Illuminate\Support\Number;
 
 class TicketsTable
 {
@@ -41,14 +42,14 @@ class TicketsTable
                     ->searchable(),
                 TextColumn::make('status')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'issued' => 'success',
                         'scanned' => 'info',
                         default => 'gray',
                     })
                     ->searchable(),
                 TextColumn::make('price')
-                    ->money('IDR')
+                    ->formatStateUsing(fn($state) => Number::idr($state))
                     ->sortable(),
                 TextColumn::make('scanned_at')
                     ->dateTime()
@@ -74,7 +75,7 @@ class TicketsTable
                         }
                     }),
                 Filter::make('scanned') // Replaced simple boolean with queries
-                    ->query(fn (Builder $query) => $query->whereNotNull('scanned_at'))
+                    ->query(fn(Builder $query) => $query->whereNotNull('scanned_at'))
                     ->toggle(), // make it a checkbox filter?
                 // Or merge? Task says "scanned/unscanned".
                 // I will add another filter or use SelectFilter. But toggles work too.
@@ -89,7 +90,7 @@ class TicketsTable
                     ->label('PDF')
                     ->icon('heroicon-m-arrow-down-tray')
                     ->color('success')
-                    ->url(fn (Ticket $record) => route('admin.tickets.export', $record))
+                    ->url(fn(Ticket $record) => route('admin.tickets.export', $record))
                     ->openUrlInNewTab(),
             ])
             ->bulkActions([

@@ -7,6 +7,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Number;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
@@ -34,7 +35,7 @@ class TicketTypesRelationManager extends RelationManager
                     ->maxLength(255),
                 TextInput::make('price')
                     ->numeric()
-                    ->prefix('Rp')
+                    ->prefix('IDR')
                     ->required(),
                 TextInput::make('quantity')
                     ->numeric()
@@ -103,7 +104,7 @@ class TicketTypesRelationManager extends RelationManager
                     ->sortable(),
 
                 TextColumn::make('price')
-                    ->money('IDR')
+                    ->formatStateUsing(fn($state) => Number::idr($state))
                     ->sortable(),
 
                 ToggleColumn::make('is_active')

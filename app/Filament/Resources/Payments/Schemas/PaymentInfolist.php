@@ -6,6 +6,7 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Number;
 
 class PaymentInfolist
 {
@@ -17,7 +18,7 @@ class PaymentInfolist
                     ->label('User'),
                 TextEntry::make('invoice_number'),
                 TextEntry::make('amount')
-                    ->money('IDR'),
+                    ->formatStateUsing(fn($state) => Number::idr($state)),
                 TextEntry::make('status')
                     ->badge(),
                 TextEntry::make('payment_proof_url')

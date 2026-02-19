@@ -93,7 +93,7 @@
                 <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1">Starting At</span>
                 <span class="font-black text-slate-900 text-sm">
                     @if(!$event->ticketTypes->isEmpty())
-                        Rp {{ number_format($event->ticketTypes->min('price'), 0, ',', '.') }}
+                        IDR {{ number_format($event->ticketTypes->min('price'), 0, '.', ',') }}
                     @else
                         -
                     @endif
@@ -254,7 +254,7 @@
                                                     {{ $ticketType->description }}
                                                 </p>
                                                 <span class="text-primary-ref font-black">
-                                                    Rp {{ number_format($ticketType->price, 0, ',', '.') }}
+                                                    IDR {{ number_format($ticketType->price, 0, '.', ',') }}
                                                 </span>
                                             </div>
 
@@ -379,7 +379,7 @@
                 <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Total to Pay</h4>
                 <div class="flex items-baseline gap-2">
                     <span class="text-4xl font-black text-slate-900" id="desktopTotalPrice">
-                        Rp 0
+                        IDR 0
                     </span>
                     <span class="text-xs font-black text-primary-ref/60 italic tracking-tighter">no hidden fees</span>
                 </div>
@@ -389,7 +389,7 @@
                 <div class="md:hidden flex flex-col justify-center">
                     <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Payable Amount</span>
                     <span class="text-xl font-black text-slate-900" id="bottomTotalPrice">
-                        Rp 0
+                        IDR 0
                     </span>
                 </div>
 
@@ -436,7 +436,7 @@
                 total += quantity * price;
             });
 
-            const formatted = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(total).replace('Rp', 'Rp ');
+            const formatted = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(total);
 
             document.getElementById('bottomTotalPrice').innerText = formatted;
             document.getElementById('desktopTotalPrice').innerText = formatted;
