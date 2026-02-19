@@ -25,7 +25,7 @@
                             placeholder="name@example.com"
                             class="input w-full pl-12 bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 rounded-lg focus:bg-white focus:border-primary-ref focus:ring-4 focus:ring-primary-ref/10 transition-all duration-300 {{ $errors->has('email') ? '!border-red-500 !bg-red-50' : '' }}">
                         <div
-                            class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors duration-300">
+                            class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors duration-300 z-10">
                             <span
                                 class="material-symbols-outlined text-[20px] text-slate-400 group-focus-within:text-primary-ref">mail</span>
                         </div>
@@ -46,7 +46,7 @@
                         <input id="password" :type="showPassword ? 'text' : 'password'" name="password" required
                             placeholder="Enter your password"
                             class="input w-full pl-12 pr-12 bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 rounded-lg focus:bg-white focus:border-primary-ref focus:ring-4 focus:ring-primary-ref/10 transition-all duration-300 {{ $errors->has('password') ? '!border-red-500 !bg-red-50' : '' }}">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
                             <span
                                 class="material-symbols-outlined text-[20px] text-slate-400 group-focus-within:text-primary-ref">key</span>
                         </div>
