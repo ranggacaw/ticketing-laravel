@@ -45,8 +45,8 @@
 
             handleScan(code) {
                 console.log('Handling scan for code:', code);
-                if (this.isProcessing || code === this.lastScanned) {
-                    console.log('Skipping: processing=' + this.isProcessing + ', lastScanned=' + this.lastScanned);
+                if (this.isProcessing || this.scanComplete || code === this.lastScanned) {
+                    console.log('Skipping: processing=' + this.isProcessing + ', complete=' + this.scanComplete + ', lastScanned=' + this.lastScanned);
                     return;
                 }
                 
@@ -70,12 +70,8 @@
                     .catch(err => {
                         console.error('Verification failed:', err);
                         this.isProcessing = false;
+                        this.scanComplete = true;
                     });
-                
-                // Reset lastScanned after delay to allow rescanning same code
-                setTimeout(() => {
-                    this.lastScanned = null;
-                }, 3000); 
             },
 
             resetScan() {
