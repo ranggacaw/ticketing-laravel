@@ -6,10 +6,26 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $events = \App\Models\Event::published()->latest()->paginate(9);
-        return view('events.index', compact('events'));
+        $query = \App\Models\Event::published()->latest();
+
+        if ($request->has('search') && $request->search != '') {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->has('category') && $request->category != 'All Events') {
+            $query->where('category', $request->category);
+        }
+
+        $events = $query->paginate(9);
+
+        $categories = \App\Models\Event::published()
+            ->whereNotNull('category')
+            ->distinct()
+            ->pluck('category');
+
+        return view('events.index', compact('events', 'categories'));
     }
 
     public function show(\App\Models\Event $event)

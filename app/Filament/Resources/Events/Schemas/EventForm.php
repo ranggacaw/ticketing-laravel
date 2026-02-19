@@ -102,6 +102,10 @@ class EventForm
                     ])
                     ->required()
                     ->default('draft'),
+                TextInput::make('category')
+                    ->datalist(\App\Models\Event::query()->pluck('category')->filter()->unique()->toArray())
+                    ->placeholder('Music, Comedy, Sports...')
+                    ->required(),
                 DateTimePicker::make('start_time')
                     ->required(),
                 DateTimePicker::make('end_time')

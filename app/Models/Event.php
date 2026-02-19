@@ -49,6 +49,7 @@ class Event extends Model
         'latitude',
         'longitude',
         'status',
+        'category',
     ];
 
     public function getBannerUrlAttribute()
