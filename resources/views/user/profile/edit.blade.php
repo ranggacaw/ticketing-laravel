@@ -1,7 +1,7 @@
 @extends('user.layouts.app')
 
 @section('content')
-    <div class="min-h-screen -mx-4 md:-mx-8 font-display px-6">
+    <div class="min-h-screen -mx-4 md:mx-0 font-display px-6 md:px-0">
         <!-- Header -->
         <x-page-header title="Profile Settings" subtitle="Update your personal information and security settings">
             <x-slot:action>
@@ -11,7 +11,7 @@
             </x-slot:action>
         </x-page-header>
 
-        <div class="py-4 md:p-8">
+        <div class="py-4 md:py-8 md:px-0">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-6xl mx-auto">
                 <!-- Personal Information -->
                 <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-xl shadow-slate-200/40">

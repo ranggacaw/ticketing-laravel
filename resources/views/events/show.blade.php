@@ -373,7 +373,7 @@
     </div>
 
     <!-- Sticky Checkout Bar (Matching user dashboard buttons) -->
-    <div class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-2xl border-t border-slate-100 pb-32 p-6 z-50 font-display text-slate-900">
+    <div class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-2xl border-t border-slate-100 pb-32 p-6 md:pb-6 z-50 font-display text-slate-900">
         <div class="max-w-7xl mx-auto flex items-center justify-between gap-8">
             <div class="hidden md:block">
                 <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Total to Pay</h4>

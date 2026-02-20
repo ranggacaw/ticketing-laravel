@@ -1,12 +1,12 @@
 @extends('user.layouts.app')
 
 @section('content')
-    <div class="min-h-screen -mx-4 md:-mx-8 font-display px-6">
+    <div class="min-h-screen -mx-4 md:mx-0 font-display px-6 md:px-0">
         <!-- Header -->
         <x-page-header title="Payment History" subtitle="Track your transactions">
         </x-page-header>
 
-        <main class="py-4 md:p-8">
+        <main class="py-4 md:py-8 md:px-0">
             <div class="bg-white rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/40 overflow-hidden">
                 @if($payments->count() > 0)
                     <div class="overflow-x-auto">

@@ -1,7 +1,7 @@
 @extends('user.layouts.app')
 
 @section('content')
-    <div class="min-h-screen pb-24 font-display text-slate-900 -mx-4 md:-mx-8 px-6">
+    <div class="min-h-screen pb-24 font-display text-slate-900 -mx-4 md:mx-0 px-6 md:px-0">
         <!-- Header Section -->
         <x-page-header :title="'Welcome back, ' . auth()->user()->name . '!'" :subtitle="now()->format('l, M d')">
         </x-page-header>
@@ -47,11 +47,11 @@
                         <span class="material-symbols-outlined text-sm">arrow_forward</span>
                     </a>
                 </div>
-                <div class="flex space-x-6 overflow-x-auto no-scrollbar pb-4 -mx-4 px-4 snap-x snap-mandatory">
+                <div class="flex space-x-6 overflow-x-auto no-scrollbar pb-4 -mx-4 px-4 snap-x snap-mandatory md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-6 md:pb-0 md:space-x-0 md:overflow-visible md:mx-0 md:px-0 md:snap-none">
                     @forelse($latestEvents as $event)
-                    <x-event-card :event="$event" :show-price="false" class="snap-center shrink-0 w-80 cursor-pointer" onclick="window.location='{{ route('events.show', $event) }}'" />
+                    <x-event-card :event="$event" :show-price="false" class="snap-center shrink-0 w-80 md:w-full cursor-pointer" onclick="window.location='{{ route('events.show', $event) }}'" />
                     @empty
-                        <div class="w-full py-8 flex flex-col items-center justify-center bg-white rounded-3xl border border-dashed border-slate-200 text-center">
+                        <div class="col-span-full w-full py-8 flex flex-col items-center justify-center bg-white rounded-3xl border border-dashed border-slate-200 text-center">
                             <span class="material-symbols-outlined text-4xl text-slate-200 mb-3">event_busy</span>
                             <p class="text-sm text-slate-400 font-medium">No events available right now.</p>
                         </div>
@@ -69,10 +69,10 @@
                         <span class="material-symbols-outlined text-sm">arrow_forward</span>
                     </a>
                 </div>
-                <div class="flex space-x-6 overflow-x-auto no-scrollbar pb-4 -mx-4 px-4 snap-x snap-mandatory">
+                <div class="flex space-x-6 overflow-x-auto no-scrollbar pb-4 -mx-4 px-4 snap-x snap-mandatory md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-6 md:pb-0 md:space-x-0 md:overflow-visible md:mx-0 md:px-0 md:snap-none">
                     @forelse($recentTickets as $ticket)
                         <div
-                            class="snap-center shrink-0 w-[280px] bg-white rounded-3xl overflow-hidden shadow-lg shadow-slate-200/50 border border-slate-100 group transition-all duration-300 hover:shadow-xl">
+                            class="snap-center shrink-0 w-[280px] md:w-full bg-white rounded-3xl overflow-hidden shadow-lg shadow-slate-200/50 border border-slate-100 group transition-all duration-300 hover:shadow-xl">
                             <div class="h-32 bg-slate-900 relative overflow-hidden">
                                 @if($ticket->event?->banner_url)
                                     <img src="{{ $ticket->event->banner_url }}" alt="{{ $ticket->event->name }}" class="absolute inset-0 w-full h-full object-cover opacity-60">
@@ -121,7 +121,7 @@
                             </div>
                         </div>
                     @empty
-                        <div class="w-full py-12 flex flex-col items-center justify-center bg-white rounded-3xl border border-dashed border-slate-200 text-center">
+                        <div class="col-span-full w-full py-12 flex flex-col items-center justify-center bg-white rounded-3xl border border-dashed border-slate-200 text-center">
                             <span class="material-symbols-outlined text-4xl text-slate-200 mb-3">confirmation_number_off</span>
                             <p class="text-sm text-slate-400 font-medium">No recent tickets found.</p>
                         </div>

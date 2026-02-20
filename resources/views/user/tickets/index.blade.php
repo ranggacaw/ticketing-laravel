@@ -1,7 +1,7 @@
 @extends('user.layouts.app')
 
 @section('content')
-    <div class="min-h-screen -mx-4 md:-mx-8 font-display">
+    <div class="min-h-screen -mx-4 md:mx-0 font-display">
         <!-- Header -->
         <x-page-header title="My Tickets" subtitle="All your upcoming and past events">
             <x-slot:bottom>
@@ -20,7 +20,7 @@
             </x-slot:bottom>
         </x-page-header>
 
-        <main class="p-6">
+        <main class="p-6 md:px-0">
             @if ($tickets->count() > 0)
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     @foreach ($tickets as $ticket)

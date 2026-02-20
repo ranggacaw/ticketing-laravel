@@ -18,7 +18,7 @@
         @endif
     </div>
     @if(isset($bottom))
-        <div class="flex space-x-2 overflow-x-auto no-scrollbar py-1">
+        <div class="flex space-x-2 overflow-x-auto no-scrollbar py-1 md:flex-wrap md:overflow-visible md:space-x-2">
             {{ $bottom }}
         </div>
     @endif
